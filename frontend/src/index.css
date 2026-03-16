@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-raisin: #1c1c25;
+    --color-gray: #414141;
+    --color-light-green: #78d84e;
+    --color-blue: #2c93cf;
+    --color-green: #4a701c;
+    --color-dark-green: #0f1f0f;
+    --color-neon-green: #22c55e;
+    --color-white: #fbfbfb;
+    --color-light-blue: #38b6ff;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-white);
+    color: var(--color-raisin);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+  }
+}

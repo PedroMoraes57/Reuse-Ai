@@ -1,0 +1,35 @@
+.navLink {
+  position: relative;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: var(--color-light-green); /* variável aqui */
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+.configBtn {
+  transition:
+    transform 0.4s ease,
+    background-color 0.2s ease;
+}
+
+.configBtn:hover {
+  transform: rotate(-90deg);
+}
+
+.navScrolled {
+  background-color: var(--color-raisin);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}

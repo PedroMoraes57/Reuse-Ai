@@ -1,0 +1,59 @@
+.section {
+  background-color: var(--color-white);
+  padding: 80px 24px;
+}
+
+.wrapper {
+  max-width: 1180px; /* aumentei */
+  margin: 0 auto;
+  position: relative;
+}
+
+.container {
+  background-color: var(--color-gray);
+  border-radius: 10px;
+  padding: 48px 64px;
+  padding-right: 600px; /* aumentei para empurrar mais a imagem */
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background-color: var(--color-neon-green);
+  color: var(--color-white);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.imagem {
+  position: absolute;
+  right: -10vh; /* afastei da borda direita */
+  bottom: -6vh;
+  width: 70vh; /* reduzi um pouco */
+  object-fit: contain;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .imagem {
+    display: none;
+  }
+
+  .container {
+    padding: 36px 28px;
+  }
+}
+@media (max-width: 1280px) and (min-width: 769px) {
+  .container {
+    padding: 48px 48px;
+    padding-right: 48px; /* remove o espaço reservado para imagem */
+  }
+
+  .imagem {
+    display: none; /* esconde a imagem */
+  }
+}

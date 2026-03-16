@@ -1,0 +1,137 @@
+.container {
+  position: relative;
+  width: 380px;
+  height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orbit1,
+.orbit2 {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-green);
+  opacity: 0.5;
+}
+
+.orbit1 {
+  width: 200px;
+  height: 200px;
+  animation: girarOrbit 8s linear infinite;
+}
+
+.orbit2 {
+  width: 340px;
+  height: 340px;
+  animation: girarOrbit 14s linear infinite reverse;
+}
+
+/* Globo central — sem fundo, só o ícone */
+.globo {
+  position: absolute;
+  font-size: 7vh;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.iconWrapper1,
+.iconWrapper2,
+.iconWrapper3,
+.iconWrapper4 {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  animation: girarOrbit 14s linear infinite;
+}
+
+.iconWrapper2 {
+  animation-delay: -3.5s;
+}
+.iconWrapper3 {
+  animation-delay: -7s;
+}
+.iconWrapper4 {
+  animation-delay: -10.5s;
+}
+
+/* Ícones — sem fundo escuro, só o ícone verde */
+.iconWrapper1 .icon,
+.iconWrapper2 .icon,
+.iconWrapper3 .icon,
+.iconWrapper4 .icon {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-green);
+  font-size: 3vh;
+  animation: contraRotacao 14s linear infinite;
+}
+
+.iconWrapper2 .icon {
+  animation-delay: -3.5s;
+}
+.iconWrapper3 .icon {
+  animation-delay: -7s;
+}
+.iconWrapper4 .icon {
+  animation-delay: -10.5s;
+}
+
+@keyframes girarOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes contraRotacao {
+  from {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateX(-50%) rotate(-360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 260px;
+    height: 260px;
+  }
+
+  .orbit1 {
+    width: 140px;
+    height: 140px;
+  }
+
+  .orbit2 {
+    width: 230px;
+    height: 230px;
+  }
+
+  .globo {
+    width: 55px;
+    height: 55px;
+  }
+
+  .iconWrapper1,
+  .iconWrapper2,
+  .iconWrapper3,
+  .iconWrapper4 {
+    width: 230px;
+    height: 230px;
+  }
+}
