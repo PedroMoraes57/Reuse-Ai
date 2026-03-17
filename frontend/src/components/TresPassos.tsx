@@ -36,12 +36,12 @@ function TresPassos() {
       <div className='max-w-5xl mx-auto'>
         {/* Cabeçalho */}
         <div className='text-center mb-12'>
-          <span className='text-reuseai-verdeClaro font-semibold text-sm uppercase tracking-widest'>
+          <span className='text-reuseai-verdeNeon font-semibold text-sm uppercase tracking-widest'>
             Como funciona
           </span>
           <h2 className='text-3xl md:text-4xl font-black text-reuseai-branco mt-2'>
             3 passos para descartar{' '}
-            <span className='text-reuseai-verdeClaro'>certo</span>
+            <span className='text-reuseai-verdeNeon'>certo</span>
           </h2>
           <p className='text-reuseai-branco/60 mt-3 max-w-lg mx-auto text-sm'>
             Simples, rápido e acessível. Sem precisar decorar regras ou

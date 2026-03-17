@@ -3,6 +3,7 @@ import HeroSection from '../components/HeroSection';
 import WorkSection from '../components/WorkSection';
 import ProblemSection from '../components/ProblemSection';
 import TresPassos from '../components/TresPassos';
+import Lixeiras from '../components/Lixeiras';
 
 function LandingPage() {
   return (
