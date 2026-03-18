@@ -3,7 +3,9 @@ import HeroSection from '../components/HeroSection';
 import WorkSection from '../components/WorkSection';
 import ProblemSection from '../components/ProblemSection';
 import TresPassos from '../components/TresPassos';
-import Lixeiras from '../components/Lixeiras';
+import BinSection from '../components/Lixeiras';
+import ImpactoReal from '../components/ImpactoReal';
+import Avaliacoes from '../components/Avaliacoes';
 
 function LandingPage() {
   return (
@@ -15,6 +17,9 @@ function LandingPage() {
         <WorkSection />
         <ProblemSection />
         <TresPassos />
+        <BinSection />
+        <ImpactoReal />
+        <Avaliacoes />
       </main>
     </>
   );

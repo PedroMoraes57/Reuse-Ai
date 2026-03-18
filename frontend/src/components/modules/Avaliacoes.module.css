@@ -1,0 +1,89 @@
+.section {
+  background-color: var(--color-gray);
+  padding: 80px 24px;
+}
+
+.carrosselWrapper {
+  overflow: hidden;
+  flex: 1;
+}
+
+.carrosselTrilho {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.card {
+  background-color: var(--color-raisin);
+  border-radius: 20px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  min-height: 420px;
+  flex: 0 0 calc(33.333% - 16px);
+  transition: transform 0.3s ease;
+}
+
+.estrelas {
+  display: flex;
+  gap: 4px;
+  color: var(--color-neon-green);
+  font-size: 18px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-neon-green);
+  flex-shrink: 0;
+}
+
+.seta {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--color-neon-green);
+  color: var(--color-neon-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.seta:hover {
+  background-color: var(--color-neon-green);
+  color: var(--color-raisin);
+}
+
+.seta:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.autorDivider {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .card {
+    flex: 0 0 85vw;
+  }
+
+  .seta {
+    display: none;
+  }
+}

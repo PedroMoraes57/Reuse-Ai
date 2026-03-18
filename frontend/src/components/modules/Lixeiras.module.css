@@ -1,0 +1,293 @@
+.section {
+  background-color: var(--color-white);
+  padding: 80px 24px 0;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.sectionLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-green);
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 900;
+  color: var(--color-raisin);
+  line-height: 1.1;
+}
+
+.sectionTitle span {
+  color: var(--color-green);
+}
+
+.sectionSubtitle {
+  margin-top: 12px;
+  font-size: 15px;
+  color: var(--color-gray);
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* Stage — fundo cinza claro */
+.stage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(16px, 4vw, 56px);
+  padding: 48px 40px 0;
+  position: relative;
+  z-index: 0;
+  overflow: visible;
+}
+
+/* Card de cada lixeira */
+.binCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  width: clamp(140px, 17vw, 220px);
+  overflow: visible;
+}
+
+/* Wrapper da imagem — altura fixa para não pular */
+.imgWrapper {
+  width: 100%;
+  height: clamp(200px, 24vw, 320px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.binImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.35s cubic-bezier(0.22, 0.68, 0, 1.35);
+  will-change: transform;
+}
+
+.binImgHover {
+  transform: translateY(-10px);
+}
+
+.barWrapper {
+  width: 100%;
+  margin-top: 8px;
+  position: relative; /* necessário para o absolute do filho funcionar */
+}
+
+.barLine {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px 2px 0 0;
+}
+
+.barPanel {
+  position: absolute; /* sai do fluxo — não empurra mais nada */
+  left: 0;
+  top: 4px;
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  border-radius: 0 0 12px 12px;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.barPanelOpen {
+  max-height: 180px;
+}
+
+/* Conteúdo do painel */
+.panelInner {
+  padding: 16px 12px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.panelTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* Item único centralizado */
+.itemSingle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: fadeItem 0.3s ease;
+}
+
+@keyframes fadeItem {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.itemIconBox {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.itemName {
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.95;
+}
+
+/* Dots */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition:
+    width 0.2s,
+    background 0.2s;
+  opacity: 0.5;
+}
+
+.dotActive {
+  width: 12px;
+  border-radius: 3px;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .stage {
+    gap: 10px;
+    padding: 32px 16px 0;
+  }
+
+  .binCard {
+    width: clamp(56px, 16vw, 90px);
+  }
+
+  .imgWrapper {
+    height: clamp(80px, 18vw, 120px);
+  }
+
+  .barPanelOpen {
+    max-height: 160px;
+  }
+
+  .itemIconBox {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+}
+
+/* ─── Mobile carrossel ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .stage {
+    display: none; /* esconde o desktop */
+  }
+
+  .mobileCarrossel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 24px;
+    background-color: #e8e8e8;
+    border-radius: 20px;
+    gap: 24px;
+    user-select: none;
+  }
+
+  /* Badge com nome e cor da lixeira */
+  .mobileBadge {
+    padding: 6px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .mobileImg {
+    width: 200px;
+    object-fit: contain;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .mobileImgHide {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  /* Dots do carrossel */
+  .mobileDots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .mobileDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mobileDotActive {
+    width: 20px;
+    border-radius: 4px;
+  }
+
+  /* Dica de swipe */
+  .swipeHint {
+    font-size: 11px;
+    color: var(--color-gray);
+    opacity: 0.6;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobileCarrossel {
+    display: none; /* esconde no desktop */
+  }
+}
