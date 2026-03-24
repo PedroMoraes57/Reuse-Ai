@@ -32,7 +32,7 @@ const passos = [
 
 function TresPassos() {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id='como-funciona'>
       <div className='max-w-5xl mx-auto'>
         {/* Cabeçalho */}
         <div className='text-center mb-12'>
