@@ -1,0 +1,372 @@
+classes:
+  - id: automobile_wastes
+    display_name_pt: Sucata automotiva
+    description_pt: Sucata, peca automotiva ou componente retirado de veiculo.
+    material: metal, plastico, borracha e possiveis fluidos residuais
+    disposal_stream: automotive_waste
+    reusable: false
+    hazardous: true
+  - id: battery
+    display_name_pt: Pilha ou bateria
+    description_pt: Pilha ou bateria portatil, incluindo celulas secas e baterias pequenas.
+    material: quimico eletroquimico
+    disposal_stream: hazardous_battery
+    reusable: false
+    hazardous: true
+  - id: battery_waste
+    display_name_pt: Bateria usada
+    description_pt: Bateria usada ou avariada, incluindo baterias de notebook, celular ou automotivas.
+    material: quimico eletroquimico
+    disposal_stream: hazardous_battery
+    reusable: false
+    hazardous: true
+  - id: cardboard_box
+    display_name_pt: Caixa de papelao
+    description_pt: Caixa de transporte ou embalagem de papel ondulado.
+    material: papel
+    disposal_stream: recyclable_paper
+    reusable: true
+    hazardous: false
+  - id: copo_plastico
+    display_name_pt: Copo plastico
+    description_pt: Copo plastico descartavel usado para agua, cafe ou outras bebidas.
+    material: plastico
+    disposal_stream: recyclable_plastic
+    reusable: false
+    hazardous: false
+  - id: cosmetic_bottle
+    display_name_pt: Frasco cosmetico
+    description_pt: Frasco ou embalagem plastica de cosmeticos, higiene ou cuidados pessoais.
+    material: plastico
+    disposal_stream: recyclable_plastic
+    reusable: false
+    hazardous: false
+  - id: disposable_mask
+    display_name_pt: Mascara descartavel
+    description_pt: Mascara cirurgica ou similar de uso unico.
+    material: tecido sintetico e plastico
+    disposal_stream: sanitary_waste
+    reusable: false
+    hazardous: false
+  - id: earphones
+    display_name_pt: Fone de ouvido
+    description_pt: Fone com cabo ou componentes eletronicos de audio.
+    material: componentes eletronicos, plastico e metal
+    disposal_stream: e_waste
+    reusable: true
+    hazardous: false
+  - id: egg_shell
+    display_name_pt: Casca de ovo
+    description_pt: Cascas de ovos de cozinha.
+    material: organico
+    disposal_stream: organic_compost
+    reusable: false
+    hazardous: false
+  - id: food_waste
+    display_name_pt: Restos de comida
+    description_pt: Sobras de refeicao, residuos organicos e descarte alimentar geral.
+    material: organico
+    disposal_stream: organic_common
+    reusable: false
+    hazardous: false
+  - id: freshapples
+    display_name_pt: Maca fresca
+    description_pt: Maca fresca inteira ou em bom estado para consumo.
+    material: organico vegetal
+    disposal_stream: fresh_produce_reuse
+    reusable: true
+    hazardous: false
+  - id: freshbanana
+    display_name_pt: Banana fresca
+    description_pt: Banana fresca inteira ou em bom estado para consumo.
+    material: organico vegetal
+    disposal_stream: fresh_produce_reuse
+    reusable: true
+    hazardous: false
+  - id: freshbittergroud
+    display_name_pt: Melao amargo fresco
+    description_pt: Melao amargo fresco ou outro legume equivalente ainda proprio para consumo.
+    material: organico vegetal
+    disposal_stream: fresh_produce_reuse
+    reusable: true
+    hazardous: false
+  - id: freshcapsicum
+    display_name_pt: Pimentao fresco
+    description_pt: Pimentao fresco inteiro ou em bom estado para consumo.
+    material: organico vegetal
+    disposal_stream: fresh_produce_reuse
+    reusable: true
+    hazardous: false
+  - id: freshcucumber
+    display_name_pt: Pepino fresco
+    description_pt: Pepino fresco inteiro ou em bom estado para consumo.
+    material: organico vegetal
+    disposal_stream: fresh_produce_reuse
+    reusable: true
+    hazardous: false
+  - id: freshokra
+    display_name_pt: Quiabo fresco
+    description_pt: Quiabo fresco inteiro ou em bom estado para consumo.
+    material: organico vegetal
+    disposal_stream: fresh_produce_reuse
+    reusable: true
+    hazardous: false
+  - id: freshoranges
+    display_name_pt: Laranja fresca
+    description_pt: Laranja fresca inteira ou em bom estado para consumo.
+    material: organico vegetal
+    disposal_stream: fresh_produce_reuse
+    reusable: true
+    hazardous: false
+  - id: freshpotato
+    display_name_pt: Batata fresca
+    description_pt: Batata fresca inteira ou em bom estado para consumo.
+    material: organico vegetal
+    disposal_stream: fresh_produce_reuse
+    reusable: true
+    hazardous: false
+  - id: freshtomato
+    display_name_pt: Tomate fresco
+    description_pt: Tomate fresco inteiro ou em bom estado para consumo.
+    material: organico vegetal
+    disposal_stream: fresh_produce_reuse
+    reusable: true
+    hazardous: false
+  - id: glass_bottle
+    display_name_pt: Garrafa de vidro
+    description_pt: Garrafa de vidro para bebidas ou conservas.
+    material: vidro
+    disposal_stream: recyclable_glass
+    reusable: true
+    hazardous: false
+  - id: keyboard
+    display_name_pt: Teclado
+    description_pt: Teclado de computador ou periferico similar.
+    material: componentes eletronicos, plastico e metal
+    disposal_stream: e_waste
+    reusable: true
+    hazardous: false
+  - id: light_bulbs
+    display_name_pt: Lampada
+    description_pt: Lampada inteira ou quebrada, incluindo LED, fluorescente ou incandescente.
+    material: vidro, metal e componentes eletricos
+    disposal_stream: hazardous_lamp
+    reusable: false
+    hazardous: true
+  - id: metal_can
+    display_name_pt: Lata metalica
+    description_pt: Lata de aluminio ou aco para bebidas ou alimentos.
+    material: metal
+    disposal_stream: recyclable_metal
+    reusable: false
+    hazardous: false
+  - id: microwave
+    display_name_pt: Micro-ondas
+    description_pt: Forno micro-ondas residencial ou comercial de pequeno porte.
+    material: metal, plastico e componentes eletronicos
+    disposal_stream: bulky_e_waste
+    reusable: true
+    hazardous: false
+  - id: milk_carton
+    display_name_pt: Caixa longa vida
+    description_pt: Embalagem cartonada de leite, suco ou alimento liquido.
+    material: cartonado multicamada
+    disposal_stream: recyclable_multilayer
+    reusable: false
+    hazardous: false
+  - id: mobile
+    display_name_pt: Celular
+    description_pt: Celular ou smartphone.
+    material: componentes eletronicos, vidro, plastico e metal
+    disposal_stream: e_waste
+    reusable: true
+    hazardous: false
+  - id: mouse
+    display_name_pt: Mouse
+    description_pt: Mouse de computador com ou sem fio.
+    material: componentes eletronicos, plastico e metal
+    disposal_stream: e_waste
+    reusable: true
+    hazardous: false
+  - id: newspaper
+    display_name_pt: Jornal ou papel seco
+    description_pt: Jornal, revista ou folhas secas sem contaminacao por gordura.
+    material: papel
+    disposal_stream: recyclable_paper
+    reusable: false
+    hazardous: false
+  - id: paper_cup
+    display_name_pt: Copo de papel
+    description_pt: Copo descartavel de papel ou papel revestido usado para bebidas.
+    material: papel revestido
+    disposal_stream: landfill_non_recyclable
+    reusable: false
+    hazardous: false
+  - id: pcb
+    display_name_pt: Placa eletronica
+    description_pt: Placa de circuito impresso ou placa eletronica avulsa.
+    material: fibra, metal e componentes eletronicos
+    disposal_stream: e_waste
+    reusable: false
+    hazardous: true
+  - id: pizza_box
+    display_name_pt: Caixa de pizza
+    description_pt: Caixa de papelao com possivel contaminacao por gordura e alimento.
+    material: papelao contaminado
+    disposal_stream: food_soiled_paper
+    reusable: false
+    hazardous: false
+  - id: plastic_bag
+    display_name_pt: Sacola plastica
+    description_pt: Sacola de mercado ou filme plastico flexivel.
+    material: plastico flexivel
+    disposal_stream: plastic_film
+    reusable: true
+    hazardous: false
+  - id: plastic_bottle
+    display_name_pt: Garrafa PET
+    description_pt: Garrafa plastica de bebidas, detergente ou produtos liquidos.
+    material: plastico
+    disposal_stream: recyclable_plastic
+    reusable: true
+    hazardous: false
+  - id: plastic_cutlery
+    display_name_pt: Talher plastico
+    description_pt: Garfo, faca ou colher plastica descartavel.
+    material: plastico rigido
+    disposal_stream: landfill_non_recyclable
+    reusable: false
+    hazardous: false
+  - id: plastic_food_containers
+    display_name_pt: Embalagem plastica de alimentos
+    description_pt: Pote ou embalagem plastica rigida usada para armazenar alimentos.
+    material: plastico
+    disposal_stream: recyclable_plastic
+    reusable: true
+    hazardous: false
+  - id: plastic_lunch_box
+    display_name_pt: Marmita plastica
+    description_pt: Marmita, pote ou recipiente plastico usado para refeicoes.
+    material: plastico
+    disposal_stream: recyclable_plastic
+    reusable: true
+    hazardous: false
+  - id: plastic_net_packaging
+    display_name_pt: Rede plastica de embalagem
+    description_pt: Rede plastica usada para frutas, legumes ou conjuntos de produtos.
+    material: plastico flexivel
+    disposal_stream: plastic_film
+    reusable: false
+    hazardous: false
+  - id: player
+    display_name_pt: Reprodutor de midia
+    description_pt: Aparelho reprodutor de midia, radio, CD player ou similar.
+    material: componentes eletronicos, plastico e metal
+    disposal_stream: e_waste
+    reusable: true
+    hazardous: false
+  - id: printer
+    display_name_pt: Impressora
+    description_pt: Impressora domestica ou de escritorio.
+    material: componentes eletronicos, plastico e metal
+    disposal_stream: e_waste
+    reusable: true
+    hazardous: false
+  - id: rottenapples
+    display_name_pt: Maca estragada
+    description_pt: Maca estragada, amassada ou impropria para consumo.
+    material: organico vegetal
+    disposal_stream: organic_compost
+    reusable: false
+    hazardous: false
+  - id: rottenbanana
+    display_name_pt: Banana estragada
+    description_pt: Banana estragada, amassada ou impropria para consumo.
+    material: organico vegetal
+    disposal_stream: organic_compost
+    reusable: false
+    hazardous: false
+  - id: rottenbittergroud
+    display_name_pt: Melao amargo estragado
+    description_pt: Melao amargo estragado ou improprio para consumo.
+    material: organico vegetal
+    disposal_stream: organic_compost
+    reusable: false
+    hazardous: false
+  - id: rottencapsicum
+    display_name_pt: Pimentao estragado
+    description_pt: Pimentao estragado ou improprio para consumo.
+    material: organico vegetal
+    disposal_stream: organic_compost
+    reusable: false
+    hazardous: false
+  - id: rottencucumber
+    display_name_pt: Pepino estragado
+    description_pt: Pepino estragado ou improprio para consumo.
+    material: organico vegetal
+    disposal_stream: organic_compost
+    reusable: false
+    hazardous: false
+  - id: rottenokra
+    display_name_pt: Quiabo estragado
+    description_pt: Quiabo estragado ou improprio para consumo.
+    material: organico vegetal
+    disposal_stream: organic_compost
+    reusable: false
+    hazardous: false
+  - id: rottenoranges
+    display_name_pt: Laranja estragada
+    description_pt: Laranja estragada, amassada ou impropria para consumo.
+    material: organico vegetal
+    disposal_stream: organic_compost
+    reusable: false
+    hazardous: false
+  - id: rottenpotato
+    display_name_pt: Batata estragada
+    description_pt: Batata estragada ou impropria para consumo.
+    material: organico vegetal
+    disposal_stream: organic_compost
+    reusable: false
+    hazardous: false
+  - id: rottentomato
+    display_name_pt: Tomate estragado
+    description_pt: Tomate estragado ou improprio para consumo.
+    material: organico vegetal
+    disposal_stream: organic_compost
+    reusable: false
+    hazardous: false
+  - id: styrofoam_tray
+    display_name_pt: Bandeja de isopor
+    description_pt: Bandeja de alimentos em EPS, se limpa e seca.
+    material: isopor
+    disposal_stream: recyclable_plastic_special
+    reusable: false
+    hazardous: false
+  - id: television
+    display_name_pt: Televisao
+    description_pt: Televisor ou monitor de TV.
+    material: vidro, plastico, metal e componentes eletronicos
+    disposal_stream: bulky_e_waste
+    reusable: true
+    hazardous: false
+  - id: toilet_brush
+    display_name_pt: Escova sanitaria
+    description_pt: Escova de vaso ou item de limpeza higienica semelhante.
+    material: plastico e cerdas sinteticas
+    disposal_stream: sanitary_waste
+    reusable: false
+    hazardous: false
+  - id: washing_machine
+    display_name_pt: Maquina de lavar
+    description_pt: Maquina de lavar roupas.
+    material: metal, plastico e componentes eletronicos
+    disposal_stream: bulky_e_waste
+    reusable: true
+    hazardous: false
+  - id: yogurt_bottle
+    display_name_pt: Embalagem de iogurte
+    description_pt: Pote, garrafinha ou frasco plastico de iogurte.
+    material: plastico
+    disposal_stream: recyclable_plastic
+    reusable: false
+    hazardous: false

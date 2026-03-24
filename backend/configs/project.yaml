@@ -1,0 +1,44 @@
+project:
+  name: Reuse.AI
+  locale: pt-BR
+
+paths:
+  dataset_root: data/datasets/recycle30
+  raw_dataset_root: data/datasets/recycle30/raw
+  checkpoint_dir: artifacts/checkpoints
+  checkpoint_path: artifacts/checkpoints/reuse_ai_best.pt
+  class_catalog: configs/class_catalog.yaml
+  disposal_rules: configs/disposal_rules.yaml
+
+dataset:
+  split:
+    train_ratio: 0.7
+    val_ratio: 0.15
+    test_ratio: 0.15
+    seed: 42
+
+model:
+  name: convnext_tiny.fb_in22k_ft_in1k
+  pretrained: true
+  image_size: 224
+  dropout: 0.2
+
+training:
+  epochs: 30
+  batch_size: 16
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  num_workers: 8
+  mixed_precision: true
+  grad_clip_norm: 1.0
+  patience: 6
+  label_smoothing: 0.08
+  prefer_cuda: true
+
+inference:
+  top_k: 3
+  confidence_threshold: 0.45
+
+location:
+  geocoder_user_agent: reuse-ai-backend
+  geocoder_timeout_seconds: 5
