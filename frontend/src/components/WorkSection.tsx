@@ -3,7 +3,7 @@ import lixeiras from '../assets/lixeirasWork.png';
 
 function ComoFunciona() {
   return (
-    <section className={styles.section} id='como-funciona'>
+    <section className={styles.section} id='sobre-nos'>
       <div className={styles.wrapper}>
         <div
           className={`${styles.container} border-t-[10px] border-reuseai-verdeNeon`}
