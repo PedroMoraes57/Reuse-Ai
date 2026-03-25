@@ -6,7 +6,7 @@ import {
   faWineGlass,
   faBottleWater,
 } from '@fortawesome/free-solid-svg-icons';
-import styles from './modules/Orbita.module.css';
+import styles from '../modules/Orbita.module.css';
 
 export default function Orbita() {
   return (

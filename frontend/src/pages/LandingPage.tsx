@@ -1,13 +1,13 @@
-import Navbar from '../components/Navbar';
-import HeroSection from '../components/HeroSection';
-import WorkSection from '../components/WorkSection';
-import ProblemSection from '../components/ProblemSection';
-import TresPassos from '../components/TresPassos';
-import BinSection from '../components/Lixeiras';
-import ImpactoReal from '../components/ImpactoReal';
-import Avaliacoes from '../components/Avaliacoes';
-import CTA from '../components/CTA';
-import Footer from '../components/Footer';
+import Navbar from '../components/LandingPage/Navbar';
+import HeroSection from '../components/LandingPage/HeroSection';
+import WorkSection from '../components/LandingPage/WorkSection';
+import ProblemSection from '../components/LandingPage/ProblemSection';
+import TresPassos from '../components/LandingPage/TresPassos';
+import BinSection from '../components/LandingPage/Lixeiras';
+import ImpactoReal from '../components/LandingPage/ImpactoReal';
+import Avaliacoes from '../components/LandingPage/Avaliacoes';
+import CTA from '../components/LandingPage/CTA';
+import Footer from '../components/LandingPage/Footer';
 
 function LandingPage() {
   return (

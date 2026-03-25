@@ -18,12 +18,12 @@ import {
   faChevronLeft,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
-import styles from './modules/Lixeiras.module.css';
-import LixeiraVermelha from '../assets/lixeiraVermelha.png';
-import LixeiraAzul from '../assets/lixeiraAzul.png';
-import LixeiraAmarela from '../assets/lixeiraAmarela.png';
-import LixeiraVerde from '../assets/lixeiraVerde.png';
-import LixeiraMarrom from '../assets/lixeiraMarrom.png';
+import styles from '../modules/Lixeiras.module.css';
+import LixeiraVermelha from '../../assets/lixeiraVermelha.png';
+import LixeiraAzul from '../../assets/lixeiraAzul.png';
+import LixeiraAmarela from '../../assets/lixeiraAmarela.png';
+import LixeiraVerde from '../../assets/lixeiraVerde.png';
+import LixeiraMarrom from '../../assets/lixeiraMarrom.png';
 
 interface BinItem {
   icon: React.ReactNode;

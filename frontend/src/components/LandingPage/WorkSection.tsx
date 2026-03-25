@@ -1,5 +1,5 @@
-import styles from './modules/WorkSection.module.css';
-import lixeiras from '../assets/lixeirasWork.png';
+import styles from '../modules/WorkSection.module.css';
+import lixeiras from '../../assets/lixeirasWork.png';
 
 function ComoFunciona() {
   return (

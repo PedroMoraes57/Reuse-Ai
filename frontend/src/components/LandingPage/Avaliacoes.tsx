@@ -5,7 +5,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
-import styles from './modules/Avaliacoes.module.css';
+import styles from '../modules/Avaliacoes.module.css';
 
 const avaliacoes = [
   {

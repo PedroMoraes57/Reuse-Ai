@@ -4,7 +4,7 @@ import {
   faRobot,
   faCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
-import styles from './modules/TresPassos.module.css';
+import styles from '../modules/TresPassos.module.css';
 
 const passos = [
   {

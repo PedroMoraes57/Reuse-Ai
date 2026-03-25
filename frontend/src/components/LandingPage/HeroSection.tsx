@@ -1,4 +1,4 @@
-import styles from './modules/HeroSection.module.css';
+import styles from '../modules/HeroSection.module.css';
 
 export default function HeroSection() {
   return (
@@ -25,7 +25,7 @@ export default function HeroSection() {
           {/* Botões */}
           <div className='mt-8 flex flex-col sm:flex-row gap-4'>
             <a
-              href='/cadastro'
+              href='/classificar'
               className='bg-reuseai-azul hover:bg-reuseai-azulClaro text-reuseai-branco font-semibold px-5 py-3.5 rounded-md transition-colors'
             >
               Descarte Certo

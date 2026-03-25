@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from './modules/Navbar.module.css';
+import styles from '../modules/Navbar.module.css';
 import {
   faGear,
   faUser,
@@ -8,9 +8,14 @@ import {
   faSun,
   faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 
-function Navbar() {
+interface NavbarProps {
+  forceScrolled?: boolean;
+  isStatic?: boolean;
+}
+
+function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
   const [menuAberto, setMenuAberto] = useState(false);
   const [configAberto, setConfigAberto] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -41,7 +46,11 @@ function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 transition-all duration-300 z-[999] ${scrolled ? styles.navScrolled : 'bg-transparent'}`}
+      className={`${isStatic ? 'relative' : 'fixed top-0 left-0 right-0'} transition-all duration-300 z-[999] ${
+        isStatic || forceScrolled || scrolled
+          ? styles.navScrolled
+          : 'bg-transparent'
+      }`}
     >
       <div className='max-w-6xl mx-auto px-6 py-4 flex items-center justify-between'>
         {/* LOGO */}

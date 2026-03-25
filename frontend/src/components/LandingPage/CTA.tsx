@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './modules/CTA.module.css';
+import styles from '../modules/CTA.module.css';
 
 function CTA() {
   const [email, setEmail] = useState('');

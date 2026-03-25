@@ -7,7 +7,7 @@ import {
   faPeopleGroup,
   faMicroscope,
 } from '@fortawesome/free-solid-svg-icons';
-import styles from './modules/ImpactoReal.module.css';
+import styles from '../modules/ImpactoReal.module.css';
 
 const cards = [
   {
