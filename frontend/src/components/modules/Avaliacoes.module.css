@@ -78,9 +78,16 @@
   gap: 12px;
 }
 
+.paragrafoCelular {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .card {
     flex: 0 0 85vw;
+  }
+  .paragrafoCelular {
+    display: block;
   }
 
   .seta {

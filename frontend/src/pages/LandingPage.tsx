@@ -6,6 +6,8 @@ import TresPassos from '../components/TresPassos';
 import BinSection from '../components/Lixeiras';
 import ImpactoReal from '../components/ImpactoReal';
 import Avaliacoes from '../components/Avaliacoes';
+import CTA from '../components/CTA';
+import Footer from '../components/Footer';
 
 function LandingPage() {
   return (
@@ -20,7 +22,9 @@ function LandingPage() {
         <BinSection />
         <ImpactoReal />
         <Avaliacoes />
+        <CTA />
       </main>
+      <Footer />
     </>
   );
 }

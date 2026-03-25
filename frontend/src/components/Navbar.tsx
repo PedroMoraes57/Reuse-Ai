@@ -17,7 +17,6 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    // Listener do clique fora do dropdown
     function handleClickFora(event: MouseEvent) {
       if (
         dropdownRef.current &&
@@ -27,16 +26,13 @@ function Navbar() {
       }
     }
 
-    // Listener do scroll
     function handleScroll() {
       setScrolled(window.scrollY > 50);
     }
 
-    // Adiciona os dois listeners
     document.addEventListener('mousedown', handleClickFora);
     window.addEventListener('scroll', handleScroll);
 
-    // Remove os dois no cleanup
     return () => {
       document.removeEventListener('mousedown', handleClickFora);
       window.removeEventListener('scroll', handleScroll);
@@ -45,7 +41,7 @@ function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 z-[999] ${scrolled ? styles.navScrolled : 'bg-transparent'}`}
+      className={`fixed top-0 left-0 right-0 transition-all duration-300 z-[999] ${scrolled ? styles.navScrolled : 'bg-transparent'}`}
     >
       <div className='max-w-6xl mx-auto px-6 py-4 flex items-center justify-between'>
         {/* LOGO */}
@@ -106,28 +102,28 @@ function Navbar() {
                 </div>
                 <ul className='py-1'>
                   <li>
-                    <button className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-raisin hover:bg-gray-100 transition-colors'>
+                    <button className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-reuseai-preto hover:bg-gray-100 transition-colors'>
                       <FontAwesomeIcon
                         icon={faUser}
-                        className='text-reuseai-cinza-custom w-4'
+                        className='text-reuseai-cinza w-4'
                       />
                       Meu perfil
                     </button>
                   </li>
                   <li>
-                    <button className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-raisin hover:bg-gray-100 transition-colors'>
+                    <button className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-reuseai-preto hover:bg-gray-100 transition-colors'>
                       <FontAwesomeIcon
                         icon={faSun}
-                        className='text-reuseai-cinza-custom w-4'
+                        className='text-reuseai-cinza w-4'
                       />
                       Tema claro
                     </button>
                   </li>
                   <li>
-                    <button className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-raisin hover:bg-gray-100 transition-colors'>
+                    <button className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-reuseai-preto hover:bg-gray-100 transition-colors'>
                       <FontAwesomeIcon
                         icon={faMoon}
-                        className='text-reuseai-cinza-custom w-4'
+                        className='text-reuseai-cinza w-4'
                       />
                       Tema escuro
                     </button>
@@ -147,20 +143,28 @@ function Navbar() {
           </div>
         </div>
 
-        {/* HAMBURGUER mobile */}
+        {/* HAMBURGUER mobile — vira X quando aberto */}
         <button
           className='md:hidden flex flex-col gap-1.5 p-2'
           onClick={() => setMenuAberto(!menuAberto)}
         >
-          <span className='block w-6 h-0.5 bg-reuseai-branco'></span>
-          <span className='block w-6 h-0.5 bg-reuseai-branco'></span>
-          <span className='block w-6 h-0.5 bg-reuseai-branco'></span>
+          <span
+            className={`block w-6 h-0.5 bg-reuseai-branco transition-all duration-300 ${menuAberto ? 'rotate-45 translate-y-2' : ''}`}
+          ></span>
+          <span
+            className={`block w-6 h-0.5 bg-reuseai-branco transition-all duration-300 ${menuAberto ? 'opacity-0' : ''}`}
+          ></span>
+          <span
+            className={`block w-6 h-0.5 bg-reuseai-branco transition-all duration-300 ${menuAberto ? '-rotate-45 -translate-y-2' : ''}`}
+          ></span>
         </button>
       </div>
 
-      {/* MENU MOBILE */}
-      {menuAberto && (
-        <div className='md:hidden bg-reuseai-branco border-t border-white/10 px-6 py-4 flex flex-col gap-4'>
+      {/* MENU MOBILE — animação fluida com max-height */}
+      <div
+        className={`md:hidden bg-reuseai-branco border-t border-white/10 px-6 overflow-hidden ${styles.menuMobile} ${menuAberto ? styles.menuMobileAberto : ''}`}
+      >
+        <div className='py-4 flex flex-col gap-4'>
           <a href='#como-funciona' className='text-reuseai-preto text-sm'>
             Como funciona
           </a>
@@ -173,10 +177,11 @@ function Navbar() {
           <a href='#contato' className='text-reuseai-preto text-sm'>
             Contato
           </a>
-          <hr className='border-gray' />
+          <hr className='border-gray-200' />
           <a href='/login' className='text-reuseai-preto text-sm font-medium'>
             Entrar
           </a>
+
           <a
             href='/cadastro'
             className='bg-reuseai-verde text-reuseai-branco px-5 py-2 rounded-full text-center text-sm font-semibold'
@@ -184,7 +189,7 @@ function Navbar() {
             Começar grátis
           </a>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

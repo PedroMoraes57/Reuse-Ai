@@ -97,6 +97,11 @@ function Avaliacoes() {
           O que dizem sobre a{' '}
           <span className='text-reuseai-verdeNeon'>Reuse.AI</span>
         </h2>
+        <p
+          className={`${styles.paragrafoCelular} text-center mt-[-30px] mb-[30px] text-[12px] text-reuseai-branco`}
+        >
+          Arraste para o lado para ver as avaliações.
+        </p>
 
         {/* Carrossel */}
         <div className='flex items-center gap-4'>
