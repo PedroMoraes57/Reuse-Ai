@@ -1,0 +1,96 @@
+
+# Reuse-AI: root .gitignore (Python + Django + Node monorepo)
+
+## Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.dylib
+*.pyd
+*.pyc
+*.pyo
+
+## Virtual environments
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+.Python
+
+## Django
+*.sqlite3
+db.sqlite3
+local_settings.py
+media/
+staticfiles/
+
+## Logs
+*.log
+logs/
+debug.log
+
+## Testing / coverage / caches
+.pytest_cache/
+.mypy_cache/
+.cache/
+.tox/
+.nox/
+coverage/
+coverage.*
+.coverage
+htmlcov/
+
+## Build / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+wheelhouse/
+
+## Node / Frontend
+node_modules/
+
+.vite/
+dist/
+dist-ssr/
+build/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+## Environment files (secrets)
+.env
+.env.*
+
+## IDEs and editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+
+## OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+## Misc
+*.swp
+*.lock
+*.sqlite
+*.db
+*.log
+
+## Backend (local artifacts & datasets)
+backend/artifacts/
+backend/data/datasets/
+backend/data/datasets/**/.DS_Store
+backend/data/datasets/**/*.tmp
+

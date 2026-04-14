@@ -1,5 +1,5 @@
 // src/components/classification/ResultPanel.tsx
-import type { ClassificationResult } from '../../services/Classificationapi';
+import type { ClassificationResult } from '../../services/ClassificationApi';
 
 interface ResultPanelProps {
   result: ClassificationResult | null;

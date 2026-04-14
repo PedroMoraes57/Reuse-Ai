@@ -22,6 +22,46 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const [user, setUser] = useState<{ username: string } | null>(null);
+
+  const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (!token) return;
+    fetch(`${API_BASE_URL}/api/me/`, {
+      headers: { Authorization: `Token ${token}` },
+    })
+      .then(res => {
+        if (!res.ok) {
+          localStorage.removeItem('authToken');
+          return null;
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (data && data.username) setUser({ username: data.username });
+      })
+      .catch(() => localStorage.removeItem('authToken'));
+  }, []);
+
+  function handleLogout() {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      fetch(`${API_BASE_URL}/api/logout/`, {
+        method: 'POST',
+        headers: { Authorization: `Token ${token}` },
+      }).finally(() => {
+        localStorage.removeItem('authToken');
+        setUser(null);
+        window.location.href = '/';
+      });
+    } else {
+      localStorage.removeItem('authToken');
+      setUser(null);
+      window.location.href = '/';
+    }
+  }
 
   useEffect(() => {
     function handleClickFora(event: MouseEvent) {
@@ -81,19 +121,30 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
 
         {/* DIREITA */}
         <div className='hidden md:flex items-center gap-3'>
-          <a
-            href='/login'
-            className={`${styles.navLink} text-reuseai-branco transition-colors text-sm font-medium`}
-          >
-            Entrar
-          </a>
+          {user ? (
+            <a
+              href='/profile'
+              className={`${styles.navLink} text-reuseai-branco transition-colors text-sm font-medium`}
+            >
+              {user.username}
+            </a>
+          ) : (
+            <>
+              <a
+                href='/login'
+                className={`${styles.navLink} text-reuseai-branco transition-colors text-sm font-medium`}
+              >
+                Entrar
+              </a>
 
-          <a
-            href='/cadastro'
-            className='bg-reuseai-verde hover:bg-reuseai-azul dark:bg-reuseai-verdeEscuro dark:border dark:border-reuseai-verdeNeon/30 dark:hover:bg-[#0c2e42] dark:hover:border-reuseai-azul/60 text-reuseai-branco text-sm font-semibold px-5 py-2 rounded-full transition-colors'
-          >
-            Começar grátis
-          </a>
+              <a
+                href='/cadastro'
+                className='bg-reuseai-verde hover:bg-reuseai-azul dark:bg-reuseai-verdeEscuro dark:border dark:border-reuseai-verdeNeon/30 dark:hover:bg-[#0c2e42] dark:hover:border-reuseai-azul/60 text-reuseai-branco text-sm font-semibold px-5 py-2 rounded-full transition-colors'
+              >
+                Começar grátis
+              </a>
+            </>
+          )}
 
           {/* CONFIG DROPDOWN */}
           <div className='relative' ref={dropdownRef}>
@@ -140,7 +191,7 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
                     </button>
                   </li>
                   <li className='border-t border-gray-100 dark:border-[#222] mt-1'>
-                    <button className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors'>
+                    <button onClick={handleLogout} className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors'>
                       <FontAwesomeIcon
                         icon={faRightFromBracket}
                         className='w-4'
@@ -201,12 +252,21 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
             Contato
           </a>
           <hr className='border-gray-200 dark:border-[#333]' />
-          <a
-            href='/login'
-            className='text-reuseai-preto dark:text-reuseai-branco text-sm font-medium'
-          >
-            Entrar
-          </a>
+          {user ? (
+            <a
+              href='/profile'
+              className='text-reuseai-preto dark:text-reuseai-branco text-sm font-medium'
+            >
+              {user.username}
+            </a>
+          ) : (
+            <a
+              href='/login'
+              className='text-reuseai-preto dark:text-reuseai-branco text-sm font-medium'
+            >
+              Entrar
+            </a>
+          )}
 
           <button
             onClick={toggleTheme}
@@ -225,12 +285,14 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
             {theme === 'dark' ? 'Tema claro' : 'Tema escuro'}
           </button>
 
-          <a
-            href='/cadastro'
-            className='bg-reuseai-verde text-reuseai-branco px-5 py-2 rounded-full text-center text-sm font-semibold'
-          >
-            Começar grátis
-          </a>
+          {!user && (
+            <a
+              href='/cadastro'
+              className='bg-reuseai-verde text-reuseai-branco px-5 py-2 rounded-full text-center text-sm font-semibold'
+            >
+              Começar grátis
+            </a>
+          )}
         </div>
       </div>
     </nav>

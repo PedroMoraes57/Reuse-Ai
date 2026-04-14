@@ -1,18 +1,36 @@
 // src/pages/Classification/ClassificationPage.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   UploadPanel,
   ResultPanel,
   StepList,
 } from '../components/Classification';
 import Navbar from '../components/LandingPage/Navbar';
-import { analyzeWaste } from '../services/Classificationapi';
-import type { ClassificationResult } from '../services/Classificationapi';
+import { analyzeWaste } from '../services/ClassificationApi';
+import type { ClassificationResult } from '../services/ClassificationApi';
 
 export default function ClassificationPage() {
   const [result, setResult] = useState<ClassificationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      window.location.href = '/login';
+      return;
+    }
+
+    fetch(`${API_BASE_URL}/api/me/`, {
+      headers: { Authorization: `Token ${token}` },
+    }).then(res => {
+      if (!res.ok) {
+        window.location.href = '/login';
+      }
+    });
+  }, []);
 
   async function handleAnalyze(file: File) {
     setIsLoading(true);

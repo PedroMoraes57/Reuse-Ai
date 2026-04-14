@@ -33,9 +33,16 @@ export async function analyzeWaste(file: File): Promise<ClassificationResult> {
   const form = new FormData();
   form.append('files', file); // ⚠️ campo "files" — mesmo nome que o Django espera
 
+  const headers: Record<string, string> = {};
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    headers['Authorization'] = `Token ${token}`;
+  }
+
   const response = await fetch(`${API_BASE_URL}/analyze`, {
     method: 'POST',
     body: form,
+    headers,
     // ⚠️ NÃO defina Content-Type manualmente — o browser seta o boundary do multipart automaticamente
   });
 

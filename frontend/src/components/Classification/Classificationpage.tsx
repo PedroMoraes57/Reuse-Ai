@@ -1,8 +1,8 @@
 // src/pages/Classification/ClassificationPage.tsx
 import { useState } from 'react';
 import { UploadPanel, ResultPanel, StepList } from '../Classification';
-import { analyzeWaste } from '../../services/Classificationapi';
-import type { ClassificationResult } from '../../services/Classificationapi';
+import { analyzeWaste } from '../../services/ClassificationApi';
+import type { ClassificationResult } from '../../services/ClassificationApi';
 
 export function ClassificationPage() {
   const [result, setResult] = useState<ClassificationResult | null>(null);
