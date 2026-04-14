@@ -1,4 +1,15 @@
-// src/components/classification/ResultPanel.tsx
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import {
+  faChartColumn,
+  faCircleCheck,
+  faCircleInfo,
+  faLeaf,
+  faRecycle,
+  faRobot,
+  faTag,
+  faTriangleExclamation,
+} from '@fortawesome/free-solid-svg-icons';
 import type { ClassificationResult } from '../../services/ClassificationApi';
 
 interface ResultPanelProps {
@@ -7,67 +18,62 @@ interface ResultPanelProps {
 }
 
 interface InfoBlockProps {
-  icon: string;
+  icon: IconDefinition;
   title: string;
   text: string;
 }
 
 function InfoBlock({ icon, title, text }: InfoBlockProps) {
   return (
-    <div className='border border-gray-200 rounded-xl overflow-hidden my-1'>
-      <div className='bg-gray-50 px-4 py-2.5 text-xs font-bold text-gray-500 flex items-center gap-2 border-b border-gray-200 uppercase tracking-wider'>
-        <i className={`${icon} text-green-600 text-sm`} />
+    <div className='my-1 overflow-hidden rounded-xl border border-reuseai-verde/10'>
+      <div className='flex items-center gap-2 border-b border-reuseai-verde/10 bg-reuseai-verde/5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-reuseai-cinza'>
+        <FontAwesomeIcon icon={icon} className='text-sm text-reuseai-verde' />
         {title}
       </div>
-      <p className='px-4 py-3.5 text-sm text-gray-600 leading-relaxed'>
-        {text}
-      </p>
+      <p className='px-4 py-3.5 text-sm leading-7 text-reuseai-cinza'>{text}</p>
     </div>
   );
 }
 
 export function ResultPanel({ result, isLoading }: ResultPanelProps) {
   return (
-    <div className='bg-white border border-gray-200 rounded-2xl p-7 shadow-sm flex flex-col min-h-[400px]'>
-      {/* Header */}
-      <div className='flex items-start gap-3 mb-6 pb-5 border-b border-gray-200'>
-        <span className='w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center text-green-600 text-base flex-shrink-0'>
-          <i className='fas fa-robot' />
+    <div className='flex min-h-[445px] flex-col rounded-[28px] border border-reuseai-verde/10 bg-white p-7 shadow-[0_30px_60px_-45px_rgba(28,28,37,0.45)]'>
+      <div className='mb-6 flex items-start gap-3 border-b border-reuseai-verde/10 pb-5'>
+        <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-reuseai-verde/10 text-base text-reuseai-verde'>
+          <FontAwesomeIcon icon={faRobot} />
         </span>
         <div>
-          <h3 className='text-sm font-bold text-gray-900'>Resultado</h3>
-          <p className='text-xs text-gray-400'>Orientações de descarte</p>
+          <h3 className='text-sm font-bold text-reuseai-preto'>Resultado</h3>
+          <p className='text-xs text-reuseai-cinza/70'>
+            Orientações de descarte
+          </p>
         </div>
       </div>
 
-      {/* Loading */}
       {isLoading && (
-        <div className='flex-1 flex flex-col items-center justify-center gap-4'>
-          <div className='w-12 h-12 border-4 border-green-100 border-t-green-600 rounded-full animate-spin' />
-          <p className='text-sm font-semibold text-gray-500'>
+        <div className='flex flex-1 flex-col items-center justify-center gap-4'>
+          <div className='h-12 w-12 animate-spin rounded-full border-4 border-reuseai-verde/10 border-t-reuseai-verde' />
+          <p className='text-sm font-semibold text-reuseai-cinza/80'>
             Analisando imagem...
           </p>
         </div>
       )}
 
-      {/* Vazio */}
       {!isLoading && !result && (
-        <div className='flex-1 flex flex-col items-center justify-center text-center gap-4 px-6 py-10'>
-          <div className='w-18 h-18 w-[72px] h-[72px] bg-green-50 rounded-full flex items-center justify-center text-3xl text-green-200'>
-            <i className='fas fa-leaf' />
+        <div className='flex flex-1 flex-col items-center justify-center gap-4 px-6 py-10 text-center'>
+          <div className='flex h-[72px] w-[72px] items-center justify-center rounded-full bg-reuseai-verde/10 text-3xl text-reuseai-verde/35'>
+            <FontAwesomeIcon icon={faLeaf} />
           </div>
-          <p className='text-sm text-gray-400 max-w-[200px] leading-relaxed'>
+          <p className='max-w-[220px] text-sm leading-7 text-reuseai-cinza/70'>
             Envie uma imagem para ver as orientações de descarte.
           </p>
         </div>
       )}
 
-      {/* Resultado */}
       {!isLoading && result && (
         <div className='flex flex-col gap-2'>
-          {/* Chip */}
-          <div className='inline-flex items-center gap-2 bg-green-600 text-white text-sm font-bold px-4 py-1.5 rounded-full w-fit mb-1'>
-            <i className='fas fa-tag' />
+          <div className='mb-1 inline-flex w-fit items-center gap-2 rounded-full bg-reuseai-verde px-4 py-1.5 text-sm font-bold text-reuseai-branco'>
+            <FontAwesomeIcon icon={faTag} />
             <span>
               {result.best_match?.display_name_pt || 'Item identificado'}
             </span>
@@ -75,7 +81,7 @@ export function ResultPanel({ result, isLoading }: ResultPanelProps) {
 
           {result.best_match?.description_pt && (
             <InfoBlock
-              icon='fas fa-info-circle'
+              icon={faCircleInfo}
               title='Sobre o item'
               text={result.best_match.description_pt}
             />
@@ -83,7 +89,7 @@ export function ResultPanel({ result, isLoading }: ResultPanelProps) {
 
           {result.best_match?.dropoff && (
             <InfoBlock
-              icon='fas fa-recycle'
+              icon={faRecycle}
               title='Canal de descarte'
               text={result.best_match.dropoff}
             />
@@ -91,48 +97,93 @@ export function ResultPanel({ result, isLoading }: ResultPanelProps) {
 
           {result.best_match?.recommendation && (
             <InfoBlock
-              icon='fas fa-clipboard-check'
+              icon={faCircleCheck}
               title='Como descartar'
               text={result.best_match.recommendation}
             />
           )}
 
-          {/* Top previsões */}
-          {result.top_predictions?.length > 0 && (
-            <div className='border border-gray-200 rounded-xl overflow-hidden my-1'>
-              <div className='bg-gray-50 px-4 py-2.5 text-xs font-bold text-gray-500 flex items-center gap-2 border-b border-gray-200 uppercase tracking-wider'>
-                <i className='fas fa-chart-bar text-green-600 text-sm' />
-                Top previsões
+          {typeof result.confidence === 'number' && (
+            <div className='my-1 overflow-hidden rounded-xl border border-reuseai-verde/10'>
+              <div className='flex items-center gap-2 border-b border-reuseai-verde/10 bg-reuseai-verde/5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-reuseai-cinza'>
+                <FontAwesomeIcon
+                  icon={faChartColumn}
+                  className='text-sm text-reuseai-verde'
+                />
+                Nível de confiança
               </div>
-              <div className='px-4 py-3.5 flex flex-col gap-2.5'>
-                {result.top_predictions.map(p => {
-                  const pct = (p.confidence * 100).toFixed(1);
-                  return (
-                    <div key={p.class_id} className='flex items-center gap-3'>
-                      <span className='text-xs font-medium text-gray-600 min-w-[9rem] flex-shrink-0'>
-                        {p.display_name_pt || p.class_id}
-                      </span>
-                      <div className='flex-1 bg-green-50 rounded-full h-1.5 overflow-hidden'>
-                        <div
-                          className='h-full bg-green-600 rounded-full transition-all duration-500'
-                          style={{ width: `${pct}%` }}
-                        />
-                      </div>
-                      <span className='text-xs font-bold text-green-600 min-w-[3rem] text-right'>
-                        {pct}%
-                      </span>
-                    </div>
-                  );
-                })}
+              <div className='flex flex-col gap-2.5 px-4 py-3.5'>
+                <div className='flex items-center gap-3'>
+                  <span className='min-w-[9rem] flex-shrink-0 text-xs font-medium text-reuseai-cinza'>
+                    Precisão estimada
+                  </span>
+                  <div className='h-1.5 flex-1 overflow-hidden rounded-full bg-reuseai-verde/10'>
+                    <div
+                      className='h-full rounded-full bg-reuseai-verde transition-all duration-500'
+                      style={{
+                        width: `${(result.confidence * 100).toFixed(1)}%`,
+                      }}
+                    />
+                  </div>
+                  <span className='min-w-[3rem] text-right text-xs font-bold text-reuseai-verde'>
+                    {(result.confidence * 100).toFixed(1)}%
+                  </span>
+                </div>
               </div>
             </div>
           )}
 
-          {/* Aviso de confiança baixa */}
           {result.uncertain_prediction && (
-            <div className='bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3 text-xs text-yellow-800 flex items-center gap-2 mt-1'>
-              <i className='fas fa-triangle-exclamation text-yellow-500 flex-shrink-0' />
-              Confiança baixa — verifique o resultado com atenção.
+            <div className='mt-1 flex gap-2 rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-3 text-xs text-yellow-800'>
+              <FontAwesomeIcon
+                icon={faTriangleExclamation}
+                className='mt-0.5 flex-shrink-0 text-yellow-500'
+              />
+              <div className='space-y-1.5'>
+                <p className='font-semibold'>
+                  A IA não atingiu segurança suficiente para cravar esta classe.
+                </p>
+                {result.uncertainty_reasons?.map(reason => (
+                  <p key={reason} className='leading-5 text-yellow-900/90'>
+                    • {reason}
+                  </p>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {result.top_predictions && result.top_predictions.length > 0 && (
+            <div className='my-1 overflow-hidden rounded-xl border border-reuseai-verde/10'>
+              <div className='flex items-center gap-2 border-b border-reuseai-verde/10 bg-reuseai-verde/5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-reuseai-cinza'>
+                <FontAwesomeIcon
+                  icon={faChartColumn}
+                  className='text-sm text-reuseai-verde'
+                />
+                Hipóteses mais prováveis
+              </div>
+              <div className='flex flex-col gap-2.5 px-4 py-3.5'>
+                {result.top_predictions.map(prediction => (
+                  <div
+                    key={prediction.class_id}
+                    className='flex items-center gap-3'
+                  >
+                    <span className='min-w-[9rem] flex-shrink-0 text-xs font-medium text-reuseai-cinza'>
+                      {prediction.display_name_pt || prediction.class_id}
+                    </span>
+                    <div className='h-1.5 flex-1 overflow-hidden rounded-full bg-reuseai-verde/10'>
+                      <div
+                        className='h-full rounded-full bg-reuseai-verde transition-all duration-500'
+                        style={{
+                          width: `${(prediction.confidence * 100).toFixed(1)}%`,
+                        }}
+                      />
+                    </div>
+                    <span className='min-w-[3rem] text-right text-xs font-bold text-reuseai-verde'>
+                      {(prediction.confidence * 100).toFixed(1)}%
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>

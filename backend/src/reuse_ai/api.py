@@ -3,6 +3,7 @@ from __future__ import annotations
 from io import BytesIO
 from typing import Annotated
 
+import torch
 import uvicorn
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -33,11 +34,18 @@ def get_predictor() -> ReusePredictor:
 
 
 @app.get("/health")
+@app.get("/api/health")
 def health() -> dict[str, object]:
-    return {"status": "ok", "model_ready": _predictor is not None}
+    return {
+        "status": "ok",
+        "model_ready": _predictor is not None,
+        "cuda_available": torch.cuda.is_available(),
+        "torch_cuda_version": torch.version.cuda,
+    }
 
 
 @app.post("/analyze")
+@app.post("/api/analyze")
 async def analyze(
     files: Annotated[list[UploadFile], File(...)],
     latitude: Annotated[float | None, Form()] = None,

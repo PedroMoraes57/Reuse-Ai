@@ -1,10 +1,59 @@
-// src/pages/Classification/ClassificationPage.tsx
 import { useState } from 'react';
-import { UploadPanel, ResultPanel, StepList } from '../Classification';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCamera,
+  faCircleCheck,
+  faLeaf,
+  faLocationDot,
+  faRecycle,
+  faRobot,
+  faSeedling,
+  faTriangleExclamation,
+} from '@fortawesome/free-solid-svg-icons';
+import { UploadPanel, ResultPanel } from '../Classification';
 import { analyzeWaste } from '../../services/ClassificationApi';
 import type { ClassificationResult } from '../../services/ClassificationApi';
 
-export function ClassificationPage() {
+const heroHighlights = [
+  {
+    icon: faCamera,
+    title: 'Envio simples',
+    description: 'Capture ou selecione uma foto em poucos segundos.',
+  },
+  {
+    icon: faRobot,
+    title: 'Leitura com IA',
+    description: 'O sistema interpreta o material e organiza a melhor rota.',
+  },
+  {
+    icon: faLocationDot,
+    title: 'Saiba exatamente o que fazer',
+    description: 'Receba uma orientação direta para descartar corretamente.',
+  },
+];
+
+const benefitCards = [
+  {
+    icon: faSeedling,
+    title: 'Tipo identificado',
+    description:
+      'Detectamos o material principal do objeto para orientar o descarte corretamente.',
+  },
+  {
+    icon: faRecycle,
+    title: 'Pode reciclar?',
+    description:
+      'Veja na hora se o item é reciclável e quais são as limitações.',
+  },
+  {
+    icon: faCircleCheck,
+    title: 'Onde descartar',
+    description:
+      'Receba a forma correta de descarte e para onde levar o objeto.',
+  },
+];
+
+export function ClassificationPageContent() {
   const [result, setResult] = useState<ClassificationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -15,11 +64,9 @@ export function ClassificationPage() {
     setError(null);
 
     try {
-      // ⚠️ Chamada real para o Django — ver src/services/classificationApi.ts
       const data = await analyzeWaste(file);
       setResult(data);
 
-      // Scroll suave até o resultado em mobile
       if (window.innerWidth <= 900) {
         document.getElementById('result-panel')?.scrollIntoView({
           behavior: 'smooth',
@@ -38,81 +85,151 @@ export function ClassificationPage() {
   }
 
   return (
-    <div className='min-h-screen bg-white font-sans'>
-      {/* ── HERO ── */}
-      <section className='relative bg-white overflow-hidden px-8 py-20 flex items-center justify-center gap-16 min-h-[480px]'>
-        {/* Círculos decorativos */}
-        <div className='absolute w-[600px] h-[600px] -top-48 -right-36 rounded-full bg-green-600 opacity-[0.06] pointer-events-none' />
-        <div className='absolute w-[350px] h-[350px] -bottom-28 -left-20 rounded-full bg-green-600 opacity-[0.06] pointer-events-none' />
+    <main className='bg-reuseai-branco'>
+      <section className='relative overflow-hidden bg-gradient-to-br from-reuseai-branco via-reuseai-verdeClaro/10 to-reuseai-azulClaro/10 px-6 py-16'>
+        <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(120,216,78,0.18),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(56,182,255,0.12),transparent_32%)]' />
+        <div className='absolute -right-20 top-10 h-64 w-64 rounded-full bg-reuseai-verdeClaro/20 blur-3xl' />
+        <div className='absolute -left-16 bottom-4 h-56 w-56 rounded-full bg-reuseai-azulClaro/10 blur-3xl' />
 
-        <div className='max-w-[560px] flex-1 relative z-10'>
-          <span className='inline-flex items-center gap-1.5 bg-green-50 text-green-600 text-[0.8rem] font-extrabold px-3.5 py-1.5 rounded-full mb-5 uppercase tracking-wider'>
-            <i className='fas fa-recycle' /> Reciclagem com IA
-          </span>
-          <h1 className='text-5xl font-extrabold text-gray-900 leading-tight mb-5'>
-            Descarte certo.
-            <br />
-            <em className='not-italic text-green-600'>Sempre.</em>
-          </h1>
-          <p className='text-base text-gray-600 leading-relaxed mb-8 max-w-[440px]'>
-            Tire uma foto do resíduo e a nossa inteligência artificial indica,
-            em segundos, como descartá-lo de forma correta e sustentável.
-          </p>
-          <a
-            href='#analisar'
-            className='inline-flex items-center gap-2 bg-green-600 text-white font-bold text-base px-8 py-3.5 rounded-full hover:bg-green-700 hover:-translate-y-0.5 transition-all'
-          >
-            <i className='fas fa-camera' /> Analisar Agora
-          </a>
-        </div>
-
-        {/* Card decorativo — oculto em mobile */}
-        <div className='flex-shrink-0 relative z-10 hidden md:block'>
-          <div className='bg-green-50 border-[1.5px] border-green-100 rounded-2xl p-10 flex flex-col items-center gap-4 text-center max-w-[240px]'>
-            <i className='fas fa-recycle text-6xl text-green-600' />
-            <span className='text-sm font-semibold text-green-800'>
-              Identifica + de 50 tipos de resíduos
+        <div className='relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(340px,0.85fr)] lg:items-center'>
+          <div className='max-w-2xl'>
+            <span className='inline-flex items-center gap-2 rounded-full border border-reuseai-verde/15 bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-reuseai-verde shadow-sm backdrop-blur-sm'>
+              <FontAwesomeIcon icon={faRecycle} />
+              Classificação com IA
             </span>
+
+            <h1 className='mt-6 text-4xl font-black leading-tight text-reuseai-preto md:text-6xl'>
+              Descarte certo, com uma experiência mais clara e direta.
+            </h1>
+
+            <p className='mt-5 max-w-xl text-base leading-7 text-reuseai-cinza md:text-lg'>
+              Envie uma imagem e descubra em segundos como descartar
+              corretamente. Identificamos o objeto, analisamos o material e
+              mostramos se ele pode ser reciclado, junto com o destino ideal.
+            </p>
+
+            <div className='mt-8 flex flex-col gap-4 sm:flex-row'>
+              <a
+                href='#analisar'
+                className='inline-flex items-center justify-center gap-2 rounded-full bg-reuseai-verde px-6 py-3.5 text-sm font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul'
+              >
+                <FontAwesomeIcon icon={faCamera} />
+                Analisar agora
+              </a>
+              <a
+                href='#como-funciona'
+                className='inline-flex items-center justify-center gap-2 rounded-full border border-reuseai-verde/15 bg-white/80 px-6 py-3.5 text-sm font-semibold text-reuseai-preto transition-colors hover:bg-white'
+              >
+                <FontAwesomeIcon icon={faCircleCheck} />
+                Ver como funciona
+              </a>
+            </div>
+
+            <div className='mt-10 grid gap-4 sm:grid-cols-3'>
+              {benefitCards.map(card => (
+                <div
+                  key={card.title}
+                  className='rounded-2xl border border-reuseai-verde/10 bg-white/85 p-4 shadow-[0_24px_50px_-40px_rgba(28,28,37,0.35)] backdrop-blur-sm'
+                >
+                  <div className='flex h-11 w-11 items-center justify-center rounded-2xl bg-reuseai-verde/10 text-lg text-reuseai-verde'>
+                    <FontAwesomeIcon icon={card.icon} />
+                  </div>
+                  <h2 className='mt-4 text-sm font-bold text-reuseai-preto'>
+                    {card.title}
+                  </h2>
+                  <p className='mt-2 text-sm leading-6 text-reuseai-cinza'>
+                    {card.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className='rounded-[32px] border border-reuseai-verde/10 bg-white/90 p-6 shadow-[0_40px_80px_-50px_rgba(28,28,37,0.4)] backdrop-blur-xl'>
+            <div className='flex items-center justify-between gap-4'>
+              <div>
+                <p className='text-xs font-semibold uppercase tracking-[0.28em] text-reuseai-verde'>
+                  Fluxo Inteligente
+                </p>
+                <h2 className='mt-2 text-2xl font-black text-reuseai-preto'>
+                  Etapas do uso da nossa classificação com IA
+                </h2>
+              </div>
+              <div className='hidden h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-reuseai-verde/10 text-xl text-reuseai-verde sm:flex'>
+                <FontAwesomeIcon icon={faLeaf} />
+              </div>
+            </div>
+
+            <div className='mt-6 space-y-4'>
+              {heroHighlights.map((item, index) => (
+                <div
+                  key={item.title}
+                  className='flex gap-4 rounded-2xl border border-reuseai-verde/10 bg-reuseai-branco p-4'
+                >
+                  <div className='flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-reuseai-verde/10 text-lg text-reuseai-verde'>
+                    <FontAwesomeIcon icon={item.icon} />
+                  </div>
+                  <div>
+                    <p className='text-xs font-semibold uppercase tracking-[0.22em] text-reuseai-cinza/60'>
+                      Etapa {index + 1}
+                    </p>
+                    <h3 className='mt-1 text-base font-bold text-reuseai-preto'>
+                      {item.title}
+                    </h3>
+                    <p className='mt-1 text-sm leading-6 text-reuseai-cinza'>
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className='mt-6 rounded-2xl border border-reuseai-verde/15 bg-reuseai-verde/5 p-5'>
+              <p className='text-sm font-semibold text-reuseai-preto'>
+                Foque no que importa
+              </p>
+              <p className='mt-2 text-sm leading-6 text-reuseai-cinza'>
+                Veja rapidamente o que é o objeto, se pode ser reciclado e como
+                descartar sem erro.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── COMO FUNCIONA ── */}
       <section
-        id='como-funciona'
-        className='bg-gray-50 border-t border-b border-gray-200 py-20 px-4'
+        id='aplicativo'
+        className='bg-gradient-to-b from-reuseai-branco via-reuseai-branco to-reuseai-verdeClaro/10 px-6 py-16'
       >
-        <div className='max-w-5xl mx-auto'>
-          <h2 className='text-3xl font-extrabold text-gray-900 text-center mb-3'>
-            Como funciona
-          </h2>
-          <p className='text-gray-400 text-center mb-12'>
-            Três passos simples para descartar de forma responsável.
-          </p>
-          <StepList />
-        </div>
-      </section>
+        <div className='mx-auto max-w-6xl'>
+          <div className='mb-10 max-w-3xl'>
+            <span
+              id='analisar'
+              className='text-sm font-semibold uppercase tracking-[0.28em] text-reuseai-verde'
+            >
+              Área de Análise
+            </span>
+            <h2 className='mt-3 text-3xl font-black text-reuseai-preto md:text-4xl'>
+              Envie sua imagem e veja o resultado na hora
+            </h2>
+            <p className='mt-4 text-sm leading-7 text-reuseai-cinza md:text-base'>
+              Tire uma foto ou escolha da galeria para identificar o objeto em
+              poucos segundos. A análise mostra o tipo de material, informa se é
+              reciclável e orienta exatamente como fazer o descarte correto.
+            </p>
+          </div>
 
-      {/* ── ANALISAR ── */}
-      <section id='analisar' className='py-20 px-4 bg-white'>
-        <div className='max-w-5xl mx-auto'>
-          <h2 className='text-3xl font-extrabold text-gray-900 text-center mb-3'>
-            Analisar resíduo
-          </h2>
-          <p className='text-gray-400 text-center mb-12'>
-            Envie uma foto e descubra como descartar corretamente.
-          </p>
-
-          {/* Mensagem de erro */}
           {error && (
-            <div className='mb-6 bg-red-50 border border-red-200 rounded-xl px-5 py-4 flex items-center gap-3 text-red-700 text-sm font-medium max-w-2xl mx-auto'>
-              <i className='fas fa-circle-exclamation text-red-400 flex-shrink-0' />
-              {error}
+            <div className='mb-8 flex max-w-3xl items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-700'>
+              <FontAwesomeIcon
+                icon={faTriangleExclamation}
+                className='mt-0.5 flex-shrink-0 text-red-500'
+              />
+              <span>{error}</span>
             </div>
           )}
 
-          {/* Grid upload + resultado */}
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-7 items-start'>
+          <div className='grid items-start gap-7 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]'>
             <UploadPanel onAnalyze={handleAnalyze} isLoading={isLoading} />
             <div id='result-panel'>
               <ResultPanel result={result} isLoading={isLoading} />
@@ -120,37 +237,6 @@ export function ClassificationPage() {
           </div>
         </div>
       </section>
-
-      {/* ── FOOTER ── */}
-      <footer className='bg-gray-900 text-gray-400 py-10 border-t border-gray-800'>
-        <div className='max-w-5xl mx-auto px-8 flex flex-wrap items-center justify-between gap-6'>
-          <div className='flex items-center gap-2 text-white font-extrabold text-lg'>
-            <span className='w-7 h-7 bg-green-600 rounded-lg flex items-center justify-center text-white text-sm'>
-              <i className='fas fa-leaf' />
-            </span>
-            Reuse<span className='text-green-500'>.AI</span>
-          </div>
-          <p className='text-xs text-gray-500'>
-            Tecnologia a serviço do planeta. &copy; 2025 Reuse.AI — Todos os
-            direitos reservados.
-          </p>
-          <div className='flex gap-2.5'>
-            {[
-              { icon: 'fab fa-instagram', href: '#' },
-              { icon: 'fab fa-linkedin-in', href: '#' },
-              { icon: 'fab fa-whatsapp', href: '#' },
-            ].map(({ icon, href }) => (
-              <a
-                key={icon}
-                href={href}
-                className='w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center text-white text-sm hover:bg-green-600 transition-colors'
-              >
-                <i className={icon} />
-              </a>
-            ))}
-          </div>
-        </div>
-      </footer>
-    </div>
+    </main>
   );
 }

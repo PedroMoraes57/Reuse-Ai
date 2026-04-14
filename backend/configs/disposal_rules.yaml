@@ -2,149 +2,149 @@ default_region: BR
 
 streams:
   recyclable_plastic:
-    recommendation: Lave rapidamente para remover residuos, deixe secar e descarte junto dos reciclaveis secos.
-    dropoff: Coleta seletiva de reciclaveis, cooperativa ou ecoponto.
-    preparation: Retire excesso de liquido e, se possivel, compacte sem misturar com organicos.
+    recommendation: Lave rapidamente para remover resíduos, deixe secar e descarte junto dos recicláveis secos.
+    dropoff: Coleta seletiva de recicláveis, cooperativa ou ecoponto.
+    preparation: Retire o excesso de líquido e, se possível, compacte sem misturar com orgânicos.
   recyclable_glass:
-    recommendation: Enxague, mantenha o material seco e descarte separado de organicos.
-    dropoff: Coleta seletiva, ecoponto ou conteiner de vidro onde houver.
-    preparation: Em caso de vidro quebrado, embale com seguranca e sinalize antes do descarte.
+    recommendation: Enxágue, mantenha o material seco e descarte separado de orgânicos.
+    dropoff: Coleta seletiva, ecoponto ou contêiner de vidro, onde houver.
+    preparation: Em caso de vidro quebrado, embale com segurança e sinalize antes do descarte.
   recyclable_metal:
-    recommendation: Esvazie, enxague se necessario e descarte com reciclaveis secos.
+    recommendation: Esvazie, enxágue se necessário e descarte com recicláveis secos.
     dropoff: Coleta seletiva, cooperativa ou ecoponto.
-    preparation: Amasse apenas se isso nao oferecer risco de corte.
+    preparation: Amasse apenas se isso não oferecer risco de corte.
   recyclable_paper:
     recommendation: Mantenha seco e limpo, sem gordura ou restos de comida.
     dropoff: Coleta seletiva, PEV ou cooperativa de reciclagem.
     preparation: Dobre ou compacte para reduzir volume.
   recyclable_multilayer:
-    recommendation: Enxague a embalagem longa vida, escorra e descarte entre reciclaveis secos.
+    recommendation: Enxágue a embalagem longa vida, escorra e descarte entre recicláveis secos.
     dropoff: Coleta seletiva ou ecoponto que aceite cartonados.
-    preparation: Achate a embalagem para economizar espaco.
+    preparation: Achate a embalagem para economizar espaço.
   plastic_film:
-    recommendation: Sacolas, redes e filmes plasticos devem estar limpos e secos antes do descarte.
-    dropoff: Pontos de entrega voluntaria, supermercados participantes ou ecopontos que aceitem plastico flexivel.
-    preparation: Agrupe varias pecas em uma unica sacola limpa.
+    recommendation: Sacolas, redes e filmes plásticos devem estar limpos e secos antes do descarte.
+    dropoff: Pontos de entrega voluntária, supermercados participantes ou ecopontos que aceitem plástico flexível.
+    preparation: Agrupe várias peças em uma única sacola limpa.
   recyclable_plastic_special:
     recommendation: O isopor deve estar limpo e seco para ter chance de reciclagem.
     dropoff: Ecopontos ou recicladores especializados em EPS; nem toda coleta seletiva comum aceita esse material.
-    preparation: Remova residuos de alimento e umidade.
+    preparation: Remova resíduos de alimento e umidade.
   landfill_non_recyclable:
-    recommendation: Materiais contaminados, muito pequenos ou de baixa reciclabilidade normalmente nao entram na coleta seletiva comum.
+    recommendation: Materiais contaminados, muito pequenos ou de baixa reciclabilidade normalmente não entram na coleta seletiva comum.
     dropoff: Rejeito comum, conforme a coleta domiciliar local.
-    preparation: Embale para evitar vazamentos, cortes ou contaminacao de reciclaveis.
+    preparation: Embale para evitar vazamentos, cortes ou contaminação de recicláveis.
   food_soiled_paper:
-    recommendation: Partes limpas da embalagem podem ir para o papel; partes engorduradas ou com restos devem ir para rejeito ou compostagem quando aplicavel.
-    dropoff: Coleta seletiva apenas para as partes secas e limpas; o restante segue para lixo comum ou organicos, conforme a regra local.
-    preparation: Remova restos de comida e separe partes limpas das contaminadas sempre que possivel.
+    recommendation: Partes limpas da embalagem podem ir para o papel; partes engorduradas ou com restos devem ir para rejeito ou compostagem, quando aplicável.
+    dropoff: Coleta seletiva apenas para as partes secas e limpas; o restante segue para lixo comum ou orgânicos, conforme a regra local.
+    preparation: Remova restos de comida e separe as partes limpas das contaminadas, sempre que possível.
   sanitary_waste:
-    recommendation: Itens de uso higienico, contaminados ou de dificil reciclabilidade devem seguir para rejeito comum.
-    dropoff: Coleta domiciliar de rejeitos ou ponto municipal para residuos nao reciclaveis, conforme a cidade.
+    recommendation: Itens de uso higiênico, contaminados ou de difícil reciclabilidade devem seguir para rejeito comum.
+    dropoff: Coleta domiciliar de rejeitos ou ponto municipal para resíduos não recicláveis, conforme a cidade.
     preparation: Embale bem para evitar contato, umidade e odores.
   fresh_produce_reuse:
-    recommendation: Alimentos vegetais frescos devem priorizar consumo, doacao ou reaproveitamento culinario; se nao estiverem adequados ao consumo, encaminhe para compostagem.
-    dropoff: Consumo domestico, doacao, composteira ou coleta de organicos, quando disponivel.
-    preparation: Separe de embalagens e retire partes danificadas antes de doar, cozinhar ou compostar.
+    recommendation: Alimentos vegetais frescos devem priorizar consumo, doação ou reaproveitamento culinário; se não estiverem adequados ao consumo, encaminhe para compostagem.
+    dropoff: Consumo doméstico, doação, composteira ou coleta de orgânicos, quando disponível.
+    preparation: Separe das embalagens e retire partes danificadas antes de doar, cozinhar ou compostar.
   wood_bamboo_small:
     recommendation: Pequenos itens de madeira ou bambu sem verniz podem ir para compostagem; se estiverem sujos ou tratados, descarte como rejeito.
-    dropoff: Composteira ou coleta de organicos quando o material estiver limpo e sem tratamento; caso contrario, lixo comum.
-    preparation: Remova elastico, papel ou plastico e mantenha seco.
+    dropoff: Composteira ou coleta de orgânicos, quando o material estiver limpo e sem tratamento; caso contrário, lixo comum.
+    preparation: Remova elástico, papel ou plástico e mantenha seco.
   flexible_multilayer_non_recyclable:
     recommendation: Embalagens metalizadas e multicamadas de snacks raramente entram na coleta seletiva comum.
-    dropoff: Rejeito comum, salvo se houver ponto especializado para reciclagem de multicamadas na sua regiao.
-    preparation: Esvazie, retire excesso de oleo e mantenha seca se for levar a um coletor especializado.
+    dropoff: Rejeito comum, salvo se houver ponto especializado para reciclagem de multicamadas na sua região.
+    preparation: Esvazie, retire o excesso de óleo e mantenha seca, se for levar a um coletor especializado.
   mixed_packaging_special:
-    recommendation: Embalagens com partes de papel, plastico e metal exigem separacao para aumentar a chance de reciclagem.
-    dropoff: Coleta seletiva ou ecoponto apenas se as partes reciclaveis puderem ser separadas; do contrario, trate como rejeito.
-    preparation: Remova tampa, selo metalico e fundo plastico quando possivel e descarte cada material no fluxo correspondente.
+    recommendation: Embalagens com partes de papel, plástico e metal exigem separação para aumentar a chance de reciclagem.
+    dropoff: Coleta seletiva ou ecoponto apenas se as partes recicláveis puderem ser separadas; do contrário, trate como rejeito.
+    preparation: Remova tampa, selo metálico e fundo plástico, quando possível, e descarte cada material no fluxo correspondente.
   small_paper_fragments:
-    recommendation: Papel picado costuma escapar da triagem mecanica; prefira acondicionar bem ou usar em compostagem seca.
-    dropoff: Coleta seletiva somente se estiver ensacado em saco de papel ou caixa; compostagem seca quando a pratica local permitir.
-    preparation: Mantenha seco e separado de papeis engordurados.
+    recommendation: Papel picado costuma escapar da triagem mecânica; prefira acondicionar bem ou usar em compostagem seca.
+    dropoff: Coleta seletiva somente se estiver ensacado em saco de papel ou caixa; compostagem seca, quando a prática local permitir.
+    preparation: Mantenha seco e separado de papéis engordurados.
   hazardous_battery:
     recommendation: Nunca descarte pilhas e baterias no lixo comum.
-    dropoff: Pontos de coleta de pilhas, lojas parceiras, ecopontos ou campanhas de logistica reversa.
-    preparation: Isole os polos com fita quando possivel e mantenha longe de calor.
+    dropoff: Pontos de coleta de pilhas, lojas parceiras, ecopontos ou campanhas de logística reversa.
+    preparation: Isole os polos com fita, quando possível, e mantenha longe do calor.
   e_waste:
-    recommendation: Eletroeletronicos devem seguir logistica reversa ou recicladores autorizados.
-    dropoff: Ecopontos, PEVs de eletroeletronicos, assistencias tecnicas parceiras ou fabricantes.
-    preparation: Apague dados pessoais quando aplicavel e remova acessorios soltos.
+    recommendation: Eletroeletrônicos devem seguir logística reversa ou recicladores autorizados.
+    dropoff: Ecopontos, PEVs de eletroeletrônicos, assistências técnicas parceiras ou fabricantes.
+    preparation: Apague dados pessoais, quando aplicável, e remova acessórios soltos.
   bulky_e_waste:
-    recommendation: Eletrodomesticos e eletronicos de maior porte devem priorizar reuso, conserto ou doacao; quando sem uso, encaminhe para logistica reversa ou coleta especializada.
-    dropoff: Ecopontos, coleta municipal de volumosos com eletroeletronicos, assistencias tecnicas, varejistas ou fabricantes.
-    preparation: Desligue o equipamento, retire cabos e acessorios soltos e, em aparelhos inteligentes, apague dados pessoais quando aplicavel.
+    recommendation: Eletrodomésticos e eletrônicos de maior porte devem priorizar reuso, conserto ou doação; quando sem uso, encaminhe para logística reversa ou coleta especializada.
+    dropoff: Ecopontos, coleta municipal de volumosos com eletroeletrônicos, assistências técnicas, varejistas ou fabricantes.
+    preparation: Desligue o equipamento, retire cabos e acessórios soltos e, em aparelhos inteligentes, apague dados pessoais, quando aplicável.
   hazardous_lamp:
-    recommendation: Lampadas exigem descarte especial e nao devem ir para lixo comum.
-    dropoff: Pontos de coleta de lampadas, home centers ou ecopontos que aceitem residuo especial.
-    preparation: Guarde a lampada inteira em embalagem segura para evitar quebra.
+    recommendation: Lâmpadas exigem descarte especial e não devem ir para o lixo comum.
+    dropoff: Pontos de coleta de lâmpadas, home centers ou ecopontos que aceitem resíduo especial.
+    preparation: Guarde a lâmpada inteira em embalagem segura para evitar quebra.
   automotive_waste:
-    recommendation: Pecas automotivas, sucata e componentes de veiculos devem seguir para desmanche credenciado, ferro-velho regularizado ou ponto especializado; itens com oleo, graxa ou outros fluidos exigem manejo especial.
+    recommendation: Peças automotivas, sucata e componentes de veículos devem seguir para desmanche credenciado, ferro-velho regularizado ou ponto especializado; itens com óleo, graxa ou outros fluidos exigem manejo especial.
     dropoff: Desmanche licenciado, ferro-velho regularizado, oficina parceira ou ecoponto que aceite sucata automotiva.
-    preparation: Se a peca estiver contaminada com fluidos, mantenha em recipiente ou embalagem segura e evite lavar ou desmontar sem suporte tecnico.
+    preparation: Se a peça estiver contaminada com fluidos, mantenha em recipiente ou embalagem segura e evite lavar ou desmontar sem suporte técnico.
   hazardous_medicine:
-    recommendation: Embalagens de medicamento e sobras farmaceuticas devem seguir descarte controlado.
+    recommendation: Embalagens de medicamento e sobras farmacêuticas devem seguir descarte controlado.
     dropoff: Drogarias, UBSs ou campanhas municipais de coleta de medicamentos.
-    preparation: Nao misture com reciclaveis comuns.
+    preparation: Não misture com recicláveis comuns.
   hazardous_paint:
     recommendation: Restos de tinta, solventes e embalagens contaminadas exigem descarte especial.
-    dropoff: Ecopontos ou programas municipais para residuos quimicos.
+    dropoff: Ecopontos ou programas municipais para resíduos químicos.
     preparation: Mantenha o recipiente fechado e evite vazamento.
   rubble_ceramic:
-    recommendation: Ceramica e porcelana normalmente nao entram na reciclagem convencional.
+    recommendation: Cerâmica e porcelana normalmente não entram na reciclagem convencional.
     dropoff: Ponto para entulho leve, ecoponto ou rejeito comum conforme regra municipal.
     preparation: Embale partes cortantes para evitar acidentes.
   bulky_reuse:
-    recommendation: Itens volumosos em bom estado devem priorizar reuso, doacao ou coleta agendada.
-    dropoff: Doacao, retirada solidaria, ecoponto ou coleta municipal de volumosos.
-    preparation: Se estiver usavel, prefira doar antes do descarte.
+    recommendation: Itens volumosos em bom estado devem priorizar reuso, doação ou coleta agendada.
+    dropoff: Doação, retirada solidária, ecoponto ou coleta municipal de volumosos.
+    preparation: Se estiver usável, prefira doar antes do descarte.
   bulky_wood:
     recommendation: Madeira limpa pode seguir para reuso, marcenaria social ou ecoponto.
-    dropoff: Ecoponto de volumosos, cacamba regulamentada ou reaproveitamento local.
-    preparation: Separe ferragens e evite descarte irregular em vias publicas.
+    dropoff: Ecoponto de volumosos, caçamba regulamentada ou reaproveitamento local.
+    preparation: Separe ferragens e evite descarte irregular em vias públicas.
   donation_textile:
-    recommendation: Pecas em bom estado devem ser priorizadas para doacao ou reuso.
-    dropoff: Instituicoes beneficentes, pontos de doacao ou recicladores texteis.
+    recommendation: Peças em bom estado devem ser priorizadas para doação ou reuso.
+    dropoff: Instituições beneficentes, pontos de doação ou recicladores têxteis.
     preparation: Entregue limpo e seco.
   donation_footwear:
-    recommendation: Calcados ainda utilizaveis devem seguir preferencialmente para doacao.
-    dropoff: Pontos de doacao, bazares sociais ou recicladores especializados.
-    preparation: Forme pares e entregue limpo quando possivel.
+    recommendation: Calçados ainda utilizáveis devem seguir preferencialmente para doação.
+    dropoff: Pontos de doação, bazares sociais ou recicladores especializados.
+    preparation: Forme pares e entregue limpo, quando possível.
   organic_compost:
-    recommendation: Residuos organicos vegetais podem seguir para compostagem domiciliar ou comunitaria.
-    dropoff: Composteira, coleta de organicos ou area de compostagem quando disponivel.
-    preparation: Mantenha separado dos reciclaveis secos.
+    recommendation: Resíduos orgânicos vegetais podem seguir para compostagem domiciliar ou comunitária.
+    dropoff: Composteira, coleta de orgânicos ou área de compostagem, quando disponível.
+    preparation: Mantenha separado dos recicláveis secos.
   organic_common:
-    recommendation: Restos de comida e alimentos estragados devem ir para organicos; algumas cidades aceitam para compostagem.
-    dropoff: Coleta de organicos, composteira apropriada ou lixo comum quando nao houver coleta separada.
+    recommendation: Restos de comida e alimentos estragados devem ir para orgânicos; algumas cidades os aceitam para compostagem.
+    dropoff: Coleta de orgânicos, composteira apropriada ou lixo comum, quando não houver coleta separada.
     preparation: Armazene em recipiente fechado para evitar odores e vetores.
 
 regions:
   BR:
     region_name: Brasil
     notes:
-      - Regras de coleta seletiva variam por municipio e por bairro.
-      - Para confirmacao final, valide o calendario da prefeitura ou da concessionaria local.
+      - As regras de coleta seletiva variam por município e por bairro.
+      - Para confirmação final, valide o calendário da prefeitura ou da concessionária local.
     overrides:
       plastic_film:
-        dropoff: Supermercados participantes, PEVs ou ecopontos que aceitem plastico flexivel.
+        dropoff: Supermercados participantes, PEVs ou ecopontos que aceitem plástico flexível.
       e_waste:
-        dropoff: Ecopontos municipais, logistica reversa de fabricantes ou pontos de coleta de eletronicos.
+        dropoff: Ecopontos municipais, logística reversa de fabricantes ou pontos de coleta de eletrônicos.
       organic_common:
-        dropoff: Coleta de organicos quando disponivel; na ausencia dela, siga a coleta domiciliar comum.
+        dropoff: Coleta de orgânicos, quando disponível; na ausência dela, siga a coleta domiciliar comum.
   BR-SP:
-    region_name: Sao Paulo
+    region_name: São Paulo
     notes:
-      - Muitos municipios paulistas trabalham com ecopontos e coleta seletiva por calendario.
-      - Isopor e plastico flexivel costumam exigir ponto especifico em vez da coleta porta a porta.
+      - Muitos municípios paulistas trabalham com ecopontos e coleta seletiva por calendário.
+      - Isopor e plástico flexível costumam exigir ponto específico, em vez da coleta porta a porta.
   BR-RJ:
     region_name: Rio de Janeiro
     notes:
-      - Confirme se o bairro possui coleta seletiva regular ou pontos de entrega voluntaria.
+      - Confirme se o bairro possui coleta seletiva regular ou pontos de entrega voluntária.
   BR-MG:
     region_name: Minas Gerais
     notes:
-      - Cooperativas locais podem complementar a coleta oficial em varias cidades.
+      - Cooperativas locais podem complementar a coleta oficial em várias cidades.
   BR-PR:
-    region_name: Parana
+    region_name: Paraná
     notes:
-      - Verifique programas municipais de coleta seletiva e ecopontos para volumosos e eletronicos.
+      - Verifique programas municipais de coleta seletiva e ecopontos para volumosos e eletrônicos.

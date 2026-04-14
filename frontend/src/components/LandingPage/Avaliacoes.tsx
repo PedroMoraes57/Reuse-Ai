@@ -82,7 +82,11 @@ function Avaliacoes() {
   function handleTouchEnd(e: React.TouchEvent) {
     const diff = touchStartX.current - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) {
-      diff > 0 ? next() : prev();
+      if (diff > 0) {
+        next();
+      } else {
+        prev();
+      }
     }
   }
 

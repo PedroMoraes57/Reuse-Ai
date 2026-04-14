@@ -6,8 +6,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import torch
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, WeightedRandomSampler
 from torchvision import datasets, transforms
+from torchvision.transforms import InterpolationMode
 
 from reuse_ai.catalog import list_class_ids
 
@@ -18,6 +19,7 @@ IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 @dataclass
 class DatasetBundle:
     train_loader: DataLoader
+    train_eval_loader: DataLoader
     val_loader: DataLoader
     test_loader: DataLoader | None
     class_names: list[str]
@@ -27,24 +29,94 @@ class DatasetBundle:
     test_size: int
 
 
-def build_transforms(image_size: int) -> tuple[transforms.Compose, transforms.Compose]:
+def build_transforms(
+    image_size: int,
+    training_config: dict | None = None,
+) -> tuple[transforms.Compose, transforms.Compose]:
+    training_config = training_config or {}
     normalize = transforms.Normalize(
         mean=(0.485, 0.456, 0.406),
         std=(0.229, 0.224, 0.225),
     )
+    grayscale_prob = float(training_config.get("grayscale_prob", 0.08))
+    perspective_prob = float(training_config.get("perspective_prob", 0.2))
+    affine_prob = float(training_config.get("affine_prob", 0.35))
+    blur_prob = float(training_config.get("blur_prob", 0.12))
+    autocontrast_prob = float(training_config.get("autocontrast_prob", 0.1))
+    random_erasing_prob = float(training_config.get("random_erasing_prob", 0.18))
+    randaugment_layers = int(training_config.get("randaugment_layers", 0))
+    randaugment_magnitude = int(training_config.get("randaugment_magnitude", 7))
+    random_augmentations: list[transforms.Transform] = []
+    if randaugment_layers > 0:
+        random_augmentations.append(
+            transforms.RandAugment(
+                num_ops=randaugment_layers,
+                magnitude=randaugment_magnitude,
+                interpolation=InterpolationMode.BILINEAR,
+            )
+        )
     train_transform = transforms.Compose(
         [
-            transforms.RandomResizedCrop(image_size, scale=(0.75, 1.0)),
+            transforms.RandomResizedCrop(
+                image_size,
+                scale=(0.5, 1.0),
+                ratio=(0.65, 1.5),
+                interpolation=InterpolationMode.BILINEAR,
+                antialias=True,
+            ),
             transforms.RandomHorizontalFlip(),
-            transforms.RandomRotation(degrees=15),
-            transforms.ColorJitter(brightness=0.15, contrast=0.15, saturation=0.12, hue=0.03),
+            *random_augmentations,
+            transforms.RandomApply(
+                [
+                    transforms.RandomAffine(
+                        degrees=18,
+                        translate=(0.08, 0.08),
+                        scale=(0.9, 1.1),
+                        shear=(-8, 8),
+                        interpolation=InterpolationMode.BILINEAR,
+                    )
+                ],
+                p=affine_prob,
+            ),
+            transforms.RandomApply(
+                [
+                    transforms.RandomPerspective(
+                        distortion_scale=0.18,
+                        p=1.0,
+                        interpolation=InterpolationMode.BILINEAR,
+                    )
+                ],
+                p=perspective_prob,
+            ),
+            transforms.RandomApply(
+                [
+                    transforms.GaussianBlur(
+                        kernel_size=3,
+                        sigma=(0.1, 2.0),
+                    )
+                ],
+                p=blur_prob,
+            ),
+            transforms.RandomApply([transforms.RandomAutocontrast()], p=autocontrast_prob),
+            transforms.ColorJitter(brightness=0.35, contrast=0.35, saturation=0.3, hue=0.08),
+            transforms.RandomGrayscale(p=grayscale_prob),
             transforms.ToTensor(),
             normalize,
+            transforms.RandomErasing(
+                p=random_erasing_prob,
+                scale=(0.02, 0.12),
+                ratio=(0.3, 3.3),
+                value="random",
+            ),
         ]
     )
     eval_transform = transforms.Compose(
         [
-            transforms.Resize(int(image_size * 1.15)),
+            transforms.Resize(
+                int(image_size * 1.15),
+                interpolation=InterpolationMode.BILINEAR,
+                antialias=True,
+            ),
             transforms.CenterCrop(image_size),
             transforms.ToTensor(),
             normalize,
@@ -83,6 +155,22 @@ def _num_workers(requested_workers: int) -> int:
     return max(1, min(requested_workers, cpu_count))
 
 
+def _build_balanced_sampler(targets: list[int]) -> WeightedRandomSampler:
+    counts = Counter(targets)
+    sample_weights = [1.0 / counts[target] for target in targets]
+    return WeightedRandomSampler(
+        weights=torch.tensor(sample_weights, dtype=torch.double),
+        num_samples=len(targets),
+        replacement=True,
+    )
+
+
+def _should_drop_last_train_batch(training_config: dict) -> bool:
+    mixup_alpha = float(training_config.get("mixup_alpha", 0.0))
+    cutmix_alpha = float(training_config.get("cutmix_alpha", 0.0))
+    return bool(training_config.get("drop_last_train_batch", mixup_alpha > 0 or cutmix_alpha > 0))
+
+
 def _validate_split_classes(split_name: str, actual_classes: list[str], expected_classes: list[str]) -> None:
     actual_set = set(actual_classes)
     expected_set = set(expected_classes)
@@ -106,9 +194,10 @@ def build_dataloaders(config: dict) -> DatasetBundle:
     batch_size = int(config["training"]["batch_size"])
     num_workers = _num_workers(int(config["training"]["num_workers"]))
     image_size = int(config["model"]["image_size"])
-    train_transform, eval_transform = build_transforms(image_size)
+    train_transform, eval_transform = build_transforms(image_size, config.get("training"))
 
     train_dataset = _build_image_folder(dataset_root / "train", train_transform)
+    train_eval_dataset = _build_image_folder(dataset_root / "train", eval_transform)
     val_dataset = _build_image_folder(dataset_root / "val", eval_transform)
 
     test_root = dataset_root / "test"
@@ -117,22 +206,38 @@ def build_dataloaders(config: dict) -> DatasetBundle:
         test_dataset = _build_image_folder(test_root, eval_transform)
 
     _validate_split_classes("train", train_dataset.classes, expected_class_ids)
+    _validate_split_classes("train_eval", train_eval_dataset.classes, expected_class_ids)
     _validate_split_classes("val", val_dataset.classes, expected_class_ids)
     if test_dataset is not None:
         _validate_split_classes("test", test_dataset.classes, expected_class_ids)
 
     class_names = train_dataset.classes
+    if train_eval_dataset.classes != class_names:
+        raise RuntimeError("As classes de treino e train_eval nao coincidem.")
     if val_dataset.classes != class_names:
         raise RuntimeError("As classes de treino e validacao nao coincidem.")
     if test_dataset is not None and test_dataset.classes != class_names:
         raise RuntimeError("As classes de treino e teste nao coincidem.")
 
     class_weights = _compute_class_weights(train_dataset.targets, len(class_names))
+    balanced_sampling = bool(config["training"].get("balanced_sampling", False))
+    sampler = _build_balanced_sampler(train_dataset.targets) if balanced_sampling else None
+    drop_last_train_batch = _should_drop_last_train_batch(config["training"])
 
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,
-        shuffle=True,
+        shuffle=sampler is None,
+        sampler=sampler,
+        drop_last=drop_last_train_batch,
+        num_workers=num_workers,
+        pin_memory=True,
+        persistent_workers=num_workers > 0,
+    )
+    train_eval_loader = DataLoader(
+        train_eval_dataset,
+        batch_size=batch_size,
+        shuffle=False,
         num_workers=num_workers,
         pin_memory=True,
         persistent_workers=num_workers > 0,
@@ -158,6 +263,7 @@ def build_dataloaders(config: dict) -> DatasetBundle:
 
     return DatasetBundle(
         train_loader=train_loader,
+        train_eval_loader=train_eval_loader,
         val_loader=val_loader,
         test_loader=test_loader,
         class_names=class_names,

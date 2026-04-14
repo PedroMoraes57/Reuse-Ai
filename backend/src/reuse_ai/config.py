@@ -30,6 +30,7 @@ def load_project_config(config_path: str | Path = DEFAULT_CONFIG_PATH) -> dict[s
         "raw_dataset_root",
         "checkpoint_dir",
         "checkpoint_path",
+        "report_dir",
         "class_catalog",
         "disposal_rules",
     ):
@@ -44,7 +45,9 @@ def ensure_runtime_dirs(config: dict[str, Any]) -> None:
     if "raw_dataset_root" in paths:
         Path(paths["raw_dataset_root"]).mkdir(parents=True, exist_ok=True)
     Path(paths["checkpoint_dir"]).mkdir(parents=True, exist_ok=True)
+    if "report_dir" in paths:
+        Path(paths["report_dir"]).mkdir(parents=True, exist_ok=True)
     checkpoint_parent = Path(paths["checkpoint_path"]).parent
     checkpoint_parent.mkdir(parents=True, exist_ok=True)
     (ROOT_DIR / "artifacts" / "captures").mkdir(parents=True, exist_ok=True)
-    (ROOT_DIR / "artifacts  " / "logs").mkdir(parents=True, exist_ok=True)
+    (ROOT_DIR / "artifacts" / "logs").mkdir(parents=True, exist_ok=True)

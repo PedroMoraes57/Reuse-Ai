@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBottleWater,
   faNewspaper,
-  faGear,
   faWineBottle,
   faLeaf,
   faWhiskeyGlass,
@@ -222,7 +221,11 @@ function MobileCarrossel() {
   function handleTouchEnd(e: React.TouchEvent) {
     const diff = touchStartX.current - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) {
-      diff > 0 ? next() : prev();
+      if (diff > 0) {
+        next();
+      } else {
+        prev();
+      }
     }
   }
 

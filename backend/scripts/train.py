@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import sys
+import traceback
 
 from _bootstrap import ensure_backend_src_on_path
 
@@ -16,4 +17,5 @@ if __name__ == "__main__":
         print(json.dumps(summary, indent=2, ensure_ascii=False))
     except Exception as error:
         print(f"Erro ao treinar: {error}", file=sys.stderr)
+        traceback.print_exc()
         raise SystemExit(1) from error

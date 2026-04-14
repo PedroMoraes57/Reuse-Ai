@@ -71,7 +71,7 @@ function Footer() {
       {/* Bottom */}
       <div className={styles.bottom}>
         <p className={styles.copyright}>
-          © 2025 Reuse.AI — Todos os direitos reservados.
+          © 2026 Reuse.AI — Todos os direitos reservados.
         </p>
         <p className={styles.feito}>
           Feito com{' '}
