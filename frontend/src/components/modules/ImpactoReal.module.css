@@ -6,6 +6,10 @@
   margin-top: 17vh;
 }
 
+:global([data-theme='dark']) .section {
+  background-color: #111111;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -61,6 +65,11 @@
   z-index: 1;
   transition: transform 0.3s ease;
   min-height: 320px;
+}
+
+:global([data-theme='dark']) .card {
+  background-color: #0f1f0f;
+  border: 1px solid #22c55e48;
 }
 
 .card:hover {

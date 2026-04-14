@@ -26,7 +26,7 @@ export default function HeroSection() {
           <div className='mt-8 flex flex-col sm:flex-row gap-4'>
             <a
               href='/classificar'
-              className='bg-reuseai-azul hover:bg-reuseai-azulClaro text-reuseai-branco font-semibold px-5 py-3.5 rounded-md transition-colors'
+              className='bg-reuseai-azul hover:bg-reuseai-azulClaro dark:bg-[#1a3a5f] dark:hover:bg-[#0c2e42] dark:border dark:border-reuseai-azul/60 text-reuseai-branco font-semibold px-5 py-3.5 rounded-md transition-colors'
             >
               Descarte Certo
             </a>
@@ -39,7 +39,7 @@ export default function HeroSection() {
       </section>
 
       {/* FAIXA ESCURA */}
-      <div className='bg-reuseai-cinza py-12 px-6 text-center'>
+      <div className='bg-reuseai-cinza dark:bg-[#0a0a0a] py-12 px-6 text-center'>
         <h2 className='text-reuseai-branco text-2xl md:text-3xl font-bold'>
           Já parou para pensar se está descartando{' '}
           <span className='text-reuseai-azulClaro'>corretamente?</span>

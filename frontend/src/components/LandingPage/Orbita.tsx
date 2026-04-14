@@ -17,7 +17,10 @@ export default function Orbita() {
 
       {/* Globo central — só o ícone sem fundo */}
       <div className={styles.globo}>
-        <FontAwesomeIcon icon={faEarth} className=' text-reuseai-verde' />
+        <FontAwesomeIcon
+          icon={faEarth}
+          className=' text-reuseai-verde dark:text-reuseai-verdeNeon'
+        />
       </div>
 
       {/* Ícone 1 — Papel */}

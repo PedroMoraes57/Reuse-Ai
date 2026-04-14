@@ -15,6 +15,11 @@
   opacity: 0.5;
 }
 
+:global([data-theme='dark']) .orbit1,
+:global([data-theme='dark']) .orbit2 {
+  border-color: var(--color-neon-green);
+}
+
 .orbit1 {
   width: 200px;
   height: 200px;
@@ -58,7 +63,12 @@
 .iconWrapper4 {
   animation-delay: -10.5s;
 }
-
+:global([data-theme='dark']) .iconWrapper1 .icon,
+:global([data-theme='dark']) .iconWrapper2 .icon,
+:global([data-theme='dark']) .iconWrapper3 .icon,
+:global([data-theme='dark']) .iconWrapper4 .icon {
+  color: var(--color-neon-green);
+}
 /* Ícones — sem fundo escuro, só o ícone verde */
 .iconWrapper1 .icon,
 .iconWrapper2 .icon,

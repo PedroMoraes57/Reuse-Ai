@@ -10,6 +10,19 @@
   justify-content: center;
 }
 
+:global([data-theme='dark']) .section {
+  background-color: #0a0a0a;
+}
+
+:global([data-theme='dark']) .blur {
+  background: radial-gradient(
+    ellipse,
+    rgba(119, 255, 20, 0.5) 0%,
+    rgba(119, 255, 20, 0.247) 10%,
+    transparent 70%
+  );
+}
+
 /* Blur verde bem maior e centralizado */
 .blur {
   position: absolute;
@@ -34,6 +47,11 @@
   position: relative;
   z-index: 1;
   width: 100%;
+}
+
+:global([data-theme='dark']) .input {
+  background-color: #0a0a0a;
+  border: 1px solid #fbfbfb36;
 }
 
 .input {
@@ -70,6 +88,15 @@
   transition:
     background-color 0.2s ease,
     transform 0.2s ease;
+}
+
+:global([data-theme='dark']) .botao {
+  background-color: #0f1f0f;
+  border: 1px solid #22c55e48;
+}
+
+:global([data-theme='dark']) .botao:hover {
+  background-color: #102e10;
 }
 
 .botao:hover {

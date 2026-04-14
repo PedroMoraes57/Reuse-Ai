@@ -17,14 +17,14 @@ function CTA() {
 
       <div className={styles.content}>
         {/* Título */}
-        <h2 className='text-5xl md:text-7xl font-black text-reuseai-cinza leading-tight'>
+        <h2 className='text-5xl md:text-7xl font-black text-reuseai-cinza dark:text-reuseai-branco leading-tight'>
           Faça parte da{' '}
-          <span className='block text-reuseai-verde'>revolução do</span>
-          <span className='block text-reuseai-verde'>descarte</span>
+          <span className='block text-reuseai-verde dark:text-reuseai-verdeNeon'>revolução do</span>
+          <span className='block text-reuseai-verde dark:text-reuseai-verdeNeon'>descarte</span>
         </h2>
 
         {/* Subtítulo */}
-        <p className='text-reuseai-cinza mt-6 text-base max-w-lg mx-auto leading-relaxed'>
+        <p className='text-reuseai-cinza dark:text-[#a0a0a0] mt-6 text-base max-w-lg mx-auto leading-relaxed'>
           Receba novidades, acesso antecipado e dicas de sustentabilidade
           diretamente no seu e-mail.
         </p>

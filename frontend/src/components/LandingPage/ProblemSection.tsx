@@ -24,20 +24,25 @@ export default function ProblemSection() {
   ];
 
   return (
-    <section className='bg-reuseai-branco py-20 px-6' id='o-problema'>
+    <section
+      className='bg-reuseai-branco dark:bg-[#111111] py-20 px-6'
+      id='o-problema'
+    >
       <div className='max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16'>
         {/* LADO ESQUERDO — Texto + Stats */}
         <div className='flex-1'>
-          <span className='text-reuseai-verde font-semibold text-sm uppercase tracking-widest'>
+          <span className='text-reuseai-verde dark:text-reuseai-verdeNeon font-semibold text-sm uppercase tracking-widest'>
             O Problema
           </span>
 
-          <h2 className='text-4xl md:text-5xl font-black text-reuseai-cinza mt-2 leading-tight'>
+          <h2 className='text-4xl md:text-5xl font-black text-reuseai-cinza dark:text-reuseai-branco mt-2 leading-tight'>
             Descarte errado custa{' '}
-            <span className='text-reuseai-verde'>mais do que você pensa.</span>
+            <span className='text-reuseai-verde dark:text-reuseai-verdeNeon'>
+              mais do que você pensa.
+            </span>
           </h2>
 
-          <p className='text-reuseai-cinza mt-4 leading-relaxed text-md max-w-md'>
+          <p className='text-reuseai-cinza dark:text-[#a0a0a0] mt-4 leading-relaxed text-md max-w-md'>
             A maioria das pessoas não para para pensar no custo real do descarte
             incorreto. Um único item no lugar errado pode contaminar toneladas
             de resíduos.
@@ -46,7 +51,10 @@ export default function ProblemSection() {
           {/* GRID DE STATS */}
           <div className='mt-8 grid grid-cols-2 gap-4'>
             {stats.map((stat, index) => (
-              <div key={index} className='bg-reuseai-verde p-5 rounded-xl'>
+              <div
+                key={index}
+                className='bg-reuseai-verde dark:bg-[#0f2d0f] dark:border dark:border-reuseai-verdeNeon/30 p-5 rounded-xl'
+              >
                 <p className='text-reuseai-branco text-3xl font-black'>
                   {stat.valor}
                 </p>

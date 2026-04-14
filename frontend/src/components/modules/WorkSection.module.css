@@ -3,6 +3,10 @@
   padding: 80px 24px;
 }
 
+:global([data-theme='dark']) .section {
+  background-color: #111111;
+}
+
 .wrapper {
   max-width: 1180px; /* aumentei */
   margin: 0 auto;
@@ -14,6 +18,10 @@
   border-radius: 10px;
   padding: 48px 64px;
   padding-right: 600px; /* aumentei para empurrar mais a imagem */
+}
+
+:global([data-theme='dark']) .container {
+  background-color: #0a0a0a;
 }
 
 .check {

@@ -3,6 +3,10 @@
   padding: 80px 24px;
 }
 
+:global([data-theme='dark']) .section {
+  background-color: #0a0a0a;
+}
+
 .cardsWrapper {
   position: relative;
   display: grid;
@@ -34,6 +38,11 @@
   position: relative;
   z-index: 1;
   transition: transform 0.3s ease;
+}
+
+:global([data-theme='dark']) .card {
+  background-color: #0f1f0f;
+  border: 1px solid #22c55e33;
 }
 
 .card:hover {

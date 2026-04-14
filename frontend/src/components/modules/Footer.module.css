@@ -3,6 +3,10 @@
   padding: 60px 24px 32px;
 }
 
+:global([data-theme='dark']) .footer {
+  background-color: #111111;
+}
+
 .grid {
   max-width: 1170px;
   margin: 0 auto;

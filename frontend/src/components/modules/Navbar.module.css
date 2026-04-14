@@ -34,6 +34,10 @@
   backdrop-filter: blur(10px);
 }
 
+:global([data-theme='dark']) .navScrolled {
+  background-color: #0a0a0a;
+}
+
 .menuMobile {
   max-height: 0;
   overflow: hidden;
@@ -42,4 +46,34 @@
 
 .menuMobileAberto {
   max-height: 400px;
+}
+
+/* === Ícone sol/lua animado === */
+.themeIconWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.themeIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  transition:
+    opacity 0.35s ease,
+    transform 0.4s ease;
+}
+
+.iconActive {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  transform-origin: center center;
+}
+
+.iconInactive {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+  transform-origin: center center;
+  pointer-events: none;
 }

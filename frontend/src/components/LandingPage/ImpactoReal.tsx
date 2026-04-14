@@ -54,14 +54,14 @@ function ImpactoReal() {
       <div className='max-w-6xl mx-auto'>
         {/* Cabeçalho */}
         <div className='text-center mb-16'>
-          <span className='text-reuseai-verde font-semibold text-sm uppercase tracking-widest'>
+          <span className='text-reuseai-verde dark:text-reuseai-verdeNeon font-semibold text-sm uppercase tracking-widest'>
             Impacto Real
           </span>
-          <h2 className='text-4xl md:text-5xl font-black text-reuseai-preto mt-2 leading-tight'>
+          <h2 className='text-4xl md:text-5xl font-black text-reuseai-preto dark:text-reuseai-branco mt-2 leading-tight'>
             Tecnologia com{' '}
-            <span className='text-reuseai-verde'>propósito ambiental</span>
+            <span className='text-reuseai-verde dark:text-reuseai-verdeNeon'>propósito ambiental</span>
           </h2>
-          <p className='text-reuseai-cinza mt-4 max-w-lg mx-auto text-sm'>
+          <p className='text-reuseai-cinza dark:text-[#a0a0a0] mt-4 max-w-lg mx-auto text-sm'>
             Cada funcionalidade foi pensada para gerar impacto real no meio
             ambiente e transformar pequenas ações do dia a dia em mudanças
             concretas para o planeta.

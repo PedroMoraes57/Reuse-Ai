@@ -3,6 +3,10 @@
   padding: 80px 24px 0;
 }
 
+:global([data-theme='dark']) .section {
+  background-color: #111111;
+}
+
 .header {
   text-align: center;
   margin-bottom: 48px;
@@ -17,11 +21,19 @@
   margin-bottom: 8px;
 }
 
+:global([data-theme='dark']) .sectionLabel {
+  color: #22c55e;
+}
+
 .sectionTitle {
   font-size: clamp(28px, 4vw, 48px);
   font-weight: 900;
   color: var(--color-raisin);
   line-height: 1.1;
+}
+
+:global([data-theme='dark']) .sectionTitle {
+  color: #fbfbfb;
 }
 
 .sectionTitle span {
@@ -38,13 +50,19 @@
   line-height: 1.6;
 }
 
-/* Stage — fundo cinza claro */
+:global([data-theme='dark']) .sectionSubtitle {
+  color: #a0a0a0;
+}
+
+/* Stage — grid com 1fr para escalar corretamente em qualquer zoom */
 .stage {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: clamp(16px, 4vw, 56px);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: start;
+  gap: clamp(8px, 2vw, 40px);
   padding: 48px 40px 0;
+  max-width: 1200px;
+  margin: 0 auto;
   position: relative;
   z-index: 0;
   overflow: visible;
@@ -56,14 +74,14 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  width: clamp(140px, 17vw, 220px);
+  width: 100%;
   overflow: visible;
 }
 
-/* Wrapper da imagem — altura fixa para não pular */
+/* Wrapper da imagem — aspect-ratio mantém proporções em qualquer zoom */
 .imgWrapper {
   width: 100%;
-  height: clamp(200px, 24vw, 320px);
+  aspect-ratio: 2 / 3;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -192,19 +210,6 @@
 }
 
 @media (max-width: 768px) {
-  .stage {
-    gap: 10px;
-    padding: 32px 16px 0;
-  }
-
-  .binCard {
-    width: clamp(56px, 16vw, 90px);
-  }
-
-  .imgWrapper {
-    height: clamp(80px, 18vw, 120px);
-  }
-
   .barPanelOpen {
     max-height: 160px;
   }
@@ -231,6 +236,13 @@
     border-radius: 20px;
     gap: 24px;
     user-select: none;
+  }
+
+  :global([data-theme='dark']) .mobileCarrossel {
+    background-color: #0a0a0a;
+  }
+  :global([data-theme='dark']) .swipeHint {
+    color: #fbfbfb;
   }
 
   /* Badge com nome e cor da lixeira */

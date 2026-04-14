@@ -14,6 +14,10 @@
   /* Usa o dark green da paleta como base do overlay */
 }
 
+:global([data-theme='dark']) .overlay {
+  background: rgba(0, 0, 0, 0.85);
+}
+
 .content {
   position: relative;
   z-index: 1;

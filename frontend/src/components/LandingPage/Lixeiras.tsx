@@ -251,7 +251,7 @@ function MobileCarrossel() {
 
       {/* Setas + dots */}
       <div className='flex items-center gap-6'>
-        <button onClick={prev} className='text-reuseai-cinza text-lg p-2'>
+        <button onClick={prev} className='text-reuseai-cinza dark:text-[#a0a0a0] text-lg p-2'>
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
 
@@ -267,7 +267,7 @@ function MobileCarrossel() {
           ))}
         </div>
 
-        <button onClick={next} className='text-reuseai-cinza text-lg p-2'>
+        <button onClick={next} className='text-reuseai-cinza dark:text-[#a0a0a0] text-lg p-2'>
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
       </div>
