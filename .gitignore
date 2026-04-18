@@ -71,6 +71,7 @@ pnpm-debug.log*
 .vscode/*
 !.vscode/extensions.json
 .idea/
+.claude/
 *.sublime-workspace
 *.sublime-project
 *.code-workspace

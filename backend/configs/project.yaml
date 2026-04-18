@@ -10,6 +10,7 @@ paths:
   report_dir: artifacts/reports
   class_catalog: configs/class_catalog.yaml
   disposal_rules: configs/disposal_rules.yaml
+  disposal_points_catalog: configs/disposal_points_catalog.yaml
 
 dataset:
   split:
@@ -58,7 +59,8 @@ training:
 
 inference:
   top_k: 3
-  confidence_threshold: 0.6
+  confidence_threshold: 0.7
+  max_confidence_threshold: 0.7
   margin_threshold: 0.18
   entropy_threshold: 0.55
   min_consensus: 0.6
@@ -87,3 +89,14 @@ inference:
 location:
   geocoder_user_agent: reuse-ai-backend
   geocoder_timeout_seconds: 5
+
+disposal_points:
+  overpass_url: https://overpass-api.de/api/interpreter
+  overpass_urls:
+    - https://overpass-api.de/api/interpreter
+    - https://lz4.overpass-api.de/api/interpreter
+    - https://overpass.kumi.systems/api/interpreter
+  nominatim_url: https://nominatim.openstreetmap.org/search
+  request_timeout_seconds: 4
+  cache_ttl_seconds: 900
+  max_results: 6

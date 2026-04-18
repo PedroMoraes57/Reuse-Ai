@@ -3,13 +3,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../modules/Navbar.module.css';
 import {
   faGear,
+  faTrophy,
   faUser,
+  faUserGroup,
   faMoon,
   faSun,
   faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../assets/logo.png';
 import { useTheme } from '../../contexts/ThemeContext';
+import { logout, me, type UserInfo } from '../../services/AuthApi';
+import { clearAuthToken, getAuthToken } from '../../services/api';
+import { getUserAvatarUrl, getUserDisplayName } from '../../utils/user';
+import { dispatchUserCleared, subscribeToUserSync } from '../../utils/userSync';
+import NotificationCenter from './NotificationCenter';
 
 interface NavbarProps {
   forceScrolled?: boolean;
@@ -22,45 +29,32 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const [user, setUser] = useState<{ username: string } | null>(null);
-
-  const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
+  const [user, setUser] = useState<UserInfo | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = getAuthToken();
     if (!token) return;
-    fetch(`${API_BASE_URL}/api/me/`, {
-      headers: { Authorization: `Token ${token}` },
-    })
-      .then(res => {
-        if (!res.ok) {
-          localStorage.removeItem('authToken');
-          return null;
-        }
-        return res.json();
-      })
-      .then(data => {
-        if (data && data.username) setUser({ username: data.username });
-      })
-      .catch(() => localStorage.removeItem('authToken'));
+    me()
+      .then(setUser)
+      .catch(() => {
+        clearAuthToken();
+        setUser(null);
+      });
+  }, []);
+
+  useEffect(() => {
+    return subscribeToUserSync(setUser, () => {
+      setUser(null);
+    });
   }, []);
 
   function handleLogout() {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      fetch(`${API_BASE_URL}/api/logout/`, {
-        method: 'POST',
-        headers: { Authorization: `Token ${token}` },
-      }).finally(() => {
-        localStorage.removeItem('authToken');
-        setUser(null);
-        window.location.href = '/';
-      });
-    } else {
-      localStorage.removeItem('authToken');
+    logout().finally(() => {
+      clearAuthToken();
       setUser(null);
+      dispatchUserCleared();
       window.location.href = '/';
-    }
+    });
   }
 
   useEffect(() => {
@@ -103,10 +97,11 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
         {/* LINKS desktop */}
         <ul className='hidden md:flex items-center gap-8'>
           {[
-            { label: 'Como funciona', href: '#como-funciona' },
-            { label: 'Sobre nós', href: '#sobre-nos' },
-            { label: 'Aplicativo', href: '#aplicativo' },
-            { label: 'Contato', href: '#contato' },
+            { label: 'Como funciona', href: '/#como-funciona' },
+            { label: 'Sobre nós', href: '/#sobre-nos' },
+            { label: 'Aplicativo', href: '/classificar' },
+            { label: 'Ranking', href: '/ranking' },
+            { label: 'Amigos', href: '/amigos' },
           ].map(link => (
             <li key={link.href}>
               <a
@@ -121,12 +116,21 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
 
         {/* DIREITA */}
         <div className='hidden md:flex items-center gap-3'>
+          {user && <NotificationCenter />}
+
           {user ? (
             <a
               href='/profile'
-              className={`${styles.navLink} text-reuseai-branco transition-colors text-sm font-medium`}
+              className='group inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/10 px-3 py-2 text-sm font-medium text-reuseai-branco transition-colors hover:bg-white/15'
             >
-              {user.username}
+              <img
+                src={getUserAvatarUrl(user)}
+                alt={getUserDisplayName(user)}
+                className='h-9 w-9 rounded-full border border-white/15 object-cover'
+              />
+              <span className='max-w-[11rem] truncate'>
+                {getUserDisplayName(user)}
+              </span>
             </a>
           ) : (
             <>
@@ -139,7 +143,7 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
 
               <a
                 href='/cadastro'
-                className='bg-reuseai-verde hover:bg-reuseai-azul dark:bg-reuseai-verdeEscuro dark:border dark:border-reuseai-verdeNeon/30 dark:hover:bg-[#0c2e42] dark:hover:border-reuseai-azul/60 text-reuseai-branco text-sm font-semibold px-5 py-2 rounded-full transition-colors'
+                className='bg-reuseai-verde hover:bg-reuseai-azul dark:bg-reuseai-verdeEscuro dark:border dark:border-reuseai-verdeNeon/30 dark:hover:bg-[#0c2e42] dark:hover:border-reuseai-azul/60 text-reuseai-branco text-sm font-semibold px-5 py-2 rounded-full transition-colors whitespace-nowrap'
               >
                 Começar grátis
               </a>
@@ -156,22 +160,13 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
             </button>
 
             {configAberto && (
-              <div className='absolute right-0 mt-2 w-52 bg-reuseai-branco dark:bg-[#111111] rounded-xl shadow-lg border border-gray-200 dark:border-[#333] overflow-hidden'>
+              <div className='absolute left-1/2 top-full z-50 mt-4 w-52 -translate-x-1/2 overflow-hidden rounded-xl border border-gray-200 bg-reuseai-branco shadow-lg dark:border-[#333] dark:bg-[#111111]'>
                 <div className='px-4 py-2 border-b border-gray-100 dark:border-[#222]'>
                   <p className='text-xs text-reuseai-preto dark:text-reuseai-branco font-semibold uppercase tracking-wide'>
                     Configurações
                   </p>
                 </div>
                 <ul className='py-1'>
-                  <li>
-                    <button className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-reuseai-preto dark:text-reuseai-branco hover:bg-gray-100 dark:hover:bg-[#222] transition-colors'>
-                      <FontAwesomeIcon
-                        icon={faUser}
-                        className='text-reuseai-cinza dark:text-[#a0a0a0] w-4'
-                      />
-                      Meu perfil
-                    </button>
-                  </li>
                   <li>
                     <button
                       onClick={toggleTheme}
@@ -190,20 +185,73 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
                       {theme === 'dark' ? 'Tema claro' : 'Tema escuro'}
                     </button>
                   </li>
-                  <li className='border-t border-gray-100 dark:border-[#222] mt-1'>
-                    <button onClick={handleLogout} className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors'>
-                      <FontAwesomeIcon
-                        icon={faRightFromBracket}
-                        className='w-4'
-                      />
-                      Sair
-                    </button>
-                  </li>
+                  {user && (
+                    <li>
+                      <a
+                        href='/ranking'
+                        className='flex w-full items-center gap-3 px-4 py-2.5 text-sm text-reuseai-preto transition-colors hover:bg-gray-100 dark:text-reuseai-branco dark:hover:bg-[#222]'
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrophy}
+                          className='w-4 text-reuseai-cinza dark:text-[#a0a0a0]'
+                        />
+                        Ranking
+                      </a>
+                    </li>
+                  )}
+                  {user && (
+                    <li>
+                      <a
+                        href='/amigos'
+                        className='flex w-full items-center gap-3 px-4 py-2.5 text-sm text-reuseai-preto transition-colors hover:bg-gray-100 dark:text-reuseai-branco dark:hover:bg-[#222]'
+                      >
+                        <FontAwesomeIcon
+                          icon={faUserGroup}
+                          className='w-4 text-reuseai-cinza dark:text-[#a0a0a0]'
+                        />
+                        Amigos
+                      </a>
+                    </li>
+                  )}
+                  {user && (
+                    <li>
+                      <a
+                        href='/profile'
+                        className='flex w-full items-center gap-3 px-4 py-2.5 text-sm text-reuseai-preto transition-colors hover:bg-gray-100 dark:text-reuseai-branco dark:hover:bg-[#222]'
+                      >
+                        <FontAwesomeIcon
+                          icon={faUser}
+                          className='w-4 text-reuseai-cinza dark:text-[#a0a0a0]'
+                        />
+                        Meu perfil
+                      </a>
+                    </li>
+                  )}
+                  {user && (
+                    <li className='mt-1 border-t border-gray-100 dark:border-[#222]'>
+                      <button
+                        onClick={handleLogout}
+                        className='w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors'
+                      >
+                        <FontAwesomeIcon
+                          icon={faRightFromBracket}
+                          className='w-4'
+                        />
+                        Sair
+                      </button>
+                    </li>
+                  )}
                 </ul>
               </div>
             )}
           </div>
         </div>
+
+        {user && (
+          <div className='flex items-center gap-2 md:hidden'>
+            <NotificationCenter />
+          </div>
+        )}
 
         {/* HAMBURGUER mobile — vira X quando aberto */}
         <button
@@ -228,36 +276,47 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
       >
         <div className='py-4 flex flex-col gap-4'>
           <a
-            href='#como-funciona'
+            href='/#como-funciona'
             className='text-reuseai-preto dark:text-reuseai-branco text-sm'
           >
             Como funciona
           </a>
           <a
-            href='#sobre-nos'
+            href='/#sobre-nos'
             className='text-reuseai-preto dark:text-reuseai-branco text-sm'
           >
             Sobre nós
           </a>
           <a
-            href='#aplicativo'
+            href='/classificar'
             className='text-reuseai-preto dark:text-reuseai-branco text-sm'
           >
             Aplicativo
           </a>
           <a
-            href='#contato'
+            href='/ranking'
             className='text-reuseai-preto dark:text-reuseai-branco text-sm'
           >
-            Contato
+            Ranking
+          </a>
+          <a
+            href='/amigos'
+            className='text-reuseai-preto dark:text-reuseai-branco text-sm'
+          >
+            Amigos
           </a>
           <hr className='border-gray-200 dark:border-[#333]' />
           {user ? (
             <a
               href='/profile'
-              className='text-reuseai-preto dark:text-reuseai-branco text-sm font-medium'
+              className='flex items-center gap-3 text-reuseai-preto dark:text-reuseai-branco text-sm font-medium'
             >
-              {user.username}
+              <img
+                src={getUserAvatarUrl(user)}
+                alt={getUserDisplayName(user)}
+                className='h-10 w-10 rounded-full border border-reuseai-verde/15 object-cover'
+              />
+              <span>{getUserDisplayName(user)}</span>
             </a>
           ) : (
             <a

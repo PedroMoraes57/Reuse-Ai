@@ -7,6 +7,7 @@ from typing import Any
 from reuse_ai.catalog import ClassProfile, load_class_catalog
 from reuse_ai.config import load_yaml
 from reuse_ai.location import LocationContext
+from reuse_ai.presentation import format_material_label, sentence_case_pt_br
 
 
 def _merge_dict(base: dict[str, Any], incoming: dict[str, Any]) -> dict[str, Any]:
@@ -45,7 +46,7 @@ class DisposalAdvisor:
 
     def recommend(self, class_id: str, location: LocationContext | None = None) -> dict[str, Any]:
         if class_id not in self.catalog:
-            raise KeyError(f"Classe nao encontrada no catalogo: {class_id}")
+            raise KeyError(f"Classe não encontrada no catálogo: {class_id}")
 
         profile: ClassProfile = self.catalog[class_id]
         stream_name = profile.disposal_stream
@@ -63,15 +64,15 @@ class DisposalAdvisor:
 
         return {
             "class_id": profile.id,
-            "display_name_pt": profile.display_name_pt,
-            "description_pt": profile.description_pt,
-            "material": profile.material,
+            "display_name_pt": sentence_case_pt_br(profile.display_name_pt),
+            "description_pt": sentence_case_pt_br(profile.description_pt),
+            "material": format_material_label(profile.material),
             "hazardous": profile.hazardous,
             "reusable": profile.reusable,
             "disposal_stream": stream_name,
-            "recommendation": stream_rules["recommendation"],
-            "dropoff": stream_rules["dropoff"],
-            "preparation": stream_rules["preparation"],
-            "region_notes": region_notes,
+            "recommendation": sentence_case_pt_br(stream_rules["recommendation"]),
+            "dropoff": sentence_case_pt_br(stream_rules["dropoff"]),
+            "preparation": sentence_case_pt_br(stream_rules["preparation"]),
+            "region_notes": [sentence_case_pt_br(note) for note in region_notes],
             "location": location.to_dict() if location else None,
         }

@@ -12,6 +12,23 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
+try:
+    from dotenv import dotenv_values
+except ModuleNotFoundError:
+    def dotenv_values(path: str | Path) -> dict[str, str]:
+        values: dict[str, str] = {}
+        env_path = Path(path)
+        if not env_path.exists():
+            return values
+
+        for raw_line in env_path.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            values[key.strip()] = value.strip()
+        return values
+
 
 ROOT_DIR = Path(__file__).resolve().parent
 BACKEND_DIR = ROOT_DIR / "backend"
@@ -26,6 +43,7 @@ class LauncherConfig:
     frontend_host: str
     frontend_port: int
     skip_npm_install: bool
+    tunnel_url: str | None = None
 
     @property
     def backend_target_host(self) -> str:
@@ -47,7 +65,7 @@ class LauncherConfig:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Sobe o frontend e o backend do Reuse.AI em paralelo."
+        description="Sobe o frontend e o backend Django do Reuse.AI em paralelo."
     )
     parser.add_argument("--backend-host", default="127.0.0.1")
     parser.add_argument("--backend-port", type=int, default=8001)
@@ -57,6 +75,16 @@ def build_parser() -> argparse.ArgumentParser:
         "--skip-npm-install",
         action="store_true",
         help="Nao roda npm install automaticamente quando node_modules estiver ausente.",
+    )
+    parser.add_argument(
+        "--tunnel-url",
+        default=None,
+        metavar="URL",
+        help=(
+            "URL publica do tunel (ex: https://xyz.ngrok-free.app). "
+            "Ativa o modo tunel: o frontend usa /api relativo via proxy do Vite, "
+            "o Django constroi URLs absolutas com o dominio do tunel."
+        ),
     )
     return parser
 
@@ -105,7 +133,7 @@ def resolve_backend_python() -> list[str]:
             candidate
             + [
                 "-c",
-                "import fastapi, uvicorn; print('ok')",
+                "import django, rest_framework; print('ok')",
             ],
             cwd=BACKEND_DIR,
             stdout=subprocess.PIPE,
@@ -116,7 +144,7 @@ def resolve_backend_python() -> list[str]:
             return candidate
 
     raise RuntimeError(
-        "Nao encontrei um Python com fastapi e uvicorn disponiveis para o backend."
+        "Nao encontrei um Python com Django e Django REST Framework disponiveis para o backend."
     )
 
 
@@ -136,6 +164,16 @@ def ensure_frontend_dependencies(npm_command: str, config: LauncherConfig) -> No
 
     print("[setup] node_modules nao encontrado. Executando npm install...", flush=True)
     subprocess.run([npm_command, "install"], cwd=FRONTEND_DIR, check=True)
+
+
+def run_django_migrations(python_command: list[str], env: dict[str, str]) -> None:
+    print("[setup] Aplicando migrations do Django...", flush=True)
+    subprocess.run(
+        python_command + ["manage.py", "migrate", "--noinput"],
+        cwd=BACKEND_DIR,
+        env=env,
+        check=True,
+    )
 
 
 def stream_output(name: str, process: subprocess.Popen[str]) -> None:
@@ -201,12 +239,14 @@ def stop_process(name: str, process: subprocess.Popen[str]) -> None:
 
 def main() -> int:
     args = build_parser().parse_args()
+    tunnel_url: str | None = (args.tunnel_url or "").rstrip("/") or None
     config = LauncherConfig(
         backend_host=args.backend_host,
         backend_port=args.backend_port,
         frontend_host=args.frontend_host,
         frontend_port=args.frontend_port,
         skip_npm_install=args.skip_npm_install,
+        tunnel_url=tunnel_url,
     )
 
     backend_python = resolve_backend_python()
@@ -216,21 +256,43 @@ def main() -> int:
     if not MODEL_CHECKPOINT.exists():
         print(
             "[warning] Modelo nao encontrado em "
-            f"{MODEL_CHECKPOINT}. A API vai subir, mas /analyze pode responder 503.",
+            f"{MODEL_CHECKPOINT}. O backend vai subir, mas /api/analyze pode responder 503.",
             flush=True,
         )
 
-    backend_env = os.environ.copy()
-    frontend_env = os.environ.copy()
-    frontend_env["VITE_BACKEND_URL"] = config.backend_url
-    frontend_env["VITE_API_URL"] = f"{config.backend_url}/api"
+    file_env = {
+        key: value
+        for key, value in dotenv_values(BACKEND_DIR / ".env").items()
+        if isinstance(value, str)
+    }
+    backend_env = {**file_env, **os.environ.copy()}
+    frontend_env = {**file_env, **os.environ.copy()}
+    backend_env["DJANGO_DEBUG"] = backend_env.get("DJANGO_DEBUG", "1")
+
+    if config.tunnel_url:
+        # Modo túnel: o frontend acessa /api via proxy do Vite (URL relativa).
+        # O Django precisa saber o domínio público para gerar URLs absolutas corretas.
+        backend_env["FRONTEND_URL"] = config.tunnel_url
+        backend_env["EXTRA_CORS_ORIGINS"] = config.tunnel_url
+        backend_env["DJANGO_TRUST_PROXY_HEADERS"] = "true"
+        frontend_env["VITE_TUNNEL_URL"] = config.tunnel_url
+        # Não define VITE_BACKEND_URL nem VITE_API_URL: o frontend usa /api relativo.
+        frontend_env.pop("VITE_BACKEND_URL", None)
+        frontend_env.pop("VITE_API_URL", None)
+    else:
+        backend_env["FRONTEND_URL"] = config.frontend_url
+        frontend_env["VITE_BACKEND_URL"] = config.backend_url
+        frontend_env["VITE_API_URL"] = f"{config.backend_url}/api"
+
+    google_client_id = backend_env.get("GOOGLE_OAUTH_CLIENT_ID", "").strip()
+    if google_client_id:
+        frontend_env["VITE_GOOGLE_CLIENT_ID"] = google_client_id
+    run_django_migrations(backend_python, backend_env)
 
     backend_command = backend_python + [
-        "scripts/run_api.py",
-        "--host",
-        config.backend_host,
-        "--port",
-        str(config.backend_port),
+        "manage.py",
+        "runserver",
+        f"{config.backend_host}:{config.backend_port}",
     ]
     frontend_command = [
         npm_command,
@@ -245,8 +307,11 @@ def main() -> int:
     ]
 
     print("Reuse.AI launcher", flush=True)
-    print(f"[info] Backend:  {config.backend_url}", flush=True)
+    print(f"[info] Backend Django: {config.backend_url}", flush=True)
     print(f"[info] Frontend: {config.frontend_url}", flush=True)
+    if config.tunnel_url:
+        print(f"[info] Modo tunel ativo — URL publica: {config.tunnel_url}", flush=True)
+        print("[info] Exponha APENAS a porta do frontend pelo tunel (ngrok).", flush=True)
     print("[info] Pressione Ctrl+C para encerrar os dois processos.", flush=True)
     print(
         "[info] Python backend: " + " ".join(backend_python),

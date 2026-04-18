@@ -1,0 +1,54 @@
+points:
+  - id: cooperlagos_sao_jose_do_rio_preto
+    name: Cooperlagos
+    category_label: Cooperativa de coleta seletiva
+    country_code: BR
+    state_code: SP
+    city: São José do Rio Preto
+    latitude: -20.808489
+    longitude: -49.41503
+    address: Rua Lécio Anawate, 500 - Distrito Industrial, São José do Rio Preto/SP
+    accepted_streams:
+      - recyclable_paper
+      - recyclable_plastic
+      - recyclable_glass
+      - recyclable_metal
+      - recyclable_multilayer
+      - plastic_film
+      - recyclable_plastic_special
+      - small_paper_fragments
+    acceptance_confidence: alta
+    acceptance_summary: Cooperativa local voltada a recicláveis secos, com forte aderência para papel, papelão, plástico, vidro e metal.
+    match_reasons:
+      - Cooperativa listada publicamente para coleta seletiva em São José do Rio Preto.
+      - Indicada para recebimento e triagem de materiais recicláveis secos.
+    source: Catálogo local
+    reference_label: Fonte do ponto
+    reference_url: https://www.maosprofuturo.org.br/cooperativas
+    notes: Endereço público da cooperativa; coordenada aproximada com base na rua informada na fonte.
+
+  - id: ecoponto_unimed_rio_preto
+    name: Ecoponto Unimed Rio Preto
+    category_label: Ecoponto
+    country_code: BR
+    state_code: SP
+    city: São José do Rio Preto
+    latitude: -20.813814
+    longitude: -49.389998
+    address: Rua Penita, entre a Av. Bady Bassitt e a Rua Imperial, São José do Rio Preto/SP
+    accepted_streams:
+      - recyclable_paper
+      - recyclable_plastic
+      - recyclable_glass
+      - recyclable_metal
+      - recyclable_multilayer
+      - hazardous_battery
+    acceptance_confidence: alta
+    acceptance_summary: Ecoponto aberto ao público para materiais recicláveis e coleta específica de pilhas e baterias.
+    match_reasons:
+      - Ponto público descrito pela própria instituição como ecoponto para recicláveis.
+      - Indicado como acesso aberto para a comunidade.
+    source: Catálogo local
+    reference_label: Fonte do ponto
+    reference_url: https://www.unimedriopreto.com.br/conheca/sustentabilidade/ecoponto
+    notes: Coordenada baseada na sede administrativa da Unimed Rio Preto.

@@ -1,0 +1,13 @@
+{% autoescape off %}
+Olá, {{ username }}.
+
+Sua conta na {{ brand_name }} foi criada com sucesso.
+
+Para ativar seu acesso e começar a usar a plataforma, confirme seu e-mail no link abaixo:
+
+{{ verification_link }}
+
+Se você não criou esta conta, pode ignorar esta mensagem.
+
+Em caso de dúvida, fale com a equipe em {{ support_email }}.
+{% endautoescape %}

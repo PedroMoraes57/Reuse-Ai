@@ -33,6 +33,7 @@ def load_project_config(config_path: str | Path = DEFAULT_CONFIG_PATH) -> dict[s
         "report_dir",
         "class_catalog",
         "disposal_rules",
+        "disposal_points_catalog",
     ):
         if key in paths:
             paths[key] = resolve_path(paths[key])

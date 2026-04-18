@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import logging
 from io import BytesIO
 from pathlib import Path
 from typing import Sequence
@@ -19,9 +20,11 @@ from reuse_ai.config import ensure_runtime_dirs, load_project_config
 from reuse_ai.data import build_transforms
 from reuse_ai.evaluation import deserialize_prototype_store
 from reuse_ai.location import LocationResolver
+from reuse_ai.presentation import format_material_label
 
 
 ImageInput = str | Path | Image.Image | bytes
+logger = logging.getLogger(__name__)
 
 
 class ReusePredictor:
@@ -87,7 +90,7 @@ class ReusePredictor:
     def _load_model(self) -> tuple[torch.nn.Module, list[str]]:
         if not self.checkpoint_path.exists():
             raise FileNotFoundError(
-                "Checkpoint do modelo nao encontrado em "
+                "Checkpoint do modelo não encontrado em "
                 f"{self.checkpoint_path}. Treine o modelo antes de inferir."
             )
 
@@ -123,7 +126,7 @@ class ReusePredictor:
     def _resolve_inference_config(self) -> dict[str, float | bool]:
         defaults = {
             "top_k": 3,
-            "confidence_threshold": 0.6,
+            "confidence_threshold": 0.7,
             "margin_threshold": 0.18,
             "entropy_threshold": 0.55,
             "min_consensus": 0.6,
@@ -138,8 +141,17 @@ class ReusePredictor:
             "prototype_similarity_threshold": -1.0,
         }
         inference_config = dict(defaults)
-        inference_config.update(self.config.get("inference", {}))
+        runtime_inference_config = dict(self.config.get("inference", {}))
+        inference_config.update(runtime_inference_config)
         inference_config.update(self.checkpoint_inference_config)
+        if "confidence_threshold" in runtime_inference_config:
+            inference_config["confidence_threshold"] = float(runtime_inference_config["confidence_threshold"])
+        max_confidence_threshold = runtime_inference_config.get("max_confidence_threshold")
+        if max_confidence_threshold is not None:
+            inference_config["confidence_threshold"] = min(
+                float(inference_config["confidence_threshold"]),
+                float(max_confidence_threshold),
+            )
         return inference_config
 
     def _validate_checkpoint_classes(self, class_names: list[str]) -> None:
@@ -148,7 +160,7 @@ class ReusePredictor:
         if checkpoint_classes == catalog_classes:
             return
 
-        messages = ["Checkpoint incompativel com o catalogo atual."]
+        messages = ["Checkpoint incompatível com o catálogo atual."]
         missing_in_checkpoint = sorted(catalog_classes - checkpoint_classes)
         unexpected_in_checkpoint = sorted(checkpoint_classes - catalog_classes)
         if missing_in_checkpoint:
@@ -293,11 +305,11 @@ class ReusePredictor:
         if confidence < confidence_threshold:
             if confidence_threshold > self.confidence_threshold:
                 reasons.append(
-                    f"a classe prevista exige confianca minima de {confidence_threshold:.0%} e o valor observado ficou abaixo disso"
+                    f"a classe prevista exige confiança mínima de {confidence_threshold:.0%} e o valor observado ficou abaixo disso"
                 )
             else:
                 reasons.append(
-                    "a confianca da classe principal ficou abaixo do minimo esperado"
+                    "a confiança da classe principal ficou abaixo do mínimo esperado"
                 )
         if (
             prototype_similarity is not None
@@ -305,23 +317,23 @@ class ReusePredictor:
             and prototype_similarity < prototype_similarity_threshold
         ):
             reasons.append(
-                "a imagem nao ficou suficientemente parecida com os exemplos aprendidos dessa classe"
+                "a imagem não ficou suficientemente parecida com os exemplos aprendidos dessa classe"
             )
         if prototype_disagreement and self.reject_on_prototype_disagreement:
             reasons.append(
-                "o padrao visual mais parecido no espaco de embeddings apontou para outra classe"
+                "o padrão visual mais parecido no espaço de embeddings apontou para outra classe"
             )
         if margin < self.margin_threshold:
             reasons.append(
-                "as duas classes mais provaveis ficaram proximas demais entre si"
+                "as duas classes mais prováveis ficaram próximas demais entre si"
             )
         if entropy > self.entropy_threshold:
             reasons.append(
-                "a distribuicao de probabilidades ficou dispersa, sem um padrao dominante"
+                "a distribuição de probabilidades ficou dispersa, sem um padrão dominante"
             )
         if consensus < self.min_consensus:
             reasons.append(
-                "a previsao variou demais entre as diferentes leituras da mesma imagem"
+                "a previsão variou demais entre as diferentes leituras da mesma imagem"
             )
         return reasons
 
@@ -345,27 +357,27 @@ class ReusePredictor:
             for prediction in top_predictions
         )
         description = (
-            "A IA nao conseguiu identificar o item com seguranca suficiente. "
-            "Isso costuma acontecer quando o objeto foge do padrao aprendido, aparece com outra cor, "
-            "angulo, iluminacao, fundo poluido ou esta fora do catalogo esperado."
+            "A IA não conseguiu identificar o item com segurança suficiente. "
+            "Isso costuma acontecer quando o objeto foge do padrão aprendido, aparece com outra cor, "
+            "ângulo, iluminação, fundo poluído ou está fora do catálogo esperado."
         )
         recommendation = (
             "Revise manualmente antes do descarte. Tire novas fotos mostrando o objeto inteiro, "
-            "com fundo neutro e iluminacao uniforme."
+            "com fundo neutro e iluminação uniforme."
         )
         if candidate_text:
-            recommendation += f" Hipoteses mais proximas: {candidate_text}."
+            recommendation += f" Hipóteses mais próximas: {candidate_text}."
 
         return {
             "class_id": "unknown",
-            "display_name_pt": "Item nao identificado com seguranca",
+            "display_name_pt": "Item não identificado com segurança",
             "description_pt": description,
-            "material": "nao determinado",
+            "material": format_material_label("não determinado"),
             "hazardous": False,
             "reusable": False,
             "disposal_stream": "manual_review",
             "recommendation": recommendation,
-            "dropoff": "Nao descarte com base em um palpite automatico.",
+            "dropoff": "Não descarte com base em um palpite automático.",
             "preparation": "Tire novas fotos e confirme manualmente o tipo de item.",
             "region_notes": [],
             "location": None,
@@ -455,9 +467,11 @@ class ReusePredictor:
             consensus=consensus,
         )
         uncertain_prediction = bool(uncertainty_reasons)
+        classification_source = "model"
 
         if uncertain_prediction:
             advisory = self._build_uncertain_best_match(top_predictions)
+            classification_source = "uncertain"
         else:
             location_context = self.location_resolver.resolve(
                 latitude=latitude,
@@ -468,6 +482,7 @@ class ReusePredictor:
                 city=city,
             )
             advisory = self.advisor.recommend(best_class_id, location_context)
+            classification_source = "model"
 
         return {
             "images_analyzed": len(images),
@@ -485,6 +500,7 @@ class ReusePredictor:
             "uncertain_prediction": uncertain_prediction,
             "uncertainty_reasons": uncertainty_reasons,
             "top_predictions": top_predictions,
+            "classification_source": classification_source,
             "best_match": advisory,
         }
 
@@ -493,25 +509,25 @@ def format_analysis_report(result: dict) -> str:
     best_match = result["best_match"]
     lines = [
         f"Item identificado: {best_match['display_name_pt']}",
-        f"Descricao: {best_match['description_pt']}",
+        f"Descrição: {best_match['description_pt']}",
         f"Material: {best_match['material']}",
-        f"Confianca: {result['confidence']:.2%}",
+        f"Confiança: {result['confidence']:.2%}",
         f"Canal de descarte: {best_match['dropoff']}",
         f"Como descartar: {best_match['recommendation']}",
-        f"Preparacao: {best_match['preparation']}",
+        f"Preparação: {best_match['preparation']}",
     ]
     if result["uncertain_prediction"]:
-        lines.append("Aviso: a IA nao atingiu seguranca suficiente para cravar a classe.")
+        lines.append("Aviso: a IA não atingiu segurança suficiente para cravar a classe.")
         for reason in result.get("uncertainty_reasons", []):
             lines.append(f"- Motivo: {reason}")
     top_predictions = result.get("top_predictions", [])
     if top_predictions:
-        lines.append("Hipoteses mais proximas:")
+        lines.append("Hipóteses mais próximas:")
         lines.extend(
             f"- {prediction['display_name_pt']}: {float(prediction['confidence']):.2%}"
             for prediction in top_predictions
         )
     if best_match["region_notes"]:
-        lines.append("Observacoes da regiao:")
+        lines.append("Observações da região:")
         lines.extend(f"- {note}" for note in best_match["region_notes"])
     return "\n".join(lines)

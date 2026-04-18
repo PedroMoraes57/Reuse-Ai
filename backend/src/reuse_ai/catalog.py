@@ -31,7 +31,7 @@ def load_class_catalog(path: str | Path) -> dict[str, ClassProfile]:
             hazardous=bool(entry.get("hazardous", False)),
         )
         if profile.id in catalog:
-            raise ValueError(f"Classe duplicada no catalogo: {profile.id}")
+            raise ValueError(f"Classe duplicada no catálogo: {profile.id}")
         catalog[profile.id] = profile
     return catalog
 

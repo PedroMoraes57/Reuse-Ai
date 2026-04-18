@@ -468,6 +468,13 @@ def optimize_inference_policy(
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     optimized_config = dict(inference_config)
     optimized_config["class_names"] = class_names
+    max_confidence_threshold = optimized_config.get("max_confidence_threshold")
+    if max_confidence_threshold is not None:
+        max_confidence_threshold = float(max_confidence_threshold)
+        optimized_config["confidence_threshold"] = min(
+            float(optimized_config.get("confidence_threshold", 0.7)),
+            max_confidence_threshold,
+        )
 
     aggregated_logits = collected.logits if collected.tta_logits is None else (collected.logits + collected.tta_logits) / 2
     if bool(optimized_config.get("calibrate_temperature", True)):
@@ -488,6 +495,12 @@ def optimize_inference_policy(
             float(optimized_config.get("confidence_threshold", 0.6)),
             [0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75],
         )
+        if max_confidence_threshold is not None:
+            confidence_candidates = [
+                value for value in confidence_candidates if value <= max_confidence_threshold + 1e-8
+            ]
+            if not confidence_candidates:
+                confidence_candidates = [round(max_confidence_threshold, 4)]
         margin_candidates = _candidate_values(
             float(optimized_config.get("margin_threshold", 0.18)),
             [0.05, 0.08, 0.1, 0.12, 0.15, 0.18, 0.22, 0.26],
