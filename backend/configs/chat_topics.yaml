@@ -1,0 +1,206 @@
+topics:
+  - id: sustentabilidade_dia_a_dia
+    response_type: decision
+    aliases:
+      - sustentabilidade
+      - como ser sustentavel
+      - ser mais sustentavel
+      - sustentabilidade no dia a dia
+      - habitos sustentaveis
+      - vida sustentavel
+      - como poluir menos
+    answer: Sustentabilidade no dia a dia comeca reduzindo desperdicio e escolhendo melhor o que entra e sai da sua casa.
+    action: "Comece por 3 passos praticos: compre menos descartaveis, reutilize o que for possivel e separe corretamente reciclaveis, organicos e rejeitos."
+    quick_replies:
+      - Como reduzir lixo em casa?
+      - O que e coleta seletiva?
+      - Compostagem vale a pena?
+      - Reciclar ou reutilizar primeiro?
+
+  - id: coleta_seletiva
+    response_type: explanation
+    aliases:
+      - coleta seletiva
+      - separar lixo
+      - separar residuos
+      - separar reciclaveis
+      - como separar o lixo
+      - lixeira reciclavel
+    answer: Coleta seletiva separa os materiais para evitar contaminacao e aumentar a chance real de reciclagem.
+    action: Separe reciclaveis secos e limpos dos organicos e rejeitos. Se tiver duvida sobre um item, diga o nome dele antes de misturar.
+    quick_replies:
+      - Reciclavel sujo pode?
+      - Precisa lavar embalagem?
+      - Papel engordurado recicla?
+      - Como separar organicos?
+
+  - id: reciclagem_vs_reutilizacao
+    response_type: explanation
+    aliases:
+      - reciclar ou reutilizar
+      - reutilizar ou reciclar
+      - diferenca entre reciclar e reutilizar
+      - reuso ou reciclagem
+      - reaproveitar ou reciclar
+    answer: Reutilizar vem antes de reciclar, porque evita novo consumo e reduz o volume de residuos imediatamente.
+    action: Se o item ainda funciona ou pode ganhar outro uso, tente reuso, doacao ou conserto. Reciclagem entra quando o reuso nao faz mais sentido.
+    quick_replies:
+      - Como reduzir lixo em casa?
+      - Quando doar em vez de descartar?
+      - Celular velho vai para reuso?
+      - Roupa usada pode doar?
+
+  - id: reducao_de_residuos
+    response_type: decision
+    aliases:
+      - reduzir lixo
+      - reduzir residuos
+      - gerar menos lixo
+      - menos desperdicio
+      - consumo consciente
+      - como desperdiçar menos
+      - como diminuir o lixo
+    answer: A melhor estrategia ambiental e gerar menos resíduo antes do descarte.
+    action: Priorize refil, compra a granel, garrafa reutilizavel, sacola retornavel e planejamento de compras para evitar sobra e descarte desnecessario.
+    quick_replies:
+      - Como ser mais sustentavel?
+      - Compostagem ajuda?
+      - Oleo de cozinha onde descartar?
+      - Como separar reciclaveis?
+
+  - id: compostagem
+    response_type: decision
+    aliases:
+      - compostagem
+      - como compostar
+      - composteira
+      - lixo organico
+      - residuos organicos
+      - organico na compostagem
+    answer: Compostagem funciona bem para restos vegetais, cascas, borra de cafe e outros organicos adequados.
+    action: Separe os organicos dos reciclaveis secos e coloque na composteira apenas o que ela aceita. Se o material estiver misturado com plastico ou metal, separe antes.
+    quick_replies:
+      - Casca de ovo pode compostar?
+      - Resto de comida vai para compostagem?
+      - Papel sujo pode compostar?
+      - Como separar organicos?
+
+  - id: contaminacao_reciclaveis
+    response_type: alert
+    aliases:
+      - reciclavel sujo
+      - reciclavel molhado
+      - contaminacao reciclavel
+      - reciclavel contaminado
+      - papel engordurado
+      - embalagem suja recicla
+      - pode reciclar sujo
+    answer: Reciclavel sujo, engordurado ou com resto de comida pode contaminar outros materiais e inviabilizar a triagem.
+    action: Remova restos de alimento e excesso de liquido. Se nao der para limpar sem desperdicio exagerado, descarte como rejeito em vez de contaminar reciclaveis secos.
+    alert: Misturar material contaminado com reciclaveis limpos pode perder o lote inteiro.
+    quick_replies:
+      - Precisa lavar embalagem?
+      - Caixa de pizza recicla?
+      - Copo de papel recicla?
+      - Como separar o lixo?
+
+  - id: lavagem_embalagens
+    response_type: decision
+    aliases:
+      - precisa lavar embalagem
+      - lavar reciclavel
+      - enxaguar embalagem
+      - embalagem precisa estar limpa
+      - tem que lavar o lixo
+    answer: Nao precisa desperdiçar agua para reciclar, mas a embalagem deve ficar sem restos de comida ou liquido.
+    action: Faça um enxague rapido, escorra e mantenha seco. Se o item continuar muito contaminado, trate como rejeito.
+    quick_replies:
+      - Reciclavel sujo pode?
+      - Garrafa PET precisa lavar?
+      - Papel engordurado recicla?
+      - Como separar reciclaveis?
+
+  - id: plastico_flexivel
+    response_type: explanation
+    aliases:
+      - plastico flexivel
+      - saco plastico
+      - sacola plastica
+      - filme plastico
+      - embalagem flexivel
+      - saquinho plastico
+    answer: Plastico flexivel costuma exigir ponto especifico porque enrosca na triagem e nem toda coleta comum aceita esse material.
+    action: Junte varias pecas limpas e secas e leve a supermercado participante, PEV ou ecoponto que aceite plastico flexivel.
+    quick_replies:
+      - Sacola plastica recicla?
+      - Isopor pode reciclar?
+      - Oleo de cozinha onde descartar?
+      - Como separar reciclaveis?
+
+  - id: vidro_quebrado
+    response_type: alert
+    aliases:
+      - vidro quebrado
+      - caco de vidro
+      - garrafa quebrada
+      - como descartar vidro quebrado
+    answer: Vidro quebrado exige cuidado extra para nao ferir quem coleta e faz triagem.
+    action: Embale os cacos com seguranca, identifique o risco de corte e descarte conforme a coleta ou ecoponto aceito na sua regiao.
+    alert: Nunca deixe vidro quebrado solto na sacola comum.
+    quick_replies:
+      - Garrafa de vidro recicla?
+      - Onde descartar lampada?
+      - Onde descartar pilhas?
+      - Como separar reciclaveis?
+
+  - id: oleo_de_cozinha
+    response_type: alert
+    aliases:
+      - oleo de cozinha
+      - oleo usado
+      - descartar oleo
+      - jogar oleo no ralo
+      - oleo de fritura
+    answer: Oleo de cozinha nunca deve ir para o ralo, vaso sanitario ou solo.
+    action: Espere esfriar, coloque em garrafa fechada e leve a ponto de coleta de oleo, ecoponto ou iniciativa local de reaproveitamento.
+    alert: Oleo no encanamento causa entupimento e contaminacao ambiental.
+    quick_replies:
+      - Onde descartar oleo usado?
+      - Como ser mais sustentavel?
+      - Compostagem ajuda?
+      - Como separar o lixo?
+
+  - id: roupas_e_doacao
+    response_type: decision
+    aliases:
+      - roupa usada
+      - doacao de roupas
+      - descartar roupas
+      - onde doar roupa
+      - calçado usado
+      - onde doar calcado
+    answer: Roupa, calcado e tecido em bom estado devem priorizar reuso e doacao antes do descarte.
+    action: Separe o que ainda pode ser usado, higienize quando possivel e encaminhe para doacao, bazar social ou coletor textil especializado.
+    quick_replies:
+      - Reciclar ou reutilizar primeiro?
+      - Como reduzir residuos?
+      - Celular velho vai para reuso?
+      - Como ser mais sustentavel?
+
+  - id: residuos_perigosos
+    response_type: alert
+    aliases:
+      - residuos perigosos
+      - lixo perigoso
+      - descarte especial
+      - resíduo toxico
+      - pilha lampada remedio tinta
+      - material perigoso
+    answer: Pilhas, lampadas, medicamentos, tintas e outros residuos perigosos exigem descarte separado.
+    action: Nao misture com reciclaveis secos nem com lixo comum. Procure ponto de coleta especifico, farmacias, lojas parceiras ou ecopontos.
+    alert: Esses materiais podem contaminar solo, agua e pessoas durante a coleta.
+    quick_replies:
+      - Onde descartar pilhas?
+      - Onde descartar lampadas?
+      - Oleo de cozinha onde descartar?
+      - Como separar o lixo?

@@ -11,13 +11,27 @@ export interface TopPrediction {
 }
 
 export interface BestMatch {
+  class_id: string;
   display_name_pt: string;
   description_pt: string;
   dropoff: string;
   recommendation: string;
+  preparation: string;
+  material: string;
+  hazardous: boolean;
+  reusable: boolean;
+  region_notes: string[];
+  location: {
+    country_code?: string | null;
+    state?: string | null;
+    state_code?: string | null;
+    city?: string | null;
+  } | null;
 }
 
 export interface ClassificationResult {
+  images_analyzed?: number;
+  device?: string;
   best_match: BestMatch;
   top_predictions: TopPrediction[];
   uncertain_prediction: boolean;

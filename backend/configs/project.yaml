@@ -9,6 +9,7 @@ paths:
   checkpoint_path: artifacts/checkpoints/reuse_ai_best.pt
   class_catalog: configs/class_catalog.yaml
   disposal_rules: configs/disposal_rules.yaml
+  chat_topics: configs/chat_topics.yaml
 
 dataset:
   split:

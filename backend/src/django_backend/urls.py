@@ -6,6 +6,7 @@ from io import BytesIO
 from PIL import Image
 from rest_framework.authtoken.models import Token
 
+from reuse_ai.chatbot_api import ChatbotView
 from reuse_ai.predictor import ReusePredictor
 
 _predictor = None
@@ -59,5 +60,6 @@ def analyze_view(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('accounts.urls')),
+    path('api/chatbot/', ChatbotView.as_view()),
     path('analyze', analyze_view),
 ]

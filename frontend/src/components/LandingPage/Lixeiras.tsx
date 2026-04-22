@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBottleWater,
   faNewspaper,
-  faGear,
   faWineBottle,
   faLeaf,
   faWhiskeyGlass,

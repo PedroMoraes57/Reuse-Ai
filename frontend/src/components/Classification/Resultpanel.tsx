@@ -1,5 +1,5 @@
-// src/components/classification/ResultPanel.tsx
 import type { ClassificationResult } from '../../services/ClassificationApi';
+import { useAssistant } from '../../contexts/useAssistant';
 
 interface ResultPanelProps {
   result: ClassificationResult | null;
@@ -14,63 +14,56 @@ interface InfoBlockProps {
 
 function InfoBlock({ icon, title, text }: InfoBlockProps) {
   return (
-    <div className='border border-gray-200 rounded-xl overflow-hidden my-1'>
-      <div className='bg-gray-50 px-4 py-2.5 text-xs font-bold text-gray-500 flex items-center gap-2 border-b border-gray-200 uppercase tracking-wider'>
-        <i className={`${icon} text-green-600 text-sm`} />
+    <div className='my-1 overflow-hidden rounded-xl border border-gray-200'>
+      <div className='flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-500'>
+        <i className={`${icon} text-sm text-green-600`} />
         {title}
       </div>
-      <p className='px-4 py-3.5 text-sm text-gray-600 leading-relaxed'>
-        {text}
-      </p>
+      <p className='px-4 py-3.5 text-sm leading-relaxed text-gray-600'>{text}</p>
     </div>
   );
 }
 
 export function ResultPanel({ result, isLoading }: ResultPanelProps) {
+  const { askQuickQuestion } = useAssistant();
+
   return (
-    <div className='bg-white border border-gray-200 rounded-2xl p-7 shadow-sm flex flex-col min-h-[400px]'>
-      {/* Header */}
-      <div className='flex items-start gap-3 mb-6 pb-5 border-b border-gray-200'>
-        <span className='w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center text-green-600 text-base flex-shrink-0'>
+    <div className='flex min-h-[400px] flex-col rounded-2xl border border-gray-200 bg-white p-7 shadow-sm'>
+      <div className='mb-6 flex items-start gap-3 border-b border-gray-200 pb-5'>
+        <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-green-50 text-base text-green-600'>
           <i className='fas fa-robot' />
         </span>
         <div>
           <h3 className='text-sm font-bold text-gray-900'>Resultado</h3>
-          <p className='text-xs text-gray-400'>Orientações de descarte</p>
+          <p className='text-xs text-gray-400'>Orientacoes de descarte</p>
         </div>
       </div>
 
-      {/* Loading */}
       {isLoading && (
-        <div className='flex-1 flex flex-col items-center justify-center gap-4'>
-          <div className='w-12 h-12 border-4 border-green-100 border-t-green-600 rounded-full animate-spin' />
+        <div className='flex flex-1 flex-col items-center justify-center gap-4'>
+          <div className='h-12 w-12 animate-spin rounded-full border-4 border-green-100 border-t-green-600' />
           <p className='text-sm font-semibold text-gray-500'>
             Analisando imagem...
           </p>
         </div>
       )}
 
-      {/* Vazio */}
       {!isLoading && !result && (
-        <div className='flex-1 flex flex-col items-center justify-center text-center gap-4 px-6 py-10'>
-          <div className='w-18 h-18 w-[72px] h-[72px] bg-green-50 rounded-full flex items-center justify-center text-3xl text-green-200'>
+        <div className='flex flex-1 flex-col items-center justify-center gap-4 px-6 py-10 text-center'>
+          <div className='flex h-[72px] w-[72px] items-center justify-center rounded-full bg-green-50 text-3xl text-green-200'>
             <i className='fas fa-leaf' />
           </div>
-          <p className='text-sm text-gray-400 max-w-[200px] leading-relaxed'>
-            Envie uma imagem para ver as orientações de descarte.
+          <p className='max-w-[200px] text-sm leading-relaxed text-gray-400'>
+            Envie uma imagem para ver as orientacoes de descarte.
           </p>
         </div>
       )}
 
-      {/* Resultado */}
       {!isLoading && result && (
         <div className='flex flex-col gap-2'>
-          {/* Chip */}
-          <div className='inline-flex items-center gap-2 bg-green-600 text-white text-sm font-bold px-4 py-1.5 rounded-full w-fit mb-1'>
+          <div className='mb-1 inline-flex w-fit items-center gap-2 rounded-full bg-green-600 px-4 py-1.5 text-sm font-bold text-white'>
             <i className='fas fa-tag' />
-            <span>
-              {result.best_match?.display_name_pt || 'Item identificado'}
-            </span>
+            <span>{result.best_match?.display_name_pt || 'Item identificado'}</span>
           </div>
 
           {result.best_match?.description_pt && (
@@ -97,28 +90,74 @@ export function ResultPanel({ result, isLoading }: ResultPanelProps) {
             />
           )}
 
-          {/* Top previsões */}
-          {result.top_predictions?.length > 0 && (
-            <div className='border border-gray-200 rounded-xl overflow-hidden my-1'>
-              <div className='bg-gray-50 px-4 py-2.5 text-xs font-bold text-gray-500 flex items-center gap-2 border-b border-gray-200 uppercase tracking-wider'>
-                <i className='fas fa-chart-bar text-green-600 text-sm' />
-                Top previsões
+          {result.best_match?.preparation && (
+            <InfoBlock
+              icon='fas fa-soap'
+              title='Preparacao'
+              text={result.best_match.preparation}
+            />
+          )}
+
+          <div className='mt-2 rounded-2xl border border-green-200 bg-green-50/70 p-4'>
+            <div className='flex items-start gap-3'>
+              <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white text-green-600 shadow-sm'>
+                <i className='fas fa-comments' />
+              </span>
+              <div className='flex-1'>
+                <h4 className='text-sm font-bold text-gray-900'>
+                  Tire uma duvida sem sair do fluxo
+                </h4>
+                <p className='mt-1 text-xs text-gray-600'>
+                  O assistente usa este resultado para responder de forma mais
+                  direta.
+                </p>
+                <div className='mt-3 flex flex-wrap gap-2'>
+                  {[
+                    'O que eu faco com isso?',
+                    'Onde descartar esse item?',
+                    'Por que esse item nao vai na reciclavel?',
+                    'Como preparar antes de descartar?',
+                  ].map(question => (
+                    <button
+                      key={question}
+                      type='button'
+                      onClick={() => {
+                        void askQuickQuestion(question);
+                      }}
+                      className='rounded-full border border-green-200 bg-white px-3 py-1.5 text-xs font-semibold text-green-700 transition-colors hover:bg-green-100'
+                    >
+                      {question}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className='px-4 py-3.5 flex flex-col gap-2.5'>
-                {result.top_predictions.map(p => {
-                  const pct = (p.confidence * 100).toFixed(1);
+            </div>
+          </div>
+
+          {result.top_predictions?.length > 0 && (
+            <div className='my-1 overflow-hidden rounded-xl border border-gray-200'>
+              <div className='flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-500'>
+                <i className='fas fa-chart-bar text-sm text-green-600' />
+                Top previsoes
+              </div>
+              <div className='flex flex-col gap-2.5 px-4 py-3.5'>
+                {result.top_predictions.map(prediction => {
+                  const pct = (prediction.confidence * 100).toFixed(1);
                   return (
-                    <div key={p.class_id} className='flex items-center gap-3'>
-                      <span className='text-xs font-medium text-gray-600 min-w-[9rem] flex-shrink-0'>
-                        {p.display_name_pt || p.class_id}
+                    <div
+                      key={prediction.class_id}
+                      className='flex items-center gap-3'
+                    >
+                      <span className='min-w-[9rem] flex-shrink-0 text-xs font-medium text-gray-600'>
+                        {prediction.display_name_pt || prediction.class_id}
                       </span>
-                      <div className='flex-1 bg-green-50 rounded-full h-1.5 overflow-hidden'>
+                      <div className='h-1.5 flex-1 overflow-hidden rounded-full bg-green-50'>
                         <div
-                          className='h-full bg-green-600 rounded-full transition-all duration-500'
+                          className='h-full rounded-full bg-green-600 transition-all duration-500'
                           style={{ width: `${pct}%` }}
                         />
                       </div>
-                      <span className='text-xs font-bold text-green-600 min-w-[3rem] text-right'>
+                      <span className='min-w-[3rem] text-right text-xs font-bold text-green-600'>
                         {pct}%
                       </span>
                     </div>
@@ -128,11 +167,24 @@ export function ResultPanel({ result, isLoading }: ResultPanelProps) {
             </div>
           )}
 
-          {/* Aviso de confiança baixa */}
           {result.uncertain_prediction && (
-            <div className='bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3 text-xs text-yellow-800 flex items-center gap-2 mt-1'>
-              <i className='fas fa-triangle-exclamation text-yellow-500 flex-shrink-0' />
-              Confiança baixa — verifique o resultado com atenção.
+            <div className='mt-1 flex items-center gap-2 rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-3 text-xs text-yellow-800'>
+              <i className='fas fa-triangle-exclamation flex-shrink-0 text-yellow-500' />
+              Confianca baixa. Verifique o resultado com atencao.
+            </div>
+          )}
+
+          {result.best_match?.region_notes?.length > 0 && (
+            <div className='my-1 overflow-hidden rounded-xl border border-gray-200'>
+              <div className='flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-500'>
+                <i className='fas fa-location-dot text-sm text-green-600' />
+                Observacoes da regiao
+              </div>
+              <div className='flex flex-col gap-2 px-4 py-3.5 text-sm text-gray-600'>
+                {result.best_match.region_notes.map(note => (
+                  <p key={note}>{note}</p>
+                ))}
+              </div>
             </div>
           )}
         </div>

@@ -6,6 +6,7 @@ import {
   StepList,
 } from '../components/Classification';
 import Navbar from '../components/LandingPage/Navbar';
+import { useAssistant } from '../contexts/useAssistant';
 import { analyzeWaste } from '../services/ClassificationApi';
 import type { ClassificationResult } from '../services/ClassificationApi';
 
@@ -13,6 +14,7 @@ export default function ClassificationPage() {
   const [result, setResult] = useState<ClassificationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { setAnalysisContext } = useAssistant();
 
   const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
 
@@ -30,7 +32,7 @@ export default function ClassificationPage() {
         window.location.href = '/login';
       }
     });
-  }, []);
+  }, [API_BASE_URL]);
 
   async function handleAnalyze(file: File) {
     setIsLoading(true);
@@ -41,6 +43,7 @@ export default function ClassificationPage() {
       // ⚠️ Chamada real para o Django — ver src/services/classificationApi.ts
       const data = await analyzeWaste(file);
       setResult(data);
+      setAnalysisContext(data);
 
       // Scroll suave até o resultado em mobile
       if (window.innerWidth <= 900) {

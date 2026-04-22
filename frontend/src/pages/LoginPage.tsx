@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { login } from '../services/AuthApi';
 
 export default function LoginPage() {
@@ -7,8 +6,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
