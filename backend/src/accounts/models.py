@@ -296,6 +296,59 @@ class UserNotification(models.Model):
         return f"UserNotification<{self.user.username}:{self.kind}>"
 
 
+class AssistantChatSession(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="assistant_chat_sessions",
+    )
+    title = models.CharField(max_length=160, blank=True)
+    last_message_preview = models.CharField(max_length=240, blank=True)
+    started_from_route = models.CharField(max_length=80, blank=True)
+    metadata = models.JSONField(default=dict, blank=True)
+    closed_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ("-updated_at",)
+
+    def __str__(self) -> str:
+        status = "closed" if self.closed_at else "active"
+        return f"AssistantChatSession<{self.user.username}:{self.id}:{status}>"
+
+
+class AssistantChatMessage(models.Model):
+    ROLE_USER = "user"
+    ROLE_ASSISTANT = "assistant"
+
+    ROLE_CHOICES = [
+        (ROLE_USER, "Usuário"),
+        (ROLE_ASSISTANT, "Assistente"),
+    ]
+
+    session = models.ForeignKey(
+        AssistantChatSession,
+        on_delete=models.CASCADE,
+        related_name="messages",
+    )
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    text = models.TextField()
+    response_type = models.CharField(max_length=40, blank=True)
+    action = models.TextField(blank=True)
+    alert = models.TextField(blank=True)
+    analysis_warning = models.TextField(blank=True)
+    quick_replies = models.JSONField(default=list, blank=True)
+    message_metadata = models.JSONField(default=dict, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("created_at", "id")
+
+    def __str__(self) -> str:
+        return f"AssistantChatMessage<{self.session_id}:{self.role}>"
+
+
 def get_or_create_profile(user: User) -> UserProfile:
     profile, _ = UserProfile.objects.get_or_create(
         user=user,

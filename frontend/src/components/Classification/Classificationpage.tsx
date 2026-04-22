@@ -39,6 +39,7 @@ import {
   staggerContainer,
   staggerItem,
 } from '../../utils/animations';
+import { useAssistant } from '../../contexts/useAssistant';
 
 const heroHighlights = [
   {
@@ -80,6 +81,7 @@ const benefitCards = [
 ];
 
 export function ClassificationPageContent() {
+  const { setAnalysisContext } = useAssistant();
   const [result, setResult] = useState<ClassificationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -271,6 +273,13 @@ export function ClassificationPageContent() {
         setOverview(null);
       });
   }, []);
+
+  useEffect(() => {
+    if (!result) {
+      return;
+    }
+    setAnalysisContext(result);
+  }, [result, setAnalysisContext]);
 
   function redirectToLogin() {
     navigate('/login?next=/classificar');

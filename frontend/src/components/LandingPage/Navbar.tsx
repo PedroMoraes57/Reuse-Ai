@@ -99,7 +99,7 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
           {[
             { label: 'Como funciona', href: '/#como-funciona' },
             { label: 'Sobre nós', href: '/#sobre-nos' },
-            { label: 'Aplicativo', href: '/classificar' },
+            { label: 'Classificação', href: '/classificar' },
             { label: 'Ranking', href: '/ranking' },
             { label: 'Amigos', href: '/amigos' },
           ].map(link => (
@@ -291,7 +291,7 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
             href='/classificar'
             className='text-reuseai-preto dark:text-reuseai-branco text-sm'
           >
-            Aplicativo
+            Classificação
           </a>
           <a
             href='/ranking'

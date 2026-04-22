@@ -1,0 +1,212 @@
+topics:
+  - id: coleta_seletiva
+    response_type: explanation
+    answer: A coleta seletiva separa residuos por tipo para reduzir contaminacao entre materiais e aumentar a chance de reaproveitamento.
+    action: Separe reciclaveis secos de organicos, mantenha embalagens sem excesso de residuos e confirme a regra da sua cidade.
+    aliases:
+      - coleta seletiva
+      - como separar lixo
+      - como separar residuos
+      - separacao do lixo
+      - reciclagem em casa
+    keywords:
+      - lixeira colorida
+      - papel plastico vidro metal
+      - separar reciclavel
+      - como reciclar certo
+    quick_replies:
+      - Precisa lavar embalagem para reciclar?
+      - O que fazer com residuos organicos?
+      - Onde descartar eletronicos?
+      - Como reduzir lixo em casa?
+
+  - id: lavar_embalagens
+    response_type: decision
+    answer: Na maioria dos casos, nao precisa lavar profundamente. O importante e remover excesso de comida ou liquido e deixar a embalagem sem contaminar outros reciclaveis.
+    action: Um enxague rapido costuma bastar. Se a embalagem continuar muito engordurada, trate como rejeito ou separe apenas a parte limpa.
+    aliases:
+      - precisa lavar embalagem
+      - lavar reciclavel
+      - tem que limpar embalagem
+      - pode reciclar sujo
+      - enxaguar embalagem
+    keywords:
+      - embalagem suja
+      - gordura
+      - resto de comida
+      - higienizar reciclavel
+    quick_replies:
+      - Caixa de pizza pode reciclar?
+      - Oleo pode contaminar reciclaveis?
+      - Como separar papel e organicos?
+      - O que e rejeito comum?
+
+  - id: oleo_de_cozinha
+    response_type: alert
+    answer: Oleo de cozinha nao deve ir na pia, no vaso nem misturado ao lixo reciclavel.
+    action: Guarde em uma garrafa bem fechada e leve a pontos de coleta, ecopontos ou campanhas de reaproveitamento de oleo.
+    alert: O descarte incorreto pode entupir tubulacoes e contaminar a agua.
+    aliases:
+      - oleo de cozinha
+      - oleo usado
+      - azeite usado
+      - pode jogar oleo na pia
+      - descarte de oleo
+    keywords:
+      - fritura
+      - gordura liquida
+      - garrafa pet com oleo
+      - pia
+    quick_replies:
+      - Onde descartar oleo de cozinha?
+      - Pode jogar oleo no lixo comum?
+      - Como armazenar oleo usado?
+      - O que fazer com embalagem engordurada?
+
+  - id: compostagem
+    response_type: explanation
+    answer: Compostagem transforma residuos organicos em adubo e reduz o volume enviado ao lixo comum.
+    action: Priorize restos vegetais, cascas, folhas secas e borra de cafe. Mantenha o material separado de plasticos, metais e vidros.
+    aliases:
+      - compostagem
+      - composteira
+      - como compostar
+      - lixo organico
+      - residuos organicos
+    keywords:
+      - casca de fruta
+      - resto vegetal
+      - adubo
+      - compostar em casa
+    quick_replies:
+      - Casca de ovo pode ir na compostagem?
+      - Restos de comida vao no lixo comum?
+      - Como reduzir residuos organicos?
+      - O que nao colocar na composteira?
+
+  - id: sustentabilidade
+    response_type: explanation
+    answer: Sustentabilidade busca reduzir impacto ambiental, usar recursos com mais eficiencia e prolongar o ciclo de vida dos materiais.
+    action: Priorize reduzir o consumo, reutilizar quando possivel e reciclar apenas quando o item realmente ja nao puder mais ser aproveitado.
+    aliases:
+      - sustentabilidade
+      - atitude sustentavel
+      - consumo consciente
+      - impacto ambiental
+      - como ser sustentavel
+    keywords:
+      - reduzir desperdicio
+      - reaproveitar
+      - economia circular
+      - habitos sustentaveis
+    quick_replies:
+      - Como reduzir lixo em casa?
+      - O que e economia circular?
+      - Como reaproveitar embalagens?
+      - Reciclagem resolve tudo?
+
+  - id: acessibilidade_digital
+    response_type: explanation
+    answer: Acessibilidade digital e o cuidado para que pessoas com diferentes habilidades consigam perceber, entender e usar um sistema com autonomia.
+    action: Boas praticas incluem contraste adequado, navegacao por teclado, textos claros, estrutura semantica e suporte a leitores de tela.
+    aliases:
+      - acessibilidade
+      - acessibilidade digital
+      - sistema acessivel
+      - inclusao digital
+      - usabilidade acessivel
+    keywords:
+      - leitor de tela
+      - teclado
+      - contraste
+      - texto alternativo
+      - aria
+    quick_replies:
+      - O que e contraste acessivel?
+      - Como melhorar navegacao por teclado?
+      - Para que serve texto alternativo?
+      - Como um chatbot pode ser mais acessivel?
+
+  - id: contraste_e_legibilidade
+    response_type: explanation
+    answer: Contraste e legibilidade ajudam o conteudo a ser lido por mais pessoas, inclusive quem tem baixa visao, daltonismo ou usa o sistema em ambientes com muita luz.
+    action: Use combinacoes com contraste forte entre texto e fundo, tamanhos legiveis e evite depender so de cor para transmitir significado.
+    aliases:
+      - contraste acessivel
+      - legibilidade
+      - cor e acessibilidade
+      - texto com contraste
+      - baixo contraste
+    keywords:
+      - daltonismo
+      - leitura
+      - tamanho de fonte
+      - cor de fundo
+    quick_replies:
+      - Como melhorar acessibilidade visual?
+      - Cor sozinha pode indicar erro?
+      - Tamanho da fonte interfere na acessibilidade?
+      - Como deixar um botao mais visivel?
+
+  - id: navegacao_por_teclado
+    response_type: decision
+    answer: Um sistema acessivel deve poder ser usado pelo teclado, sem depender somente do mouse.
+    action: Garanta foco visivel, ordem logica de tabulacao, botoes clicaveis por teclado e atalhos que nao atrapalhem tecnologias assistivas.
+    aliases:
+      - navegacao por teclado
+      - usar sem mouse
+      - foco visivel
+      - tabulacao
+      - teclado acessivel
+    keywords:
+      - tecla tab
+      - enter
+      - espaco
+      - foco do botao
+    quick_replies:
+      - O que e foco visivel?
+      - Como testar acessibilidade por teclado?
+      - Leitor de tela depende de semantica?
+      - Como melhorar um formulario acessivel?
+
+  - id: texto_alternativo
+    response_type: explanation
+    answer: Texto alternativo descreve a funcao ou o conteudo relevante de uma imagem para quem nao consegue ve-la.
+    action: Descreva o que a imagem comunica de verdade. Se for decorativa, o ideal e nao poluir a leitura com descricao desnecessaria.
+    aliases:
+      - texto alternativo
+      - alt text
+      - descricao de imagem
+      - imagem acessivel
+      - como descrever imagem
+    keywords:
+      - atributo alt
+      - leitor de tela
+      - imagem decorativa
+      - descricao curta
+    quick_replies:
+      - Como descrever uma imagem para acessibilidade?
+      - Toda imagem precisa de alt text?
+      - Icones precisam de descricao?
+      - Como deixar uma interface mais acessivel?
+
+  - id: reduzir_residuos
+    response_type: decision
+    answer: Reduzir residuos comeca antes do descarte, escolhendo produtos mais duraveis, reutilizaveis e com menos embalagem.
+    action: Planeje compras, reutilize recipientes, priorize refis e evite descartaveis quando houver alternativa segura.
+    aliases:
+      - como reduzir lixo
+      - reduzir residuos
+      - diminuir desperdicio
+      - gerar menos lixo
+      - habitos sustentaveis
+    keywords:
+      - reutilizar
+      - refil
+      - descartavel
+      - consumo consciente
+    quick_replies:
+      - Como reduzir lixo em casa?
+      - Reciclar e melhor que reutilizar?
+      - O que e consumo consciente?
+      - Como organizar coleta seletiva?

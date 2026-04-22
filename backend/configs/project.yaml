@@ -9,6 +9,8 @@ paths:
   checkpoint_path: artifacts/checkpoints/reuse_ai_best.pt
   report_dir: artifacts/reports
   class_catalog: configs/class_catalog.yaml
+  chat_topics: configs/chat_topics.yaml
+  chat_system_knowledge: configs/chat_system_knowledge.yaml
   disposal_rules: configs/disposal_rules.yaml
   disposal_points_catalog: configs/disposal_points_catalog.yaml
 

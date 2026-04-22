@@ -4,6 +4,12 @@ from django.contrib import admin
 from django.urls import include, path
 
 from .views import AnalyzeView, HealthView, NearbyDisposalPointsView
+from reuse_ai.chatbot_api import (
+    ChatbotSessionCloseView,
+    ChatbotSessionDetailView,
+    ChatbotSessionListView,
+    ChatbotView,
+)
 
 
 urlpatterns = [
@@ -13,6 +19,14 @@ urlpatterns = [
     path('api/health', HealthView.as_view()),
     path('api/analyze/', AnalyzeView.as_view()),
     path('api/analyze', AnalyzeView.as_view()),
+    path('api/chatbot/', ChatbotView.as_view()),
+    path('api/chatbot', ChatbotView.as_view()),
+    path('api/chatbot/sessions/', ChatbotSessionListView.as_view()),
+    path('api/chatbot/sessions', ChatbotSessionListView.as_view()),
+    path('api/chatbot/sessions/<int:session_id>/', ChatbotSessionDetailView.as_view()),
+    path('api/chatbot/sessions/<int:session_id>', ChatbotSessionDetailView.as_view()),
+    path('api/chatbot/sessions/<int:session_id>/close/', ChatbotSessionCloseView.as_view()),
+    path('api/chatbot/sessions/<int:session_id>/close', ChatbotSessionCloseView.as_view()),
     path('api/disposal-points/nearby/', NearbyDisposalPointsView.as_view()),
     path('api/disposal-points/nearby', NearbyDisposalPointsView.as_view()),
 ]

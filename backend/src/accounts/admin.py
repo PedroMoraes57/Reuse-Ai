@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import (
     AnalysisRecord,
+    AssistantChatMessage,
+    AssistantChatSession,
     Friendship,
     MissionClaim,
     SustainabilityBattle,
@@ -80,3 +82,17 @@ class UserNotificationAdmin(admin.ModelAdmin):
     list_display = ("user", "kind", "title", "read_at", "created_at")
     list_filter = ("kind", "read_at")
     search_fields = ("user__username", "title", "message")
+
+
+@admin.register(AssistantChatSession)
+class AssistantChatSessionAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "title", "closed_at", "updated_at", "created_at")
+    list_filter = ("closed_at",)
+    search_fields = ("user__username", "title", "last_message_preview")
+
+
+@admin.register(AssistantChatMessage)
+class AssistantChatMessageAdmin(admin.ModelAdmin):
+    list_display = ("id", "session", "role", "response_type", "created_at")
+    list_filter = ("role", "response_type")
+    search_fields = ("session__user__username", "text", "action")

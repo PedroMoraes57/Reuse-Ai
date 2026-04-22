@@ -1,0 +1,283 @@
+entries:
+  - id: landing_page
+    kind: page
+    label: pagina inicial
+    response_type: explanation
+    answer: A pagina inicial apresenta a proposta da Reuse.AI, explica o fluxo principal e direciona o usuario para classificar residuos, criar conta ou entrar.
+    action: Use os botoes e o menu para seguir para classificacao, cadastro, login ou conhecer melhor as secoes do projeto.
+    aliases:
+      - inicio
+      - home
+      - pagina inicial
+      - tela inicial
+      - homepage
+    keywords:
+      - onde comeco
+      - como funciona o site
+      - o que tem aqui
+      - primeira pagina
+    route_ids:
+      - landing
+    quick_replies:
+      - Como funciona a Reuse.AI?
+      - Onde eu classifico um item?
+      - Preciso criar conta para usar tudo?
+      - O que o projeto faz?
+
+  - id: classification_page
+    kind: page
+    label: pagina de classificacao
+    response_type: explanation
+    answer: Na pagina Classificar voce envia uma foto para a IA identificar o item, estimar o material, sugerir o descarte correto e mostrar como preparar o residuo.
+    action: Faca login, envie uma imagem nitida e, se quiser pontos proximos, libere a localizacao para complementar a orientacao.
+    aliases:
+      - classificar
+      - classificacao
+      - analisar imagem
+      - pagina de classificar
+      - tela de analise
+    keywords:
+      - camera
+      - upload
+      - foto
+      - resultado
+      - descarte
+    route_ids:
+      - classification
+    quick_replies:
+      - Como analisar uma imagem?
+      - Preciso estar logado para classificar?
+      - Posso ver pontos proximos de descarte?
+      - O que significa confianca baixa?
+
+  - id: nearby_points_feature
+    kind: feature
+    label: pontos proximos de descarte
+    response_type: decision
+    answer: A funcionalidade de pontos proximos usa sua localizacao para sugerir ecopontos, cooperativas ou locais compativeis com o fluxo de descarte do item analisado.
+    action: Permita a localizacao na pagina de classificacao para receber sugestoes locais. Se isso nao estiver disponivel, siga a orientacao geral de descarte.
+    aliases:
+      - pontos proximos
+      - mapa de descarte
+      - ecoponto perto
+      - localizacao
+      - onde levar aqui perto
+    keywords:
+      - gps
+      - geolocalizacao
+      - mapa
+      - lugares proximos
+    route_ids:
+      - classification
+    quick_replies:
+      - Por que liberar localizacao?
+      - Como ver ecopontos proximos?
+      - O mapa funciona sem permissao?
+      - O que acontece se eu negar a localizacao?
+
+  - id: confidence_feature
+    kind: feature
+    label: confianca da analise
+    response_type: explanation
+    answer: A confianca indica o quanto a IA acredita que a imagem realmente corresponde ao item sugerido. Quando a confianca esta baixa, a resposta deve ser revisada com mais cuidado.
+    action: Se a confianca estiver baixa, envie outra foto com fundo limpo, boa luz e o item mais centralizado para melhorar a analise.
+    aliases:
+      - confianca baixa
+      - precisao da ia
+      - confianca da analise
+      - resultado incerto
+      - por que a ia ficou em duvida
+    keywords:
+      - score
+      - porcentagem
+      - revisao manual
+      - predicao incerta
+    route_ids:
+      - classification
+    quick_replies:
+      - Como melhorar a foto para a IA?
+      - O que fazer quando a analise falha?
+      - A IA sempre acerta?
+      - Como o sistema escolhe o item?
+
+  - id: ranking_page
+    kind: page
+    label: pagina de ranking
+    response_type: explanation
+    answer: A pagina Ranking mostra sua evolucao na plataforma, com XP, posicao semanal, missoes e indicadores de participacao da comunidade.
+    action: Use essa pagina para acompanhar seu progresso, comparar resultados e descobrir oportunidades de ganhar mais XP.
+    aliases:
+      - ranking
+      - classificacao geral
+      - tabela de pontos
+      - pagina de ranking
+      - central de ranking
+    keywords:
+      - lideranca
+      - pontuacao
+      - posicao
+      - ranking semanal
+    route_ids:
+      - ranking
+    quick_replies:
+      - Como ganho XP?
+      - O que sao missoes?
+      - Como funciona o ranking semanal?
+      - O que acontece quando termino tudo?
+
+  - id: missions_xp_feature
+    kind: feature
+    label: xp e missoes
+    response_type: explanation
+    answer: XP representa seu progresso dentro da plataforma. Voce ganha pontos ao analisar itens e cumprir objetivos, enquanto as missoes ajudam a manter uma rotina de uso e aprendizado.
+    action: Faca analises, acompanhe seu progresso no ranking e conclua as missoes disponiveis para evoluir de nivel.
+    aliases:
+      - xp
+      - experiencia
+      - nivel
+      - missoes
+      - como ganhar pontos
+    keywords:
+      - subir de nivel
+      - recompensa
+      - progresso
+      - meta semanal
+    route_ids:
+      - ranking
+      - profile
+      - classification
+    quick_replies:
+      - Como subir de nivel?
+      - Analise de imagem da XP?
+      - Onde vejo minhas missoes?
+      - O ranking atualiza sozinho?
+
+  - id: friends_page
+    kind: page
+    label: pagina de amigos
+    response_type: explanation
+    answer: A pagina Amigos concentra busca de usuarios, pedidos de amizade, desafios e o acompanhamento das interacoes sociais da plataforma.
+    action: Pesquise usuarios, envie pedidos de amizade, aceite convites e acompanhe batalhas ativas no mesmo fluxo.
+    aliases:
+      - amigos
+      - pagina de amigos
+      - rede social
+      - contatos
+      - adicionar amigo
+    keywords:
+      - buscar usuario
+      - pedido de amizade
+      - convite
+      - social
+    route_ids:
+      - friends
+    quick_replies:
+      - Como adicionar um amigo?
+      - Como aceitar um pedido?
+      - Como desafiar alguem?
+      - Onde vejo minhas batalhas?
+
+  - id: battle_feature
+    kind: feature
+    label: batalhas sustentaveis
+    response_type: explanation
+    answer: As batalhas sustentaveis permitem desafiar outro usuario para responder perguntas relacionadas a residuos e descarte, transformando aprendizado em competicao leve.
+    action: Va para Amigos, escolha um usuario e envie um desafio. Quando uma batalha for aceita, acompanhe as perguntas na tela da batalha.
+    aliases:
+      - batalha
+      - quiz com amigo
+      - desafio sustentavel
+      - duelo
+      - competir com amigo
+    keywords:
+      - responder perguntas
+      - aceitar batalha
+      - desafio
+      - quiz
+    route_ids:
+      - friends
+      - battle
+    quick_replies:
+      - Como iniciar uma batalha?
+      - Como aceitar um desafio?
+      - Onde vejo o resultado da batalha?
+      - A batalha da XP?
+
+  - id: profile_page
+    kind: page
+    label: pagina de perfil
+    response_type: explanation
+    answer: A pagina Perfil concentra seus dados pessoais, avatar, nome de exibicao e atalhos para acompanhar ranking, amigos e o progresso de gamificacao.
+    action: Use essa area para atualizar informacoes da conta, trocar a foto e consultar seu resumo de progresso.
+    aliases:
+      - perfil
+      - minha conta
+      - pagina de perfil
+      - conta do usuario
+      - dados da conta
+    keywords:
+      - avatar
+      - nome de exibicao
+      - editar perfil
+      - sair da conta
+    route_ids:
+      - profile
+      - public_profile
+    quick_replies:
+      - Como trocar minha foto?
+      - Como editar meu nome?
+      - Onde vejo meu progresso?
+      - Como sair da conta?
+
+  - id: login_feature
+    kind: feature
+    label: login e acesso
+    response_type: decision
+    answer: O login libera as funcoes autenticadas da plataforma, como analise de imagens, perfil, ranking social e dados pessoais.
+    action: Entre com usuario ou e-mail e senha, ou use Google quando essa opcao estiver disponivel. Se a sessao expirar, faca login novamente.
+    aliases:
+      - login
+      - entrar
+      - acesso
+      - autenticacao
+      - entrar com google
+    keywords:
+      - sessao expirada
+      - usuario ou email
+      - senha
+      - conta
+    route_ids:
+      - login
+    quick_replies:
+      - Posso entrar com Google?
+      - Esqueci minha senha
+      - Preciso confirmar e-mail?
+      - Preciso login para classificar?
+
+  - id: register_feature
+    kind: feature
+    label: cadastro e verificacao
+    response_type: decision
+    answer: O cadastro cria sua conta para usar os recursos protegidos da plataforma. Depois de criar a conta, o sistema pede confirmacao por e-mail antes do acesso completo.
+    action: Preencha seus dados, escolha uma senha forte e confirme o e-mail recebido para ativar a conta.
+    aliases:
+      - cadastro
+      - criar conta
+      - registrar
+      - verificacao por email
+      - ativar conta
+    keywords:
+      - confirmar email
+      - conta nova
+      - senha forte
+      - foto de perfil no cadastro
+    route_ids:
+      - register
+      - verify_email
+      - forgot_password
+      - reset_password
+    quick_replies:
+      - Como criar conta?
+      - Preciso confirmar meu e-mail?
+      - Posso usar Google no cadastro?
+      - Como redefino minha senha?

@@ -32,6 +32,8 @@ def load_project_config(config_path: str | Path = DEFAULT_CONFIG_PATH) -> dict[s
         "checkpoint_path",
         "report_dir",
         "class_catalog",
+        "chat_topics",
+        "chat_system_knowledge",
         "disposal_rules",
         "disposal_points_catalog",
     ):

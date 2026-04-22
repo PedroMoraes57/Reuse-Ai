@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { AssistantProvider } from './contexts/AssistantContext';
+import AssistantWidget from './components/Assistant/AssistantWidget';
 import LandingPage from './pages/LandingPage';
 import ClassificationPage from './pages/ClassificationPage';
 import LoginPage from './pages/LoginPage';
@@ -41,8 +43,17 @@ function AnimatedRoutes() {
           <Route path='/esqueci-senha' element={<ForgotPasswordPage />} />
           <Route path='/recuperar-senha' element={<ResetPasswordPage />} />
         </Routes>
+        <AssistantWidget/>
       </motion.div>
     </AnimatePresence>
+  );
+}
+
+function RoutedApp() {
+  return (
+    <AssistantProvider>
+      <AnimatedRoutes />
+    </AssistantProvider>
   );
 }
 
@@ -50,7 +61,7 @@ function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
-        <AnimatedRoutes />
+        <RoutedApp />
       </BrowserRouter>
     </ThemeProvider>
   );
