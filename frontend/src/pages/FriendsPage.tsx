@@ -301,7 +301,7 @@ export default function FriendsPage() {
             variants={staggerItem}
             className='rounded-3xl border border-reuseai-verde/10 bg-reuseai-verde/5 p-5 dark:border-reuseai-verdeNeon/10 dark:bg-[#0f1813]'
           >
-            <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
+            <div className='flex items-center justify-between gap-4'>
               <div className='min-w-0'>
                 <div className='flex items-center gap-3'>
                   <img
@@ -344,14 +344,14 @@ export default function FriendsPage() {
                 )}
               </div>
 
-              <div className='flex flex-col gap-2 sm:flex-row'>
+              <div className='flex shrink-0 flex-wrap gap-2'>
                 {battle.can_respond_to_invite && (
                   <>
                     <button
                       type='button'
                       disabled={busyKey === `battle:${battle.id}:accept`}
                       onClick={() => void handleBattleAction(battle.id, 'accept')}
-                      className='inline-flex items-center justify-center gap-2 rounded-full bg-reuseai-verde px-4 py-2.5 text-sm font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul disabled:cursor-not-allowed disabled:opacity-60'
+                      className='inline-flex items-center gap-1.5 rounded-full bg-reuseai-verde px-3 py-2 text-xs font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul disabled:cursor-not-allowed disabled:opacity-60'
                     >
                       <FontAwesomeIcon icon={faCircleCheck} />
                       Aceitar
@@ -360,7 +360,7 @@ export default function FriendsPage() {
                       type='button'
                       disabled={busyKey === `battle:${battle.id}:decline`}
                       onClick={() => void handleBattleAction(battle.id, 'decline')}
-                      className='inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600 transition-colors hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-100 dark:hover:bg-red-500/15'
+                      className='inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition-colors hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/15'
                     >
                       <FontAwesomeIcon icon={faXmark} />
                       Recusar
@@ -371,7 +371,7 @@ export default function FriendsPage() {
                 {!battle.can_respond_to_invite && (
                   <a
                     href={`/amigos/batalhas/${battle.id}`}
-                    className='inline-flex items-center justify-center gap-2 rounded-full border border-reuseai-verde/15 bg-white px-4 py-2.5 text-sm font-semibold text-reuseai-preto transition-colors hover:bg-reuseai-verde/5 dark:border-reuseai-verdeNeon/15 dark:bg-[#132017] dark:text-reuseai-branco'
+                    className='inline-flex items-center gap-1.5 rounded-full border border-reuseai-verde/15 bg-white px-3 py-2 text-xs font-semibold text-reuseai-preto transition-colors hover:bg-reuseai-verde/5 dark:border-reuseai-verdeNeon/15 dark:bg-[#132017] dark:text-reuseai-branco'
                   >
                     <FontAwesomeIcon icon={faBolt} />
                     Abrir batalha
@@ -391,6 +391,7 @@ export default function FriendsPage() {
       <main className='min-h-screen bg-gradient-to-b from-reuseai-branco via-reuseai-branco to-reuseai-verdeClaro/10 px-4 py-10 dark:from-[#09100b] dark:via-[#0b100d] dark:to-[#122018] md:px-6 md:py-16'>
         <div className='mx-auto max-w-6xl'>
           <motion.section
+            data-tutorial='friends-hero'
             variants={fadeUp}
             initial='hidden'
             animate='visible'
@@ -478,158 +479,151 @@ export default function FriendsPage() {
           )}
 
           {!isLoading && !error && overview && (
-            <div className='mt-8 grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]'>
-              <div className='space-y-6'>
-                <SectionCard
-                  eyebrow='Encontrar pessoas'
-                  title='Adicionar amigos'
-                  description='Busque por username para enviar convites ou visitar o perfil público do usuário.'
-                >
-                  <form onSubmit={handleSearchSubmit} className='flex flex-col gap-3 sm:flex-row'>
-                    <input
-                      value={searchQuery}
-                      onChange={event => setSearchQuery(event.target.value)}
-                      placeholder='Ex.: LeoPCD'
-                      className='h-12 flex-1 rounded-full border border-reuseai-verde/15 bg-white px-5 text-sm text-reuseai-preto outline-none ring-0 placeholder:text-reuseai-cinza/70 focus:border-reuseai-verde dark:border-reuseai-verdeNeon/15 dark:bg-[#132017] dark:text-reuseai-branco'
-                    />
-                    <button
-                      type='submit'
-                      disabled={searching}
-                      className='inline-flex h-12 items-center justify-center gap-2 rounded-full bg-reuseai-verde px-5 text-sm font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul disabled:cursor-not-allowed disabled:opacity-60'
-                    >
-                      <FontAwesomeIcon icon={faMagnifyingGlass} />
-                      {searching ? 'Buscando...' : 'Buscar'}
-                    </button>
-                  </form>
+            <div className='mt-8 space-y-6'>
+              {/* Row 1: Search + Add Friends (full width) */}
+              <SectionCard
+                eyebrow='Encontrar pessoas'
+                title='Adicionar amigos'
+                description='Busque por username para enviar convites ou visitar o perfil público do usuário.'
+              >
+                <form onSubmit={handleSearchSubmit} className='flex gap-3'>
+                  <input
+                    value={searchQuery}
+                    onChange={event => setSearchQuery(event.target.value)}
+                    placeholder='Ex.: LeoPCD'
+                    className='h-11 flex-1 rounded-full border border-reuseai-verde/15 bg-white px-5 text-sm text-reuseai-preto outline-none ring-0 placeholder:text-reuseai-cinza/70 focus:border-reuseai-verde dark:border-reuseai-verdeNeon/15 dark:bg-[#132017] dark:text-reuseai-branco'
+                  />
+                  <button
+                    type='submit'
+                    disabled={searching}
+                    className='inline-flex h-11 items-center justify-center gap-2 rounded-full bg-reuseai-verde px-5 text-sm font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul disabled:cursor-not-allowed disabled:opacity-60'
+                  >
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    {searching ? 'Buscando...' : 'Buscar'}
+                  </button>
+                </form>
 
-                  <div className='mt-5 space-y-3'>
-                    {searchResults.map(result => (
-                      <div
-                        key={result.user.id}
-                        className='flex flex-col gap-4 rounded-3xl border border-reuseai-verde/10 bg-reuseai-verde/5 p-4 dark:border-reuseai-verdeNeon/10 dark:bg-[#0f1813] sm:flex-row sm:items-center sm:justify-between'
-                      >
-                        <div className='flex min-w-0 items-center gap-3'>
-                          <img
-                            src={getUserAvatarUrl(result.user)}
-                            alt={result.user.username}
-                            className='h-12 w-12 rounded-full border border-reuseai-verde/15 object-cover'
-                          />
-                          <div className='min-w-0'>
-                            <a
-                              href={`/usuarios/${result.user.username}`}
-                              className='truncate text-base font-bold text-reuseai-preto transition-colors hover:text-reuseai-verde dark:text-reuseai-branco'
-                            >
-                              @{result.user.username}
-                            </a>
-                            <p className='mt-1 text-sm text-reuseai-cinza dark:text-white/65'>
-                              Nível {result.user.game_profile.level} •{' '}
-                              {result.user.game_profile.level_title}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className='flex flex-col gap-2 sm:flex-row'>
-                          {result.relationship.status === 'none' && (
-                            <button
-                              type='button'
-                              disabled={busyKey === `friend:${result.user.username}`}
-                              onClick={() => void handleSendFriendRequest(result.user.username)}
-                              className='inline-flex items-center justify-center gap-2 rounded-full bg-reuseai-verde px-4 py-2.5 text-sm font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul disabled:cursor-not-allowed disabled:opacity-60'
-                            >
-                              <FontAwesomeIcon icon={faUserPlus} />
-                              Adicionar
-                            </button>
-                          )}
-
-                          {result.relationship.status === 'friends' && (
-                            <button
-                              type='button'
-                              disabled={busyKey === `battle:create:${result.user.username}`}
-                              onClick={() => void handleCreateBattle(result.user.username)}
-                              className='inline-flex items-center justify-center gap-2 rounded-full border border-reuseai-verde/15 bg-white px-4 py-2.5 text-sm font-semibold text-reuseai-preto transition-colors hover:bg-reuseai-verde/5 disabled:cursor-not-allowed disabled:opacity-60 dark:border-reuseai-verdeNeon/15 dark:bg-[#132017] dark:text-reuseai-branco'
-                            >
-                              <FontAwesomeIcon icon={faBolt} />
-                              Desafiar
-                            </button>
-                          )}
-
-                          {result.relationship.status === 'incoming_request' && (
-                            <button
-                              type='button'
-                              disabled={
-                                busyKey === `request:${result.relationship.friendship_id}:accept`
-                              }
-                              onClick={() => {
-                                if (!result.relationship.friendship_id) {
-                                  return;
-                                }
-                                void handleFriendRequestAction(
-                                  result.relationship.friendship_id,
-                                  'accept',
-                                );
-                              }}
-                              className='inline-flex items-center justify-center gap-2 rounded-full border border-reuseai-verde/15 bg-white px-4 py-2.5 text-sm font-semibold text-reuseai-preto transition-colors hover:bg-reuseai-verde/5 disabled:cursor-not-allowed disabled:opacity-60 dark:border-reuseai-verdeNeon/15 dark:bg-[#132017] dark:text-reuseai-branco'
-                            >
-                              <FontAwesomeIcon icon={faUserCheck} />
-                              Aceitar pedido
-                            </button>
-                          )}
-
-                          {result.relationship.status === 'outgoing_request' && (
-                            <span className='inline-flex items-center justify-center gap-2 rounded-full bg-reuseai-verde/10 px-4 py-2.5 text-sm font-semibold text-reuseai-verde'>
-                              <FontAwesomeIcon icon={faClock} />
-                              Convite pendente
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-
-                    {!searching && searchQuery.trim() && searchResults.length === 0 && (
+                {(searchResults.length > 0 || (!searching && searchQuery.trim())) && (
+                  <div className='mt-5'>
+                    {searchResults.length === 0 ? (
                       <EmptyState text='Nenhum usuário encontrado com esse termo. Tente buscar pelo username exato ou por parte dele.' />
+                    ) : (
+                      <div className='grid gap-3 sm:grid-cols-2 xl:grid-cols-3'>
+                        {searchResults.map(result => (
+                          <div
+                            key={result.user.id}
+                            className='flex flex-col gap-3 rounded-3xl border border-reuseai-verde/10 bg-reuseai-verde/5 p-4 dark:border-reuseai-verdeNeon/10 dark:bg-[#0f1813]'
+                          >
+                            <div className='flex min-w-0 items-center gap-3'>
+                              <img
+                                src={getUserAvatarUrl(result.user)}
+                                alt={result.user.username}
+                                className='h-11 w-11 rounded-full border border-reuseai-verde/15 object-cover'
+                              />
+                              <div className='min-w-0'>
+                                <a
+                                  href={`/usuarios/${result.user.username}`}
+                                  className='block truncate text-sm font-bold text-reuseai-preto transition-colors hover:text-reuseai-verde dark:text-reuseai-branco'
+                                >
+                                  @{result.user.username}
+                                </a>
+                                <p className='mt-0.5 text-xs text-reuseai-cinza dark:text-white/65'>
+                                  Nível {result.user.game_profile.level} • {result.user.game_profile.level_title}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className='flex flex-wrap gap-2'>
+                              {result.relationship.status === 'none' && (
+                                <button
+                                  type='button'
+                                  disabled={busyKey === `friend:${result.user.username}`}
+                                  onClick={() => void handleSendFriendRequest(result.user.username)}
+                                  className='inline-flex items-center gap-1.5 rounded-full bg-reuseai-verde px-3 py-2 text-xs font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul disabled:cursor-not-allowed disabled:opacity-60'
+                                >
+                                  <FontAwesomeIcon icon={faUserPlus} />
+                                  Adicionar
+                                </button>
+                              )}
+                              {result.relationship.status === 'friends' && (
+                                <button
+                                  type='button'
+                                  disabled={busyKey === `battle:create:${result.user.username}`}
+                                  onClick={() => void handleCreateBattle(result.user.username)}
+                                  className='inline-flex items-center gap-1.5 rounded-full border border-reuseai-verde/15 bg-white px-3 py-2 text-xs font-semibold text-reuseai-preto transition-colors hover:bg-reuseai-verde/5 disabled:cursor-not-allowed disabled:opacity-60 dark:border-reuseai-verdeNeon/15 dark:bg-[#132017] dark:text-reuseai-branco'
+                                >
+                                  <FontAwesomeIcon icon={faBolt} />
+                                  Desafiar
+                                </button>
+                              )}
+                              {result.relationship.status === 'incoming_request' && (
+                                <button
+                                  type='button'
+                                  disabled={busyKey === `request:${result.relationship.friendship_id}:accept`}
+                                  onClick={() => {
+                                    if (!result.relationship.friendship_id) return;
+                                    void handleFriendRequestAction(result.relationship.friendship_id, 'accept');
+                                  }}
+                                  className='inline-flex items-center gap-1.5 rounded-full border border-reuseai-verde/15 bg-white px-3 py-2 text-xs font-semibold text-reuseai-preto transition-colors hover:bg-reuseai-verde/5 disabled:cursor-not-allowed disabled:opacity-60 dark:border-reuseai-verdeNeon/15 dark:bg-[#132017] dark:text-reuseai-branco'
+                                >
+                                  <FontAwesomeIcon icon={faUserCheck} />
+                                  Aceitar pedido
+                                </button>
+                              )}
+                              {result.relationship.status === 'outgoing_request' && (
+                                <span className='inline-flex items-center gap-1.5 rounded-full bg-reuseai-verde/10 px-3 py-2 text-xs font-semibold text-reuseai-verde'>
+                                  <FontAwesomeIcon icon={faClock} />
+                                  Pendente
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     )}
                   </div>
-                </SectionCard>
+                )}
+              </SectionCard>
 
+              {/* Row 2: Incoming friend requests + Friends list */}
+              <div className='grid gap-6 lg:grid-cols-2'>
                 <SectionCard
                   eyebrow='Pedidos'
-                  title='Convites recebidos'
+                  title='Pedidos de amizade recebidos'
                   description='Aceite quem você quer trazer para a sua rede e desbloqueie futuras batalhas.'
                 >
                   {overview.incoming_requests.length === 0 ? (
                     <EmptyState text='Nenhum pedido recebido por enquanto.' />
                   ) : (
-                    <div className='space-y-4'>
+                    <div className='space-y-3'>
                       {overview.incoming_requests.map(request => (
                         <div
                           key={request.id}
                           className='rounded-3xl border border-reuseai-verde/10 bg-reuseai-verde/5 p-4 dark:border-reuseai-verdeNeon/10 dark:bg-[#0f1813]'
                         >
-                          <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-                            <div className='flex items-center gap-3'>
-                              <img
-                                src={getUserAvatarUrl(request.user)}
-                                alt={request.user.username}
-                                className='h-12 w-12 rounded-full border border-reuseai-verde/15 object-cover'
-                              />
-                              <div>
-                                <a
-                                  href={`/usuarios/${request.user.username}`}
-                                  className='text-base font-bold text-reuseai-preto transition-colors hover:text-reuseai-verde dark:text-reuseai-branco'
-                                >
-                                  @{request.user.username}
-                                </a>
-                                <p className='mt-1 text-sm text-reuseai-cinza dark:text-white/65'>
-                                  Enviado em {formatDate(request.created_at)}
-                                </p>
-                              </div>
+                          <div className='flex items-center gap-3'>
+                            <img
+                              src={getUserAvatarUrl(request.user)}
+                              alt={request.user.username}
+                              className='h-11 w-11 shrink-0 rounded-full border border-reuseai-verde/15 object-cover'
+                            />
+                            <div className='min-w-0 flex-1'>
+                              <a
+                                href={`/usuarios/${request.user.username}`}
+                                className='block truncate text-sm font-bold text-reuseai-preto transition-colors hover:text-reuseai-verde dark:text-reuseai-branco'
+                              >
+                                @{request.user.username}
+                              </a>
+                              <p className='mt-0.5 text-xs text-reuseai-cinza dark:text-white/65'>
+                                {formatDate(request.created_at)}
+                              </p>
                             </div>
-                            <div className='flex flex-col gap-2 sm:flex-row'>
+                            <div className='flex shrink-0 gap-2'>
                               <button
                                 type='button'
                                 disabled={busyKey === `request:${request.id}:accept`}
                                 onClick={() => void handleFriendRequestAction(request.id, 'accept')}
-                                className='inline-flex items-center justify-center gap-2 rounded-full bg-reuseai-verde px-4 py-2.5 text-sm font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul disabled:cursor-not-allowed disabled:opacity-60'
+                                className='inline-flex items-center gap-1.5 rounded-full bg-reuseai-verde px-3 py-2 text-xs font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul disabled:cursor-not-allowed disabled:opacity-60'
                               >
                                 <FontAwesomeIcon icon={faCircleCheck} />
                                 Aceitar
@@ -638,7 +632,7 @@ export default function FriendsPage() {
                                 type='button'
                                 disabled={busyKey === `request:${request.id}:decline`}
                                 onClick={() => void handleFriendRequestAction(request.id, 'decline')}
-                                className='inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600 transition-colors hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-100 dark:hover:bg-red-500/15'
+                                className='inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition-colors hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-500/15'
                               >
                                 <FontAwesomeIcon icon={faXmark} />
                                 Recusar
@@ -650,63 +644,56 @@ export default function FriendsPage() {
                     </div>
                   )}
                 </SectionCard>
-              </div>
 
-              <div className='space-y-6'>
                 <SectionCard
                   eyebrow='Sua rede'
                   title='Amigos conectados'
                   description='Use o perfil público para conhecer melhor cada pessoa e enviar desafios sempre que quiser.'
                 >
                   {overview.friends.length === 0 ? (
-                    <EmptyState text='Você ainda não tem amigos adicionados. Use a busca ao lado para começar sua rede.' />
+                    <EmptyState text='Você ainda não tem amigos adicionados. Use a busca acima para começar sua rede.' />
                   ) : (
-                    <div className='space-y-4'>
+                    <div className='space-y-3'>
                       {overview.friends.map(friend => (
                         <div
                           key={friend.id}
-                          className='rounded-3xl border border-reuseai-verde/10 bg-reuseai-verde/5 p-5 dark:border-reuseai-verdeNeon/10 dark:bg-[#0f1813]'
+                          className='rounded-3xl border border-reuseai-verde/10 bg-reuseai-verde/5 p-4 dark:border-reuseai-verdeNeon/10 dark:bg-[#0f1813]'
                         >
-                          <div className='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
-                            <div className='flex min-w-0 items-center gap-4'>
-                              <img
-                                src={getUserAvatarUrl(friend.user)}
-                                alt={friend.user.username}
-                                className='h-14 w-14 rounded-full border border-reuseai-verde/15 object-cover'
-                              />
-                              <div className='min-w-0'>
-                                <a
-                                  href={`/usuarios/${friend.user.username}`}
-                                  className='truncate text-lg font-bold text-reuseai-preto transition-colors hover:text-reuseai-verde dark:text-reuseai-branco'
-                                >
-                                  @{friend.user.username}
-                                </a>
-                                <p className='mt-1 text-sm text-reuseai-cinza dark:text-white/65'>
-                                  Nível {friend.user.game_profile.level} •{' '}
-                                  {friend.user.game_profile.level_title}
-                                </p>
-                                <p className='mt-2 text-sm text-reuseai-cinza dark:text-white/65'>
-                                  {formatNumber(friend.user.game_profile.xp_total)} XP totais •{' '}
-                                  {formatNumber(friend.user.game_profile.total_analyses)} análises
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className='flex flex-col gap-2 sm:flex-row'>
+                          <div className='flex items-center gap-3'>
+                            <img
+                              src={getUserAvatarUrl(friend.user)}
+                              alt={friend.user.username}
+                              className='h-11 w-11 shrink-0 rounded-full border border-reuseai-verde/15 object-cover'
+                            />
+                            <div className='min-w-0 flex-1'>
                               <a
                                 href={`/usuarios/${friend.user.username}`}
-                                className='inline-flex items-center justify-center gap-2 rounded-full border border-reuseai-verde/15 bg-white px-4 py-2.5 text-sm font-semibold text-reuseai-preto transition-colors hover:bg-reuseai-verde/5 dark:border-reuseai-verdeNeon/15 dark:bg-[#132017] dark:text-reuseai-branco'
+                                className='block truncate text-sm font-bold text-reuseai-preto transition-colors hover:text-reuseai-verde dark:text-reuseai-branco'
                               >
-                                Ver perfil
+                                @{friend.user.username}
+                              </a>
+                              <p className='mt-0.5 text-xs text-reuseai-cinza dark:text-white/65'>
+                                Nível {friend.user.game_profile.level} • {friend.user.game_profile.level_title}
+                              </p>
+                              <p className='mt-0.5 text-xs text-reuseai-cinza dark:text-white/65'>
+                                {formatNumber(friend.user.game_profile.xp_total)} XP • {formatNumber(friend.user.game_profile.total_analyses)} análises
+                              </p>
+                            </div>
+                            <div className='flex shrink-0 flex-wrap gap-2'>
+                              <a
+                                href={`/usuarios/${friend.user.username}`}
+                                className='inline-flex items-center gap-1.5 rounded-full border border-reuseai-verde/15 bg-white px-3 py-2 text-xs font-semibold text-reuseai-preto transition-colors hover:bg-reuseai-verde/5 dark:border-reuseai-verdeNeon/15 dark:bg-[#132017] dark:text-reuseai-branco'
+                              >
+                                Perfil
                               </a>
                               <button
                                 type='button'
                                 disabled={busyKey === `battle:create:${friend.user.username}`}
                                 onClick={() => void handleCreateBattle(friend.user.username)}
-                                className='inline-flex items-center justify-center gap-2 rounded-full bg-reuseai-verde px-4 py-2.5 text-sm font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul disabled:cursor-not-allowed disabled:opacity-60'
+                                className='inline-flex items-center gap-1.5 rounded-full bg-reuseai-verde px-3 py-2 text-xs font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul disabled:cursor-not-allowed disabled:opacity-60'
                               >
                                 <FontAwesomeIcon icon={faBolt} />
-                                Pedir batalha
+                                Batalha
                               </button>
                             </div>
                           </div>
@@ -715,10 +702,13 @@ export default function FriendsPage() {
                     </div>
                   )}
                 </SectionCard>
+              </div>
 
+              {/* Row 3: Battle invites received + Active battles */}
+              <div className='grid gap-6 lg:grid-cols-2'>
                 <SectionCard
                   eyebrow='Batalhas'
-                  title='Convites recebidos'
+                  title='Convites de batalha recebidos'
                   description='Aceite um desafio e entre em um quiz compartilhado em tempo real para comparar seu placar com o do seu amigo.'
                 >
                   {renderBattleList(
@@ -737,34 +727,39 @@ export default function FriendsPage() {
                     'Nenhuma batalha ativa agora.',
                   )}
                 </SectionCard>
+              </div>
 
-                <SectionCard
-                  eyebrow='Histórico'
-                  title='Convites enviados e histórico'
-                  description='Acompanhe desafios já finalizados e também os convites que ainda aguardam resposta do outro lado.'
-                >
-                  <div className='space-y-6'>
-                    <div>
-                      <p className='mb-3 text-sm font-semibold text-reuseai-preto dark:text-reuseai-branco'>
-                        Convites enviados
-                      </p>
+              {/* Row 4: History (full width) */}
+              <SectionCard
+                eyebrow='Histórico'
+                title='Convites enviados e histórico'
+                description='Acompanhe desafios já finalizados e também os convites que ainda aguardam resposta do outro lado.'
+              >
+                <div className='grid gap-6 lg:grid-cols-2'>
+                  <div>
+                    <p className='mb-3 text-sm font-semibold text-reuseai-preto dark:text-reuseai-branco'>
+                      Convites enviados
+                    </p>
+                    <div className='max-h-96 overflow-y-auto pr-1'>
                       {renderBattleList(
                         overview.battles.pending_sent,
                         'Nenhum convite enviado aguardando resposta.',
                       )}
                     </div>
-                    <div>
-                      <p className='mb-3 text-sm font-semibold text-reuseai-preto dark:text-reuseai-branco'>
-                        Concluídas
-                      </p>
+                  </div>
+                  <div>
+                    <p className='mb-3 text-sm font-semibold text-reuseai-preto dark:text-reuseai-branco'>
+                      Concluídas
+                    </p>
+                    <div className='max-h-96 overflow-y-auto pr-1'>
                       {renderBattleList(
                         overview.battles.completed,
                         'Suas próximas batalhas concluídas aparecerão aqui.',
                       )}
                     </div>
                   </div>
-                </SectionCard>
-              </div>
+                </div>
+              </SectionCard>
             </div>
           )}
         </div>

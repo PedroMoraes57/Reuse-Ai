@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AssistantProvider } from './contexts/AssistantContext';
 import AssistantWidget from './components/Assistant/AssistantWidget';
+import OnboardingTutorial from './components/Onboarding/OnboardingTutorial';
 import LandingPage from './pages/LandingPage';
 import ClassificationPage from './pages/ClassificationPage';
 import LoginPage from './pages/LoginPage';
@@ -43,7 +44,7 @@ function AnimatedRoutes() {
           <Route path='/esqueci-senha' element={<ForgotPasswordPage />} />
           <Route path='/recuperar-senha' element={<ResetPasswordPage />} />
         </Routes>
-        <AssistantWidget/>
+        <AssistantWidget />
       </motion.div>
     </AnimatePresence>
   );
@@ -53,6 +54,7 @@ function RoutedApp() {
   return (
     <AssistantProvider>
       <AnimatedRoutes />
+      <OnboardingTutorial />
     </AssistantProvider>
   );
 }

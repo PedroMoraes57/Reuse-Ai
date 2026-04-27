@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBolt,
   faChartColumn,
+  faChevronDown,
+  faChevronUp,
   faCircleCheck,
   faLeaf,
   faMedal,
@@ -10,7 +12,7 @@ import {
   faTrophy,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from '../components/LandingPage/Navbar';
 import Footer from '../components/LandingPage/Footer';
 import {
@@ -18,6 +20,7 @@ import {
   type GameMission,
   type GameOverview,
 } from '../services/GamificationApi';
+import { getAuthToken } from '../services/api';
 import { getUserAvatarUrl } from '../utils/user';
 import {
   fadeUp,
@@ -178,6 +181,19 @@ export default function RankingPage() {
   const [overview, setOverview] = useState<GameOverview | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [heroCollapsed, setHeroCollapsed] = useState(
+    () => localStorage.getItem('reuseai_ranking_hero_open') === 'false',
+  );
+
+  const isAuthenticated = Boolean(getAuthToken());
+
+  function toggleHero() {
+    setHeroCollapsed(c => {
+      const next = !c;
+      localStorage.setItem('reuseai_ranking_hero_open', next ? 'false' : 'true');
+      return next;
+    });
+  }
 
   useEffect(() => {
     fetchGameOverview()
@@ -199,218 +215,243 @@ export default function RankingPage() {
       <Navbar isStatic forceScrolled />
       <main className='min-h-screen bg-gradient-to-b from-reuseai-branco via-reuseai-branco to-reuseai-verdeClaro/10 dark:from-[#09100b] dark:via-[#0b100d] dark:to-[#122018]'>
         {/* ── Hero ── */}
-        <section className='relative overflow-hidden px-6 py-16'>
-          <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(120,216,78,0.18),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(56,182,255,0.14),transparent_34%)]' />
-          <div className='absolute left-[-4rem] top-16 h-52 w-52 rounded-full bg-reuseai-verdeClaro/20 blur-3xl' />
-          <div className='absolute right-[-5rem] bottom-6 h-64 w-64 rounded-full bg-reuseai-azulClaro/12 blur-3xl' />
+        <section className='relative overflow-hidden bg-gradient-to-br from-reuseai-branco via-reuseai-verdeClaro/10 to-reuseai-azulClaro/10 px-6 dark:from-[#09100b] dark:via-[#0d1711] dark:to-[#0d1720]'>
+          <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(120,216,78,0.18),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(56,182,255,0.12),transparent_32%)]' />
+          <div className='absolute -right-20 top-10 h-64 w-64 rounded-full bg-reuseai-verdeClaro/20 blur-3xl' />
+          <div className='absolute -left-16 bottom-4 h-56 w-56 rounded-full bg-reuseai-azulClaro/10 blur-3xl' />
 
-          <div className='relative mx-auto max-w-6xl'>
-            <div className='grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:items-center'>
-              {/* Left copy */}
+          <AnimatePresence initial={false}>
+            {!heroCollapsed && (
               <motion.div
-                className='max-w-2xl'
-                variants={staggerContainer}
-                initial='hidden'
-                animate='visible'
+                key='hero-content'
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                style={{ overflow: 'hidden' }}
               >
-                <motion.span
-                  variants={scalePop}
-                  className='inline-flex items-center gap-2 rounded-full border border-reuseai-verde/15 bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-reuseai-verde shadow-sm backdrop-blur-sm dark:border-reuseai-verdeNeon/15 dark:bg-[#101915]/85 dark:text-reuseai-verdeNeon'
-                >
-                  <FontAwesomeIcon icon={faTrophy} />
-                  Ranking Circular
-                </motion.span>
-
-                <motion.h1
-                  variants={fadeUp}
-                  className='mt-6 text-4xl font-black leading-tight text-reuseai-preto dark:text-reuseai-branco md:text-6xl'
-                >
-                  Progresso, missões e impacto em uma só jornada.
-                </motion.h1>
-
-                <motion.p
-                  variants={fadeUp}
-                  className='mt-5 max-w-xl text-base leading-7 text-reuseai-cinza dark:text-white/70 md:text-lg'
-                >
-                  Cada análise concluída agora vale experiência. Você evolui no
-                  uso da plataforma, entra no ranking semanal e ainda pode ganhar
-                  XP extra com um quiz leve sobre o item recém-analisado.
-                </motion.p>
-
-                {overview && (
-                  <motion.div
-                    variants={staggerContainer}
-                    className='mt-8 grid gap-4 sm:grid-cols-3'
-                  >
-                    {[
-                      { label: 'Comunidade', value: formatNumber(overview.community.players), sub: 'participantes ativos' },
-                      { label: 'XP acumulado', value: formatNumber(overview.community.total_xp), sub: 'pontos gerados na plataforma' },
-                      {
-                        label: 'Semana atual',
-                        value: formatDateRange(overview.period.week_start, overview.period.week_end),
-                        sub: 'ranking semanal em andamento',
-                        small: true,
-                      },
-                    ].map(stat => (
-                      <motion.div
-                        key={stat.label}
-                        variants={staggerItem}
-                        whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                        className='rounded-3xl border border-reuseai-verde/10 bg-white/85 p-5 shadow-[0_24px_60px_-48px_rgba(28,28,37,0.45)] dark:border-reuseai-verdeNeon/10 dark:bg-[#101915]/85'
-                      >
-                        <p className='text-xs font-semibold uppercase tracking-[0.24em] text-reuseai-verde'>
-                          {stat.label}
-                        </p>
-                        <p className={`mt-3 font-black text-reuseai-preto dark:text-reuseai-branco ${stat.small ? 'text-xl' : 'text-3xl'}`}>
-                          {stat.value}
-                        </p>
-                        <p className='mt-2 text-sm text-reuseai-cinza dark:text-white/65'>
-                          {stat.sub}
-                        </p>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                )}
-              </motion.div>
-
-              {/* Right: user card */}
-              <motion.div
-                variants={fadeUp}
-                initial='hidden'
-                animate='visible'
-                transition={{ delay: 0.15 }}
-                className='rounded-[36px] border border-reuseai-verde/10 bg-white/90 p-6 shadow-[0_40px_90px_-60px_rgba(28,28,37,0.45)] backdrop-blur-xl dark:border-reuseai-verdeNeon/10 dark:bg-[#101915]/90'
-              >
-                {me ? (
-                  <>
-                    <div className='flex items-center gap-4'>
-                        <motion.img
-                          src={getUserAvatarUrl({ avatar_url: me.avatar_url })}
-                          alt={me.username}
-                          className='h-16 w-16 rounded-full border border-reuseai-verde/15 object-cover'
-                          initial={{ scale: 0.8, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
-                      />
-                      <div>
-                        <p className='text-xs font-semibold uppercase tracking-[0.24em] text-reuseai-verde'>
-                          Seu progresso
-                        </p>
-                        <a
-                          href={`/usuarios/${me.username}`}
-                          className='mt-2 inline-block text-2xl font-black text-reuseai-preto transition-colors hover:text-reuseai-verde dark:text-reuseai-branco'
-                        >
-                          @{me.username}
-                        </a>
-                        <p className='mt-1 text-sm text-reuseai-cinza dark:text-white/65'>
-                          {me.profile.level_title}
-                        </p>
-                      </div>
-                    </div>
-
+                <div className='relative mx-auto max-w-6xl py-16'>
+                  <div className='grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:items-center'>
+                    {/* Left copy */}
                     <motion.div
-                      className='mt-6 grid gap-4 sm:grid-cols-2'
+                      className='max-w-2xl'
                       variants={staggerContainer}
                       initial='hidden'
                       animate='visible'
                     >
-                      {[
-                        { icon: faBolt, label: 'XP total', value: formatNumber(me.profile.xp_total) },
-                        { icon: faMedal, label: 'Posição semanal', value: me.rank ? `#${me.rank}` : '-' },
-                        { icon: faLeaf, label: 'Materiais descobertos', value: formatNumber(me.profile.unique_materials) },
-                        { icon: faRecycle, label: 'Análises concluídas', value: formatNumber(me.profile.total_analyses) },
-                      ].map(stat => (
+                      <motion.span
+                        variants={scalePop}
+                        className='inline-flex items-center gap-2 rounded-full border border-reuseai-verde/15 bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-reuseai-verde shadow-sm backdrop-blur-sm dark:border-reuseai-verdeNeon/15 dark:bg-[#101915]/85 dark:text-reuseai-verdeNeon'
+                      >
+                        <FontAwesomeIcon icon={faTrophy} />
+                        Ranking Circular
+                      </motion.span>
+
+                      <motion.h1
+                        variants={fadeUp}
+                        className='mt-6 text-4xl font-black leading-tight text-reuseai-preto dark:text-reuseai-branco md:text-6xl'
+                      >
+                        Progresso, missões e impacto em uma só jornada.
+                      </motion.h1>
+
+                      <motion.p
+                        variants={fadeUp}
+                        className='mt-5 max-w-xl text-base leading-7 text-reuseai-cinza dark:text-white/70 md:text-lg'
+                      >
+                        Cada análise concluída agora vale experiência. Você evolui no
+                        uso da plataforma, entra no ranking semanal e ainda pode ganhar
+                        XP extra com um quiz leve sobre o item recém-analisado.
+                      </motion.p>
+
+                      {overview && (
                         <motion.div
-                          key={stat.label}
-                          variants={staggerItem}
-                          className='rounded-3xl border border-reuseai-verde/10 bg-reuseai-verde/5 p-5 dark:border-reuseai-verdeNeon/10 dark:bg-[#0f1813]'
+                          variants={staggerContainer}
+                          className='mt-8 grid gap-4 sm:grid-cols-3'
                         >
-                          <p className='flex items-center gap-2 text-sm font-semibold text-reuseai-preto dark:text-reuseai-branco'>
-                            <FontAwesomeIcon icon={stat.icon} className='text-reuseai-verde' />
-                            {stat.label}
-                          </p>
-                          <p className='mt-3 text-3xl font-black text-reuseai-preto dark:text-reuseai-branco'>
-                            {stat.value}
-                          </p>
+                          {[
+                            { label: 'Comunidade', value: formatNumber(overview.community.players), sub: 'participantes ativos' },
+                            { label: 'XP acumulado', value: formatNumber(overview.community.total_xp), sub: 'pontos gerados na plataforma' },
+                            {
+                              label: 'Semana atual',
+                              value: formatDateRange(overview.period.week_start, overview.period.week_end),
+                              sub: 'ranking semanal em andamento',
+                              small: true,
+                            },
+                          ].map(stat => (
+                            <motion.div
+                              key={stat.label}
+                              variants={staggerItem}
+                              whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                              className='rounded-3xl border border-reuseai-verde/10 bg-white/85 p-5 shadow-[0_24px_60px_-48px_rgba(28,28,37,0.45)] dark:border-reuseai-verdeNeon/10 dark:bg-[#101915]/85'
+                            >
+                              <p className='text-xs font-semibold uppercase tracking-[0.24em] text-reuseai-verde'>
+                                {stat.label}
+                              </p>
+                              <p className={`mt-3 font-black text-reuseai-preto dark:text-reuseai-branco ${stat.small ? 'text-xl' : 'text-3xl'}`}>
+                                {stat.value}
+                              </p>
+                              <p className='mt-2 text-sm text-reuseai-cinza dark:text-white/65'>
+                                {stat.sub}
+                              </p>
+                            </motion.div>
+                          ))}
                         </motion.div>
-                      ))}
+                      )}
                     </motion.div>
 
-                    <div className='mt-6'>
-                      <div className='mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.22em] text-reuseai-cinza dark:text-white/65'>
-                        <span>Nível {me.profile.level}</span>
-                        <span>{me.profile.progress_percent}%</span>
-                      </div>
-                      <div className='h-3 overflow-hidden rounded-full bg-reuseai-verde/10'>
-                        <motion.div
-                          className='h-full rounded-full bg-gradient-to-r from-reuseai-verde to-reuseai-azul'
-                          initial={{ width: 0 }}
-                          animate={{ width: `${me.profile.progress_percent}%` }}
-                          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
-                        />
-                      </div>
-                      <p className='mt-3 text-sm text-reuseai-cinza dark:text-white/70'>
-                        Faltam {formatNumber(me.profile.xp_to_next_level)} XP
-                        para o próximo nível.
-                      </p>
-                    </div>
-                  </>
-                ) : (
-                  <motion.div
-                    variants={staggerContainer}
-                    initial='hidden'
-                    animate='visible'
-                  >
-                    <motion.p
-                      variants={scalePop}
-                      className='inline-flex items-center gap-2 rounded-full bg-reuseai-verde/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-reuseai-verde'
-                    >
-                      <FontAwesomeIcon icon={faLeaf} />
-                      Entre na disputa
-                    </motion.p>
-                    <motion.h2
-                      variants={fadeUp}
-                      className='mt-5 text-3xl font-black leading-tight text-reuseai-preto dark:text-reuseai-branco'
-                    >
-                      Crie sua conta para aparecer no ranking e acompanhar seu
-                      progresso.
-                    </motion.h2>
-                    <motion.p
-                      variants={fadeUp}
-                      className='mt-4 text-sm leading-7 text-reuseai-cinza dark:text-white/70'
-                    >
-                      Cada análise vale XP, desbloqueia missões semanais e abre
-                      espaço para ganhar bônus extras com o quiz pós-análise.
-                    </motion.p>
+                    {/* Right: user card */}
                     <motion.div
                       variants={fadeUp}
-                      className='mt-6 flex flex-col gap-3 sm:flex-row'
+                      initial='hidden'
+                      animate='visible'
+                      transition={{ delay: 0.15 }}
+                      className='rounded-[36px] border border-reuseai-verde/10 bg-white/90 p-6 shadow-[0_40px_90px_-60px_rgba(28,28,37,0.45)] backdrop-blur-xl dark:border-reuseai-verdeNeon/10 dark:bg-[#101915]/90'
                     >
-                      <a
-                        href='/cadastro'
-                        className='inline-flex items-center justify-center gap-2 rounded-full bg-reuseai-verde px-5 py-3 text-sm font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul'
-                      >
-                        Criar conta
-                      </a>
-                      <a
-                        href='/classificar'
-                        className='inline-flex items-center justify-center gap-2 rounded-full border border-reuseai-verde/15 bg-white px-5 py-3 text-sm font-semibold text-reuseai-preto transition-colors hover:bg-reuseai-verde/5 dark:border-reuseai-verdeNeon/15 dark:bg-[#0f1813] dark:text-reuseai-branco'
-                      >
-                        Ver classificador
-                      </a>
+                      {me ? (
+                        <>
+                          <div className='flex items-center gap-4'>
+                            <motion.img
+                              src={getUserAvatarUrl({ avatar_url: me.avatar_url })}
+                              alt={me.username}
+                              className='h-16 w-16 rounded-full border border-reuseai-verde/15 object-cover'
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+                            />
+                            <div>
+                              <p className='text-xs font-semibold uppercase tracking-[0.24em] text-reuseai-verde'>
+                                Seu progresso
+                              </p>
+                              <a
+                                href={`/usuarios/${me.username}`}
+                                className='mt-2 inline-block text-2xl font-black text-reuseai-preto transition-colors hover:text-reuseai-verde dark:text-reuseai-branco'
+                              >
+                                @{me.username}
+                              </a>
+                              <p className='mt-1 text-sm text-reuseai-cinza dark:text-white/65'>
+                                {me.profile.level_title}
+                              </p>
+                            </div>
+                          </div>
+
+                          <motion.div
+                            className='mt-6 grid gap-4 sm:grid-cols-2'
+                            variants={staggerContainer}
+                            initial='hidden'
+                            animate='visible'
+                          >
+                            {[
+                              { icon: faBolt, label: 'XP total', value: formatNumber(me.profile.xp_total) },
+                              { icon: faMedal, label: 'Posição semanal', value: me.rank ? `#${me.rank}` : '-' },
+                              { icon: faLeaf, label: 'Materiais descobertos', value: formatNumber(me.profile.unique_materials) },
+                              { icon: faRecycle, label: 'Análises concluídas', value: formatNumber(me.profile.total_analyses) },
+                            ].map(stat => (
+                              <motion.div
+                                key={stat.label}
+                                variants={staggerItem}
+                                className='rounded-3xl border border-reuseai-verde/10 bg-reuseai-verde/5 p-5 dark:border-reuseai-verdeNeon/10 dark:bg-[#0f1813]'
+                              >
+                                <p className='flex items-center gap-2 text-sm font-semibold text-reuseai-preto dark:text-reuseai-branco'>
+                                  <FontAwesomeIcon icon={stat.icon} className='text-reuseai-verde' />
+                                  {stat.label}
+                                </p>
+                                <p className='mt-3 text-3xl font-black text-reuseai-preto dark:text-reuseai-branco'>
+                                  {stat.value}
+                                </p>
+                              </motion.div>
+                            ))}
+                          </motion.div>
+
+                          <div className='mt-6'>
+                            <div className='mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.22em] text-reuseai-cinza dark:text-white/65'>
+                              <span>Nível {me.profile.level}</span>
+                              <span>{me.profile.progress_percent}%</span>
+                            </div>
+                            <div className='h-3 overflow-hidden rounded-full bg-reuseai-verde/10'>
+                              <motion.div
+                                className='h-full rounded-full bg-gradient-to-r from-reuseai-verde to-reuseai-azul'
+                                initial={{ width: 0 }}
+                                animate={{ width: `${me.profile.progress_percent}%` }}
+                                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
+                              />
+                            </div>
+                            <p className='mt-3 text-sm text-reuseai-cinza dark:text-white/70'>
+                              Faltam {formatNumber(me.profile.xp_to_next_level)} XP
+                              para o próximo nível.
+                            </p>
+                          </div>
+                        </>
+                      ) : (
+                        <motion.div
+                          variants={staggerContainer}
+                          initial='hidden'
+                          animate='visible'
+                        >
+                          <motion.p
+                            variants={scalePop}
+                            className='inline-flex items-center gap-2 rounded-full bg-reuseai-verde/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-reuseai-verde'
+                          >
+                            <FontAwesomeIcon icon={faLeaf} />
+                            Entre na disputa
+                          </motion.p>
+                          <motion.h2
+                            variants={fadeUp}
+                            className='mt-5 text-3xl font-black leading-tight text-reuseai-preto dark:text-reuseai-branco'
+                          >
+                            Crie sua conta para aparecer no ranking e acompanhar seu
+                            progresso.
+                          </motion.h2>
+                          <motion.p
+                            variants={fadeUp}
+                            className='mt-4 text-sm leading-7 text-reuseai-cinza dark:text-white/70'
+                          >
+                            Cada análise vale XP, desbloqueia missões semanais e abre
+                            espaço para ganhar bônus extras com o quiz pós-análise.
+                          </motion.p>
+                          <motion.div
+                            variants={fadeUp}
+                            className='mt-6 flex flex-col gap-3 sm:flex-row'
+                          >
+                            <a
+                              href='/cadastro'
+                              className='inline-flex items-center justify-center gap-2 rounded-full bg-reuseai-verde px-5 py-3 text-sm font-semibold text-reuseai-branco transition-colors hover:bg-reuseai-azul'
+                            >
+                              Criar conta
+                            </a>
+                            <a
+                              href='/classificar'
+                              className='inline-flex items-center justify-center gap-2 rounded-full border border-reuseai-verde/15 bg-white px-5 py-3 text-sm font-semibold text-reuseai-preto transition-colors hover:bg-reuseai-verde/5 dark:border-reuseai-verdeNeon/15 dark:bg-[#0f1813] dark:text-reuseai-branco'
+                            >
+                              Ver classificador
+                            </a>
+                          </motion.div>
+                        </motion.div>
+                      )}
                     </motion.div>
-                  </motion.div>
-                )}
+                  </div>
+                </div>
               </motion.div>
-            </div>
+            )}
+          </AnimatePresence>
+
+          {/* Toggle button */}
+          <div className='relative flex justify-center py-3'>
+            <button
+              onClick={toggleHero}
+              className='flex items-center gap-2 rounded-full border border-reuseai-verde/15 bg-white/90 px-4 py-2 text-xs font-semibold text-reuseai-cinza shadow-sm backdrop-blur-sm transition-colors hover:bg-white hover:text-reuseai-verde dark:border-reuseai-verdeNeon/15 dark:bg-[#101915]/90 dark:text-white/60 dark:hover:bg-[#101915] dark:hover:text-reuseai-verdeNeon'
+            >
+              <FontAwesomeIcon icon={heroCollapsed ? faChevronDown : faChevronUp} className='text-xs' />
+              {heroCollapsed ? 'Mostrar detalhes' : 'Ocultar detalhes'}
+            </button>
           </div>
         </section>
 
         {/* ── Leaderboard + Missions ── */}
-        <section className='px-6 pb-16'>
+        <section className='px-6 pb-16 pt-12'>
           <div className='mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]'>
             {/* Leaderboard */}
             <motion.div
+              data-tutorial='ranking-leaderboard'
               variants={fadeUp}
               initial='hidden'
               whileInView='visible'
@@ -525,55 +566,57 @@ export default function RankingPage() {
 
             {/* Missions + tips + events */}
             <div className='space-y-6'>
-              <motion.div
-                variants={fadeUp}
-                initial='hidden'
-                whileInView='visible'
-                viewport={{ once: true, margin: '-60px' }}
-                className='rounded-[32px] border border-reuseai-verde/10 bg-white/92 p-6 shadow-[0_40px_90px_-60px_rgba(28,28,37,0.45)] dark:border-reuseai-verdeNeon/10 dark:bg-[#101915]/92'
-              >
-                <p className='text-xs font-semibold uppercase tracking-[0.24em] text-reuseai-verde'>
-                  Missões da semana
-                </p>
-                <h2 className='mt-2 text-2xl font-black text-reuseai-preto dark:text-reuseai-branco'>
-                  Missões ativas
-                </h2>
-                <p className='mt-3 text-sm leading-6 text-reuseai-cinza dark:text-white/70'>
-                  Pequenos objetivos para incentivar recorrência e descoberta de
-                  novos materiais.
-                </p>
+              {isAuthenticated && (
+                <motion.div
+                  variants={fadeUp}
+                  initial='hidden'
+                  whileInView='visible'
+                  viewport={{ once: true, margin: '-60px' }}
+                  className='rounded-[32px] border border-reuseai-verde/10 bg-white/92 p-6 shadow-[0_40px_90px_-60px_rgba(28,28,37,0.45)] dark:border-reuseai-verdeNeon/10 dark:bg-[#101915]/92'
+                >
+                  <p className='text-xs font-semibold uppercase tracking-[0.24em] text-reuseai-verde'>
+                    Missões da semana
+                  </p>
+                  <h2 className='mt-2 text-2xl font-black text-reuseai-preto dark:text-reuseai-branco'>
+                    Missões ativas
+                  </h2>
+                  <p className='mt-3 text-sm leading-6 text-reuseai-cinza dark:text-white/70'>
+                    Pequenos objetivos para incentivar recorrência e descoberta de
+                    novos materiais.
+                  </p>
 
-                {(() => {
-                  const allMissions = me?.missions ?? overview?.missions_preview ?? [];
-                  const active = allMissions.filter(m => !m.completed && !m.claimed);
-                  const allDone = allMissions.length > 0 && active.length === 0;
+                  {(() => {
+                    const allMissions = me?.missions ?? overview?.missions_preview ?? [];
+                    const active = allMissions.filter(m => !m.completed && !m.claimed);
+                    const allDone = allMissions.length > 0 && active.length === 0;
 
-                  if (allDone) return <AllMissionsDoneCard />;
+                    if (allDone) return <AllMissionsDoneCard />;
 
-                  if (active.length === 0) return null;
+                    if (active.length === 0) return null;
 
-                  return (
-                    <div className='mt-6 overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-reuseai-verde/5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-reuseai-verde/30 hover:[&::-webkit-scrollbar-thumb]:bg-reuseai-verde/50'
-                      style={{ maxHeight: active.length > 2 ? '22rem' : undefined }}
-                    >
-                      <motion.div
-                        className='space-y-4'
-                        variants={staggerContainer}
-                        initial='hidden'
-                        animate='visible'
+                    return (
+                      <div className='mt-6 overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-reuseai-verde/5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-reuseai-verde/30 hover:[&::-webkit-scrollbar-thumb]:bg-reuseai-verde/50'
+                        style={{ maxHeight: active.length > 2 ? '22rem' : undefined }}
                       >
-                        {active.map(mission => (
-                          <MissionCard
-                            key={mission.key}
-                            mission={mission}
-                            compact={Boolean(me)}
-                          />
-                        ))}
-                      </motion.div>
-                    </div>
-                  );
-                })()}
-              </motion.div>
+                        <motion.div
+                          className='space-y-4'
+                          variants={staggerContainer}
+                          initial='hidden'
+                          animate='visible'
+                        >
+                          {active.map(mission => (
+                            <MissionCard
+                              key={mission.key}
+                              mission={mission}
+                              compact={Boolean(me)}
+                            />
+                          ))}
+                        </motion.div>
+                      </div>
+                    );
+                  })()}
+                </motion.div>
+              )}
 
               <motion.div
                 variants={fadeUp}
@@ -615,67 +658,69 @@ export default function RankingPage() {
                 </ul>
               </motion.div>
 
-              <motion.div
-                variants={fadeUp}
-                initial='hidden'
-                whileInView='visible'
-                viewport={{ once: true, margin: '-60px' }}
-                className='rounded-[32px] border border-reuseai-verde/10 bg-white/92 p-6 shadow-[0_40px_90px_-60px_rgba(28,28,37,0.45)] dark:border-reuseai-verdeNeon/10 dark:bg-[#101915]/92'
-              >
-                <div className='flex items-center gap-3'>
-                  <span className='flex h-11 w-11 items-center justify-center rounded-2xl bg-reuseai-verde/10 text-reuseai-verde'>
-                    <FontAwesomeIcon icon={faUsers} />
-                  </span>
-                  <div>
-                    <p className='text-xs font-semibold uppercase tracking-[0.24em] text-reuseai-verde'>
-                      Atividade
-                    </p>
-                    <h2 className='mt-1 text-2xl font-black text-reuseai-preto dark:text-reuseai-branco'>
-                      Últimos ganhos
-                    </h2>
+              {isAuthenticated && (
+                <motion.div
+                  variants={fadeUp}
+                  initial='hidden'
+                  whileInView='visible'
+                  viewport={{ once: true, margin: '-60px' }}
+                  className='rounded-[32px] border border-reuseai-verde/10 bg-white/92 p-6 shadow-[0_40px_90px_-60px_rgba(28,28,37,0.45)] dark:border-reuseai-verdeNeon/10 dark:bg-[#101915]/92'
+                >
+                  <div className='flex items-center gap-3'>
+                    <span className='flex h-11 w-11 items-center justify-center rounded-2xl bg-reuseai-verde/10 text-reuseai-verde'>
+                      <FontAwesomeIcon icon={faUsers} />
+                    </span>
+                    <div>
+                      <p className='text-xs font-semibold uppercase tracking-[0.24em] text-reuseai-verde'>
+                        Atividade
+                      </p>
+                      <h2 className='mt-1 text-2xl font-black text-reuseai-preto dark:text-reuseai-branco'>
+                        Últimos ganhos
+                      </h2>
+                    </div>
                   </div>
-                </div>
 
-                {me?.recent_events?.length ? (
-                  <motion.div
-                    className='mt-6 space-y-3'
-                    variants={staggerContainer}
-                    initial='hidden'
-                    whileInView='visible'
-                    viewport={{ once: true, margin: '-40px' }}
-                  >
-                    {me.recent_events.map(event => (
-                      <motion.div
-                        key={event.id}
-                        variants={staggerItem}
-                        className='flex items-center justify-between rounded-2xl border border-reuseai-verde/10 bg-reuseai-verde/5 px-4 py-3 dark:border-reuseai-verdeNeon/10 dark:bg-[#0f1813]'
-                      >
-                        <div className='min-w-0'>
-                          <p className='truncate text-sm font-semibold text-reuseai-preto dark:text-reuseai-branco'>
-                            {event.title}
-                          </p>
-                          <p className='mt-1 text-xs text-reuseai-cinza dark:text-white/60'>
-                            {new Intl.DateTimeFormat('pt-BR', {
-                              day: '2-digit',
-                              month: '2-digit',
-                              hour: '2-digit',
-                              minute: '2-digit',
-                            }).format(new Date(event.created_at))}
-                          </p>
-                        </div>
-                        <span className='whitespace-nowrap rounded-full bg-reuseai-verde px-3 py-1 text-xs font-bold text-reuseai-branco'>
-                          +{event.amount} XP
-                        </span>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                ) : (
-                  <p className='mt-6 text-sm leading-6 text-reuseai-cinza dark:text-white/70'>
-                    Seus próximos ganhos de XP vão aparecer aqui assim que você
-                    começar a usar a classificação com frequência.
-                  </p>
-                )}
-              </motion.div>
+                  {me?.recent_events?.length ? (
+                    <motion.div
+                      className='mt-6 space-y-3'
+                      variants={staggerContainer}
+                      initial='hidden'
+                      whileInView='visible'
+                      viewport={{ once: true, margin: '-40px' }}
+                    >
+                      {me.recent_events.map(event => (
+                        <motion.div
+                          key={event.id}
+                          variants={staggerItem}
+                          className='flex items-center justify-between rounded-2xl border border-reuseai-verde/10 bg-reuseai-verde/5 px-4 py-3 dark:border-reuseai-verdeNeon/10 dark:bg-[#0f1813]'
+                        >
+                          <div className='min-w-0'>
+                            <p className='truncate text-sm font-semibold text-reuseai-preto dark:text-reuseai-branco'>
+                              {event.title}
+                            </p>
+                            <p className='mt-1 text-xs text-reuseai-cinza dark:text-white/60'>
+                              {new Intl.DateTimeFormat('pt-BR', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                              }).format(new Date(event.created_at))}
+                            </p>
+                          </div>
+                          <span className='whitespace-nowrap rounded-full bg-reuseai-verde px-3 py-1 text-xs font-bold text-reuseai-branco'>
+                            +{event.amount} XP
+                          </span>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  ) : (
+                    <p className='mt-6 text-sm leading-6 text-reuseai-cinza dark:text-white/70'>
+                      Seus próximos ganhos de XP vão aparecer aqui assim que você
+                      começar a usar a classificação com frequência.
+                    </p>
+                  )}
+                </motion.div>
+              )}
             </div>
           </div>
         </section>

@@ -603,6 +603,7 @@ export default function AssistantWidget() {
       )}
 
       <button
+        id='assistant-trigger'
         type='button'
         onClick={() => {
           if (isOpen) {

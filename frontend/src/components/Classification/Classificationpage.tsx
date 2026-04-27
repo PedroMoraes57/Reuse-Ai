@@ -5,6 +5,8 @@ import {
   faCircleQuestion,
   faBolt,
   faCamera,
+  faChevronDown,
+  faChevronUp,
   faCircleCheck,
   faLeaf,
   faLocationDot,
@@ -100,7 +102,18 @@ export function ClassificationPageContent() {
   const [isSubmittingQuiz, setIsSubmittingQuiz] = useState(false);
   const [quizSubmission, setQuizSubmission] =
     useState<QuizSubmissionResponse | null>(null);
+  const [heroCollapsed, setHeroCollapsed] = useState(
+    () => localStorage.getItem('reuseai_classify_hero_open') === 'false',
+  );
   const navigate = useNavigate();
+
+  function toggleHero() {
+    setHeroCollapsed(c => {
+      const next = !c;
+      localStorage.setItem('reuseai_classify_hero_open', next ? 'false' : 'true');
+      return next;
+    });
+  }
   const nearbyRequestIdRef = useRef(0);
 
   function updateOverviewProfile(nextProfile: GameProfileSummary) {
@@ -417,11 +430,22 @@ export function ClassificationPageContent() {
   return (
     <main className='bg-reuseai-branco dark:bg-[#0b100d]'>
       {/* ── Hero ── */}
-      <section className='relative overflow-hidden bg-gradient-to-br from-reuseai-branco via-reuseai-verdeClaro/10 to-reuseai-azulClaro/10 px-6 py-16 dark:from-[#09100b] dark:via-[#0d1711] dark:to-[#0d1720]'>
+      <section className='relative overflow-hidden bg-gradient-to-br from-reuseai-branco via-reuseai-verdeClaro/10 to-reuseai-azulClaro/10 px-6 dark:from-[#09100b] dark:via-[#0d1711] dark:to-[#0d1720]'>
         <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(120,216,78,0.18),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(56,182,255,0.12),transparent_32%)]' />
         <div className='absolute -right-20 top-10 h-64 w-64 rounded-full bg-reuseai-verdeClaro/20 blur-3xl' />
         <div className='absolute -left-16 bottom-4 h-56 w-56 rounded-full bg-reuseai-azulClaro/10 blur-3xl' />
 
+        <AnimatePresence initial={false}>
+          {!heroCollapsed && (
+            <motion.div
+              key='hero-content'
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              style={{ overflow: 'hidden' }}
+            >
+              <div className='relative py-16'>
         <div className='relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(340px,0.85fr)] lg:items-center'>
           {/* Left: copy */}
           <motion.div
@@ -555,6 +579,21 @@ export function ClassificationPageContent() {
             </div>
           </motion.div>
         </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Toggle button */}
+        <div className='relative flex justify-center py-3'>
+          <button
+            onClick={toggleHero}
+            className='flex items-center gap-2 rounded-full border border-reuseai-verde/15 bg-white/90 px-4 py-2 text-xs font-semibold text-reuseai-cinza shadow-sm backdrop-blur-sm transition-colors hover:bg-white hover:text-reuseai-verde dark:border-reuseai-verdeNeon/15 dark:bg-[#101915]/90 dark:text-white/60 dark:hover:bg-[#101915] dark:hover:text-reuseai-verdeNeon'
+          >
+            <FontAwesomeIcon icon={heroCollapsed ? faChevronDown : faChevronUp} className='text-xs' />
+            {heroCollapsed ? 'Mostrar detalhes' : 'Ocultar detalhes'}
+          </button>
+        </div>
       </section>
 
       {/* ── Área de análise ── */}
@@ -564,6 +603,7 @@ export function ClassificationPageContent() {
       >
         <div className='mx-auto max-w-6xl'>
           <motion.div
+            data-tutorial='classification-section'
             className='mb-10 max-w-3xl'
             variants={fadeUp}
             initial='hidden'

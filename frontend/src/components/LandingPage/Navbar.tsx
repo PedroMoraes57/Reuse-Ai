@@ -101,7 +101,7 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
             { label: 'Sobre nós', href: '/#sobre-nos' },
             { label: 'Classificação', href: '/classificar' },
             { label: 'Ranking', href: '/ranking' },
-            { label: 'Amigos', href: '/amigos' },
+            ...(user ? [{ label: 'Amigos', href: '/amigos' }] : []),
           ].map(link => (
             <li key={link.href}>
               <a
@@ -299,12 +299,14 @@ function Navbar({ forceScrolled = false, isStatic = false }: NavbarProps) {
           >
             Ranking
           </a>
-          <a
-            href='/amigos'
-            className='text-reuseai-preto dark:text-reuseai-branco text-sm'
-          >
-            Amigos
-          </a>
+          {user && (
+            <a
+              href='/amigos'
+              className='text-reuseai-preto dark:text-reuseai-branco text-sm'
+            >
+              Amigos
+            </a>
+          )}
           <hr className='border-gray-200 dark:border-[#333]' />
           {user ? (
             <a

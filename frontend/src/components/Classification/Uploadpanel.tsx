@@ -135,7 +135,7 @@ export function UploadPanel({
   }, []);
 
   return (
-    <div className='rounded-[28px] border border-reuseai-verde/10 bg-white p-7 shadow-[0_30px_60px_-45px_rgba(28,28,37,0.45)] dark:border-reuseai-verdeNeon/10 dark:bg-[#101915]'>
+    <div data-tutorial='upload-panel' className='rounded-[28px] border border-reuseai-verde/10 bg-white p-7 shadow-[0_30px_60px_-45px_rgba(28,28,37,0.45)] dark:border-reuseai-verdeNeon/10 dark:bg-[#101915]'>
       <div className='mb-6 flex items-start gap-3 border-b border-reuseai-verde/10 pb-5'>
         <span className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-reuseai-verde/10 text-base text-reuseai-verde'>
           <FontAwesomeIcon icon={faImage} />
