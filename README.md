@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/UNIP_logo.png/200px-UNIP_logo.png" width="80" alt="UNIP Logo"/>
-
 # 🌱 Reuse.AI — Inteligência Sustentável
 
 **Plataforma de classificação de resíduos com IA, recomendação de descarte e assistente conversacional contextual.**
