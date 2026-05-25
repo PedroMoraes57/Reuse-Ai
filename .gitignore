@@ -90,8 +90,10 @@ ehthumbs.db
 *.log
 
 ## Backend (local artifacts & datasets)
-backend/artifacts/
+backend/artifacts/emails
+backend/artifacts/reports
+backend/artifacts/captures
 backend/data/datasets/
 backend/data/datasets/**/.DS_Store
 backend/data/datasets/**/*.tmp
-
+backend/artifacts/checkpoints/*.pt
